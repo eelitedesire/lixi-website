@@ -1,0 +1,17 @@
+{
+  "name": "lixi-backend",
+  "version": "1.0.0",
+  "description": "LIXI Energy Systems Backend API",
+  "main": "index.js",
+  "scripts": {
+    "build": "sam build",
+    "deploy": "sam deploy --guided",
+    "local": "sam local start-api"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.450.0",
+    "@aws-sdk/client-ses": "^3.450.0",
+    "@aws-sdk/lib-dynamodb": "^3.450.0",
+    "zod": "^3.22.4"
+  }
+}

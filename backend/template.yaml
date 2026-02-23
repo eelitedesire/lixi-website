@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: LIXI Energy Systems Backend API
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        LEADS_TABLE: !Ref LeadsTable
+        CONTACTS_TABLE: !Ref ContactsTable
+        NEWSLETTER_TABLE: !Ref NewsletterTable
+        SES_FROM_EMAIL: info@lixi.de
+        CORS_ORIGIN: '*'
+
+Resources:
+  # API Gateway
+  LixiApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'POST, GET, OPTIONS'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+        AllowOrigin: "'*'"
+
+  # Lambda Functions
+  QuoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/quote/
+      Handler: index.handler
+      Events:
+        QuoteApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LixiApi
+            Path: /api/quote
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LeadsTable
+        - SESCrudPolicy:
+            IdentityName: info@lixi.de
+
+  ContactFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/contact/
+      Handler: index.handler
+      Events:
+        ContactApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LixiApi
+            Path: /api/contact
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ContactsTable
+        - SESCrudPolicy:
+            IdentityName: info@lixi.de
+
+  NewsletterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/newsletter/
+      Handler: index.handler
+      Events:
+        NewsletterApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LixiApi
+            Path: /api/newsletter
+            Method: post
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NewsletterTable
+
+  HealthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      InlineCode: |
+        exports.handler = async () => ({
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'healthy', timestamp: new Date().toISOString() })
+        });
+      Handler: index.handler
+      Events:
+        HealthApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LixiApi
+            Path: /api/health
+            Method: get
+
+  # DynamoDB Tables
+  LeadsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-leads
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: N
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: createdAt-index
+          KeySchema:
+            - AttributeName: createdAt
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  ContactsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-contacts
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  NewsletterTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-newsletter
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${LixiApi}.execute-api.${AWS::Region}.amazonaws.com/prod'
+  
+  LeadsTableName:
+    Description: DynamoDB Leads Table
+    Value: !Ref LeadsTable
+  
+  ContactsTableName:
+    Description: DynamoDB Contacts Table
+    Value: !Ref ContactsTable
