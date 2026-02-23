@@ -6,6 +6,7 @@ export interface BlogPost {
   date: string;
   readTime: string;
   content: string;
+  image?: string;
 }
 
 export const blogPosts: BlogPost[] = [

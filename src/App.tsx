@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import { AnimatePresence } from 'framer-motion';
 import { Suspense, lazy } from 'react';
+const AdminApp = lazy(() => import('./admin/index'));
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import FloatingCTA from './components/layout/FloatingCTA';
@@ -55,6 +56,7 @@ function App() {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/legal/privacy" element={<Privacy />} />
               <Route path="/legal/terms" element={<Terms />} />
+              <Route path="/admin/*" element={<AdminApp />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
