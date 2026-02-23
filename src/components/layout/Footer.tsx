@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Linkedin } from 'lucide-react';
-import { serviceCenters } from '@/data/serviceCenters';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -15,10 +14,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           {/* Logo & Tagline */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center space-x-2 mb-6">
-              <div className="w-12 h-12 bg-brand-green rounded-lg flex items-center justify-center">
-                <span className="text-brand-black font-display text-3xl font-bold">L</span>
-              </div>
+            <Link to="/" className="flex items-center space-x-3 mb-6">
+              <img src="/images/logo.png" alt="LIXI" className="w-12 h-12 object-contain" />
               <span className="font-display text-3xl text-brand-white">LIXI</span>
             </Link>
             <p className="text-brand-white/70 mb-6 max-w-sm">

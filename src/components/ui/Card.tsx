@@ -20,7 +20,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className={clsx(baseStyles, glassStyles, hoverStyles, className)}
-        {...props}
+        {...(props as any)}
       >
         {children}
       </motion.div>

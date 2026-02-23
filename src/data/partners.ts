@@ -56,7 +56,7 @@ export const partners: Partner[] = [
     logo: '/images/partners/forner.svg',
     category: 'Distribution',
     description: 'EU distribution and service center. Expert installation and support.',
-    website: null,
+    website: '',
     country: 'Germany',
     flag: '🇩🇪',
   },

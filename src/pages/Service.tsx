@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Sun, Battery, TrendingDown, MapPin, Mail, Globe } from 'lucide-react';
+import { Sun, Battery, TrendingDown, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';

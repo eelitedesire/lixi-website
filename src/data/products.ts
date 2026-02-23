@@ -135,6 +135,7 @@ export const products: Product[] = [
       max_duration: '2 seconds',
       grid: '220/380V, 3/N/PE',
     },
+    bms: 'LIXI Advanced Redundant BMS',
     highlight_features: ['Integrated 50kW PCS inverter', 'IP55 weatherproof cabinet', 'CARBONOZ trading ready', '8000+ cycle life', 'WiFi + 4G + LAN monitoring'],
   }
 ];

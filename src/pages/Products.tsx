@@ -5,7 +5,13 @@ import { products } from '@/data/products';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
-import { Check } from 'lucide-react';
+// removed unused import 'Check'
+
+function renderSpecValue(val: any) {
+  if (val === null || val === undefined) return '-';
+  if (typeof val === 'object') return JSON.stringify(val);
+  return String(val);
+}
 
 const Products = () => {
   return (
@@ -133,7 +139,7 @@ const Products = () => {
                           {products.map(p => (
                             <td key={p.id} className="p-6 text-center">
                               <span className={`${spec.highlight ? 'text-brand-green font-bold text-lg' : 'text-brand-white'}`}>
-                                {p[spec.key as keyof typeof p]}{spec.unit}
+                                {renderSpecValue(p[spec.key as keyof typeof p])}{spec.unit}
                               </span>
                             </td>
                           ))}

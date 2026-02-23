@@ -1,22 +1,23 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Check, Calendar, Zap, Shield, TrendingDown, Battery, Sun, Building2 } from 'lucide-react';
 import { IMAGES } from '@/data/images';
 import { products } from '@/data/products';
 import { useCountUp } from '@/hooks/useCountUp';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ParticleField } from '@/animations/ParticleField';
 import { useCanvas } from '@/hooks/useCanvas';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
 const Home = () => {
-  const navigate = useNavigate();
   const particleFieldRef = useRef<ParticleField | null>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(false);
 
-  const canvasRef = useCanvas((ctx, frameCount) => {
-    if (frameCount % 2 !== 0) return; // Run at 30fps instead of 60fps
+  const canvasRef = useCanvas((ctx) => {
+    // Run at ~30fps because useCanvas defaults to 30fps
     const canvas = ctx.canvas;
     const width = canvas.width / window.devicePixelRatio;
     const height = canvas.height / window.devicePixelRatio;
@@ -25,20 +26,51 @@ const Home = () => {
     }
     particleFieldRef.current.resize(width, height);
     particleFieldRef.current.draw(ctx);
-  });
+  }, { enabled: isHeroVisible });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Throttle mousemove updates to animation frame to avoid flooding the particle system
+    let rafScheduled = false;
+    let lastX = 0;
+    let lastY = 0;
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      particleFieldRef.current?.setMouse(x, y);
+      lastX = e.clientX - rect.left;
+      lastY = e.clientY - rect.top;
+      if (!rafScheduled) {
+        rafScheduled = true;
+        requestAnimationFrame(() => {
+          particleFieldRef.current?.setMouse(lastX, lastY);
+          rafScheduled = false;
+        });
+      }
     };
+
     canvas.addEventListener('mousemove', handleMouseMove);
     return () => canvas.removeEventListener('mousemove', handleMouseMove);
   }, [canvasRef]);
+
+  // IntersectionObserver to enable canvas when hero is in view (preload slightly with rootMargin)
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsHeroVisible(true);
+            obs.disconnect();
+          }
+        });
+      },
+      { root: null, rootMargin: '200px', threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [heroRef]);
 
   const { count: cyclesCount, ref: cyclesRef } = useCountUp(8000);
   const { count: systemsCount, ref: systemsRef } = useCountUp(1200);
@@ -267,13 +299,13 @@ const Home = () => {
                 <div className="h-56 overflow-hidden relative bg-[#0d1410]">
                   <img src={product.image || IMAGES.battery_rack} alt={product.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute top-4 left-4 bg-brand-green text-brand-black font-bold px-3 py-1 rounded mono text-xs">
-                    {product.capacity}
+                    {product.capacity_kwh ? `${product.capacity_kwh} kWh` : ''}
                   </div>
                 </div>
                 <div className="bg-[#0d1410] p-8">
-                  <div className="mono text-brand-green text-xs mb-2">{product.category?.toUpperCase() || 'BATTERY'} · {product.voltage}</div>
+                  <div className="mono text-brand-green text-xs mb-2">{(product.tagline ? product.tagline.toUpperCase() : 'BATTERY')} · {product.voltage}</div>
                   <h3 className="text-white text-2xl font-bold mb-2">{product.name}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed mb-6">{product.description}</p>
+                  <p className="text-white/50 text-sm leading-relaxed mb-6">{product.tagline}</p>
                   <Link to={`/products/${product.slug}`} className="btn-primary-sm">
                     View Details <ArrowRight size={14} />
                   </Link>

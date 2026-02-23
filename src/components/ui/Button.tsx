@@ -28,7 +28,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         whileTap={{ scale: 0.95 }}
         className={clsx(baseStyles, variants[variant], sizes[size], className)}
-        {...props}
+        {...(props as any)}
       >
         {children}
       </motion.button>

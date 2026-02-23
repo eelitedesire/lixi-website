@@ -63,10 +63,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center">
-              <span className="text-brand-black font-display text-2xl font-bold">L</span>
-            </div>
+          <Link to="/" className="flex items-center space-x-3">
+            <img src="/images/logo.png" alt="LIXI" className="w-10 h-10 object-contain" />
             <span className="font-display text-2xl text-brand-white">LIXI</span>
           </Link>
 

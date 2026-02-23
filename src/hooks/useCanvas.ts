@@ -2,12 +2,15 @@ import { useEffect, useRef } from 'react';
 
 export const useCanvas = (
   draw: (ctx: CanvasRenderingContext2D, frameCount: number) => void,
-  options: { fps?: number } = {}
+  options: { fps?: number; enabled?: boolean } = {}
 ) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { fps = 60 } = options;
+  // Default to 30 fps to reduce CPU work for continuous animations
+  const { fps = 30, enabled = true } = options;
 
   useEffect(() => {
+    if (!enabled) return; // don't start any animation when disabled
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -23,7 +26,8 @@ export const useCanvas = (
       const { width, height } = canvas.getBoundingClientRect();
       canvas.width = width * window.devicePixelRatio;
       canvas.height = height * window.devicePixelRatio;
-      context.scale(window.devicePixelRatio, window.devicePixelRatio);
+      // Use setTransform to avoid cumulative scaling when resize is called multiple times
+      context.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
     };
 
     resize();
@@ -44,7 +48,7 @@ export const useCanvas = (
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [draw, fps]);
+  }, [draw, fps, enabled]);
 
   return canvasRef;
 };
