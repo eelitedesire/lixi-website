@@ -21,11 +21,43 @@ Resources:
     Properties:
       StageName: prod
       Cors:
-        AllowMethods: "'POST, GET, OPTIONS'"
+        AllowMethods: "'POST, GET, PUT, DELETE, OPTIONS'"
         AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
         AllowOrigin: "'*'"
 
   # Lambda Functions
+  AdminFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/admin/
+      Handler: index.handler
+      Events:
+        AdminApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LixiApi
+            Path: /api/admin/{resource}/{action}
+            Method: ANY
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref BlogTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProductsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuotesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ServicesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProjectsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ShoppingTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SolutionsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AboutTable
+
   QuoteFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -97,6 +129,114 @@ Resources:
             Method: get
 
   # DynamoDB Tables
+  BlogTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-blog
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-products
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  QuotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-quotes
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  ServicesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-services
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  ProjectsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-projects
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  ShoppingTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-shopping
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  SolutionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-solutions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  AboutTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: lixi-about
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
   LeadsTable:
     Type: AWS::DynamoDB::Table
     Properties:

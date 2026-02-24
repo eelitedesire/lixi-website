@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tech-content",
+    "pageTitle": "Battery Technology",
+    "pageDescription": "Understanding the science and engineering behind LIXI energy storage systems.",
+    "lifepo4": {
+      "title": "LiFePO4 Chemistry",
+      "description": "Lithium Iron Phosphate (LiFePO4) is the safest and most stable lithium battery chemistry available. Unlike NMC batteries, LiFePO4 cells have a strong phosphate bond that prevents thermal runaway.",
+      "features": [
+        {
+          "title": "Superior Safety",
+          "desc": "No thermal runaway risk. Stable chemistry even under extreme conditions."
+        },
+        {
+          "title": "Long Cycle Life",
+          "desc": "6000-8000+ cycles at 80-90% DoD. 3-4x longer than NMC batteries."
+        },
+        {
+          "title": "Wide Temperature Range",
+          "desc": "Operates from -30°C to +60°C without degradation."
+        }
+      ]
+    },
+    "bms": {
+      "title": "Advanced BMS",
+      "description": "Our Battery Management Systems provide real-time monitoring, active balancing, and intelligent protection to maximize performance and lifespan.",
+      "features": [
+        {
+          "title": "Cell-Level Monitoring",
+          "desc": "Individual cell voltage, temperature, and current tracking."
+        },
+        {
+          "title": "Active Balancing",
+          "desc": "Ensures all cells charge and discharge evenly for optimal performance."
+        },
+        {
+          "title": "Multi-Layer Protection",
+          "desc": "Overvoltage, undervoltage, overcurrent, and temperature protection."
+        },
+        {
+          "title": "Communication Protocols",
+          "desc": "CANBUS, RS485, Bluetooth for seamless inverter integration."
+        }
+      ]
+    },
+    "catl": null,
+    "createdAt": 1771940937986,
+    "updatedAt": 1771941297982
+  }
+]

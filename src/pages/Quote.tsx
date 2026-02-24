@@ -14,9 +14,18 @@ const Quote = () => {
     firstName: '', lastName: '', email: '', phone: '', company: '', message: '', contactMethod: 'email'
   });
 
-  const handleSubmit = () => {
-    toast.success('Quote request submitted! A solar advisor will contact you within 24 hours.');
-    setStep(5);
+  const handleSubmit = async () => {
+    try {
+      await fetch('http://localhost:3000/api/admin/quotes/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, id: Date.now().toString() })
+      });
+      toast.success('Quote request submitted! A solar advisor will contact you within 24 hours.');
+      setStep(5);
+    } catch (error) {
+      toast.error('Failed to submit quote. Please try again.');
+    }
   };
 
   const totalSteps = 4;

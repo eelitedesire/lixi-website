@@ -1,0 +1,94 @@
+[
+  {
+    "id": "footer",
+    "logoUrl": "/images/logo.png",
+    "siteName": "LIXI",
+    "tagline": "Premium lithium battery storage and solar solutions. Advanced LiFePO4 systems for homes, businesses, and microgrids.",
+    "socialMedia": [
+      {
+        "icon": "Linkedin",
+        "url": "https://linkedin.com"
+      },
+      {
+        "icon": "Twitter",
+        "url": "https://twitter.com"
+      }
+    ],
+    "productLinks": [
+      {
+        "label": "LIXI Stack 48V",
+        "url": "/products/stack-48v"
+      },
+      {
+        "label": "LIXI Pro Rack 192V",
+        "url": "/products/pro-rack-192v"
+      },
+      {
+        "label": "LIXI Mega 400V",
+        "url": "/products/mega-400v"
+      },
+      {
+        "label": "Compare All",
+        "url": "/products"
+      }
+    ],
+    "solutionLinks": [
+      {
+        "label": "Residential",
+        "url": "/solutions/residential"
+      },
+      {
+        "label": "Commercial",
+        "url": "/solutions/commercial"
+      },
+      {
+        "label": "Industrial",
+        "url": "/solutions/industrial"
+      }
+    ],
+    "companyLinks": [
+      {
+        "label": "About Us",
+        "url": "/about"
+      },
+      {
+        "label": "Projects",
+        "url": "/projects"
+      },
+      {
+        "label": "Partners",
+        "url": "/partners"
+      },
+      {
+        "label": "Technology",
+        "url": "/technology"
+      },
+      {
+        "label": "Blog",
+        "url": "/blog"
+      }
+    ],
+    "locations": [
+      {
+        "flag": "🇱🇮",
+        "region": "EU",
+        "name": "HelioAegis GmbH i. G.",
+        "address": "Grossfeld 36\n9492 Eschen\nLiechtenstein"
+      },
+      {
+        "flag": "🇲🇺",
+        "region": "AFRICA",
+        "name": "buyAfraction Limited",
+        "address": "Grand Baie\nMauritius"
+      },
+      {
+        "flag": "🇰🇾",
+        "region": "CARIBBEAN",
+        "name": "Caytech Limited",
+        "address": "Cayman Brac\nCayman Islands"
+      }
+    ],
+    "carbonozText": "Powered by CARBONOZ Smart Buying Platform",
+    "copyrightText": "HelioAegis GmbH i.G. All rights reserved."
+  }
+]

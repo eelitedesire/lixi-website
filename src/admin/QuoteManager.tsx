@@ -1,70 +1,116 @@
-import { useState } from 'react';
-import { quotes, Quote } from '../data/quotes';
-import QuoteEditor from './QuoteEditor';
+import { useState, useEffect } from 'react';
+import { Quote } from '../data/quotes';
+import { Plus, Mail, Phone, User } from 'lucide-react';
+import { adminApi } from '../services/api';
 
 const QuoteManager = () => {
-  const [items, setItems] = useState<Quote[]>(quotes);
-  const [editing, setEditing] = useState<Quote | null>(null);
-  const [adding, setAdding] = useState(false);
+  const [items, setItems] = useState<any[]>([]);
+  const [selectedQuote, setSelectedQuote] = useState<any | null>(null);
 
-  const handleSave = (quote: Quote) => {
-    if (editing) {
-      setItems(items.map(q => (q.id === editing.id ? quote : q)));
-      setEditing(null);
-      setAdding(false);
-    } else {
-      setItems([{ ...quote, id: Date.now().toString() }, ...items]);
-      setAdding(false);
-      setEditing(null);
-    }
-  };
+  useEffect(() => {
+    adminApi.list('quotes').then(setItems);
+  }, []);
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this quote?')) {
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Delete this quote request?')) {
+      await adminApi.delete('quotes', id);
       setItems(items.filter(q => q.id !== id));
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-brand-black/95 backdrop-blur-md py-10 px-2 flex flex-col items-center">
-      <div className="w-full max-w-5xl">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-extrabold text-blue-900 drop-shadow">Quote Management</h2>
-          <button
-            className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold shadow hover:bg-green-700 transition"
-            onClick={() => { setAdding(true); setEditing(null); }}
-          >
-            + Add New Quote
-          </button>
-        </div>
-        {(adding || editing) ? (
-          <QuoteEditor
-            quote={editing || undefined}
-            onSave={handleSave}
-            onCancel={() => { setAdding(false); setEditing(null); }}
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {items.map(quote => (
-              <div key={quote.id} className="bg-brand-black/90 backdrop-blur-md rounded-2xl shadow-xl p-6 flex flex-col gap-2 border border-brand-green/30 relative">
-                <div className="flex flex-col gap-1">
-                  <span className="text-lg font-bold text-brand-green">{quote.name}</span>
-                  <span className="text-xs text-brand-green/80">{quote.email}</span>
-                  <span className="text-sm text-brand-white/80 mb-2">{quote.message}</span>
-                  <span className="inline-block bg-brand-green/10 text-brand-green px-2 py-1 rounded text-xs font-semibold w-fit">{quote.status}</span>
+    <div className="p-8">
+      <div className="mb-8">
+        <h2 className="text-3xl font-display text-brand-white mb-1">Quote Requests</h2>
+        <p className="text-brand-white/60">{items.length} quote requests from customers</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-4">
+          {items.map(quote => (
+            <div key={quote.id} className="bg-brand-grey border border-brand-greyMid rounded-xl p-6 hover:border-brand-green/50 transition">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="text-lg font-bold text-brand-white">{quote.firstName} {quote.lastName}</h3>
+                  <p className="text-sm text-brand-white/60">{new Date(quote.createdAt).toLocaleString()}</p>
                 </div>
-                <div className="flex gap-3 mt-4">
-                  <button
-                    className="bg-brand-green text-brand-black px-4 py-1 rounded hover:bg-brand-green/80 font-semibold shadow"
-                    onClick={() => setEditing(quote)}
-                  >Edit</button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-700 font-semibold shadow"
-                    onClick={() => handleDelete(quote.id)}
-                  >Delete</button>
+                <div className="text-right">
+                  <div className="text-brand-green font-semibold">{quote.userType}</div>
+                  <p className="text-sm text-brand-white/60">{quote.country}</p>
                 </div>
               </div>
-            ))}
+              
+              <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                <div className="text-brand-white/70"><strong>Voltage:</strong> {quote.voltage}</div>
+                <div className="text-brand-white/70"><strong>Capacity:</strong> {quote.capacity}</div>
+                <div className="text-brand-white/70"><strong>Monthly Bill:</strong> ${quote.monthlyBill}</div>
+                <div className="text-brand-white/70"><strong>Trading:</strong> {quote.trading}</div>
+              </div>
+
+              <div className="flex gap-3">
+                <button onClick={() => setSelectedQuote(quote)} className="flex-1 bg-brand-green/10 text-brand-green px-4 py-2 rounded-lg hover:bg-brand-green/20 font-semibold">
+                  View Details
+                </button>
+                <button onClick={() => handleDelete(quote.id)} className="bg-red-500/10 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/20 font-semibold">
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+          {items.length === 0 && (
+            <div className="text-center py-12 text-brand-white/60">
+              No quote requests yet
+            </div>
+          )}
+        </div>
+
+        {selectedQuote && (
+          <div className="bg-brand-grey border border-brand-green/30 rounded-xl p-6 h-fit sticky top-4">
+            <h3 className="text-xl font-bold text-brand-white mb-4">Quote Details</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center gap-2 text-brand-green mb-2">
+                  <User size={18} />
+                  <span className="font-semibold">Customer Info</span>
+                </div>
+                <div className="text-sm text-brand-white/70 ml-6 space-y-1">
+                  <p><strong>Name:</strong> {selectedQuote.firstName} {selectedQuote.lastName}</p>
+                  <p><strong>Type:</strong> {selectedQuote.userType}</p>
+                  <p><strong>Country:</strong> {selectedQuote.country}</p>
+                  {selectedQuote.company && <p><strong>Company:</strong> {selectedQuote.company}</p>}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 text-brand-green mb-2">
+                  <Mail size={18} />
+                  <span className="font-semibold">Contact</span>
+                </div>
+                <div className="text-sm text-brand-white/70 ml-6 space-y-1">
+                  <p>{selectedQuote.email}</p>
+                  <p>{selectedQuote.phone}</p>
+                </div>
+              </div>
+
+              <div>
+                <div className="text-brand-green font-semibold mb-2">System Requirements</div>
+                <div className="text-sm text-brand-white/70 ml-6 space-y-1">
+                  <p><strong>Voltage:</strong> {selectedQuote.voltage}</p>
+                  <p><strong>Capacity:</strong> {selectedQuote.capacity}</p>
+                  <p><strong>Monthly Bill:</strong> ${selectedQuote.monthlyBill}</p>
+                  <p><strong>Has Solar:</strong> {selectedQuote.hasSolar}</p>
+                  <p><strong>Trading Interest:</strong> {selectedQuote.trading}</p>
+                </div>
+              </div>
+
+              {selectedQuote.message && (
+                <div>
+                  <div className="text-brand-green font-semibold mb-2">Message</div>
+                  <p className="text-sm text-brand-white/70 ml-6">{selectedQuote.message}</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

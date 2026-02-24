@@ -17,9 +17,25 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ post, onSave, onCancel }) => {
   const [content, setContent] = useState(post?.content || '');
   const [image, setImage] = useState<string | undefined>(post?.image);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+        try {
+          const res = await fetch('http://localhost:3000/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: base64, filename: `${Date.now()}-${file.name}` })
+          });
+          const data = await res.json();
+          setImage(data.url);
+        } catch (error) {
+          console.error('Upload failed:', error);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -35,22 +51,11 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ post, onSave, onCancel }) => {
       content,
       image,
     } as BlogPost);
-    // Reset form if adding
-    if (!post) {
-      setTitle('');
-      setSlug('');
-      setExcerpt('');
-      setCategory('');
-      setDate('');
-      setReadTime('');
-      setContent('');
-      setImage(undefined);
-    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-brand-black/95 backdrop-blur-md rounded-2xl shadow-xl p-8 max-w-2xl mx-auto mt-8 border border-brand-green/30">
-      <h2 className="text-2xl font-bold mb-6">{post ? 'Edit' : 'Add'} Blog Post</h2>
+      <h2 className="text-2xl font-bold mb-6 text-brand-white">{post ? 'Edit' : 'Add'} Blog Post</h2>
       <div className="grid grid-cols-1 gap-4">
         <input className="border border-brand-green/30 rounded p-2 bg-brand-black text-brand-white placeholder:text-brand-white/60 focus:ring-2 focus:ring-brand-green" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required />
         <input className="border border-brand-green/30 rounded p-2 bg-brand-black text-brand-white placeholder:text-brand-white/60 focus:ring-2 focus:ring-brand-green" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} required />
@@ -61,13 +66,13 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ post, onSave, onCancel }) => {
         <textarea className="border border-brand-green/30 rounded p-2 min-h-[120px] bg-brand-black text-brand-white placeholder:text-brand-white/60 focus:ring-2 focus:ring-brand-green" placeholder="Content (Markdown supported)" value={content} onChange={e => setContent(e.target.value)} required />
         <div>
           <label className="block mb-2 font-semibold text-brand-white">Image</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} className="bg-brand-black text-brand-white border border-brand-green/30 rounded p-2" />
+          <input type="file" accept="image/*" onChange={handleImageChange} className="bg-brand-black text-brand-white border border-brand-green/30 rounded p-2 w-full" />
           {image && <img src={image} alt="Preview" className="mt-2 rounded max-h-40" />}
         </div>
       </div>
       <div className="flex gap-4 mt-6">
-        <button type="submit" className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-900 font-semibold">Save</button>
-        <button type="button" className="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400 font-semibold" onClick={onCancel}>Cancel</button>
+        <button type="submit" className="bg-brand-green text-brand-black px-6 py-2 rounded hover:bg-brand-greenDim font-semibold">Save</button>
+        <button type="button" className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 font-semibold" onClick={onCancel}>Cancel</button>
       </div>
     </form>
   );

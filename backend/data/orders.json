@@ -1,0 +1,67 @@
+[
+  {
+    "items": [
+      {
+        "id": "pro-rack-192v",
+        "type": "product",
+        "name": "LIXI Pro Rack",
+        "price": 0,
+        "image": "https://en.lixi.de/assets/images/image05.jpg?v=dfd5579b",
+        "details": {
+          "id": "pro-rack-192v",
+          "slug": "pro-rack-192v",
+          "name": "LIXI Pro Rack",
+          "tagline": "Commercial & C&I",
+          "image": "https://en.lixi.de/assets/images/image05.jpg?v=dfd5579b",
+          "voltage": "192V",
+          "capacity_kwh": 20.48,
+          "cells": "EVE LF100LA LiFePO4",
+          "configuration": "64S1P (4×16S series)",
+          "nominal_voltage": "204.8V",
+          "voltage_range": "160V – 233.6V",
+          "nominal_capacity": "100Ah",
+          "max_current": "100A",
+          "standard_current": "20A",
+          "bms": "EHVS500-BMU with active cell balancing",
+          "communication": "RS485 / CAN",
+          "cooling": "Active air-cooling with automatic fan control",
+          "weight_kg": 236.5,
+          "rack_dimensions_mm": "460 × 550 × 1018",
+          "temp_operating": "15°C – 35°C (recommended)",
+          "bms_temp_range": "-40°C to +125°C",
+          "compatible_inverters": [
+            "DEYE",
+            "Growatt",
+            "Victron",
+            "GoodWe",
+            "SMA",
+            "Solis"
+          ],
+          "max_parallel": 20,
+          "warranty": "1 Year",
+          "cycle_life": "6000+ (80% DoD)",
+          "dimensions_mm": "460 × 550 × 1018",
+          "highlight_features": [
+            "Active pack-level balancing",
+            "High-voltage rack design",
+            "Up to 20 parallel systems",
+            "Auto addressing"
+          ]
+        },
+        "quantity": 1
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "wert",
+      "email": "ghj@gmail.com",
+      "phone": "ghu",
+      "street": "ghj",
+      "city": "ghj",
+      "state": "ghui",
+      "postalCode": " vbhjk",
+      "country": "bhjk"
+    },
+    "total": 0,
+    "createdAt": 1771937842170
+  }
+]

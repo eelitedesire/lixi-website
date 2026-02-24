@@ -1,0 +1,50 @@
+[
+  {
+    "id": "solar-storage",
+    "title": "SOLAR STORAGE",
+    "description": "LiFePO4 battery banks store excess solar energy during the day and power your home at night.",
+    "image": "/images/solar-panels-roof.jpg",
+    "icon": "Battery",
+    "fullDescription": "Our advanced LiFePO4 battery systems are specifically designed to maximize your solar investment. Store excess energy generated during peak sunlight hours and use it when you need it most - during evenings, cloudy days, or power outages.\n\nWith CATL premium cells and intelligent BMS, our systems ensure optimal performance and longevity.",
+    "benefits": [
+      "Store up to 112.5 kWh of solar energy",
+      "8,000+ charge cycles for 20+ years of use",
+      "Seamless integration with existing solar systems",
+      "Real-time monitoring via mobile app",
+      "Automatic backup during grid outages"
+    ],
+    "bookingUrl": "https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt"
+  },
+  {
+    "id": "energy-freedom",
+    "title": "ENERGY FREEDOM",
+    "description": "Combine solar panels with LIXI batteries to cover 80–100% of your electricity needs.",
+    "image": "/images/family-home-solar.jpg",
+    "icon": "Sun",
+    "fullDescription": "Achieve true energy independence with our complete solar + storage solutions. Our systems are designed to maximize self-consumption and minimize grid dependency.\n\nWhether residential, commercial, or industrial, we provide scalable solutions tailored to your energy needs.",
+    "benefits": [
+      "Reduce electricity bills by 60-90%",
+      "Protection against rising energy costs",
+      "Increase property value",
+      "Reduce carbon footprint",
+      "Energy security and independence"
+    ],
+    "bookingUrl": "https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt"
+  },
+  {
+    "id": "electricity-trading",
+    "title": "ELECTRICITY TRADING",
+    "description": "CARBONOZ platform enables automated electricity trading. Buy power when prices are low, maximize your savings.",
+    "image": "/images/energy-trading.jpg",
+    "icon": "TrendingDown",
+    "fullDescription": "Turn your LIXI battery into a revenue-generating asset with CARBONOZ automated trading platform. Our AI-powered system monitors electricity prices across EU markets 24/7 and executes optimal buy/sell decisions.\n\nEarn 15-30% annual returns while contributing to grid stability.",
+    "benefits": [
+      "Automated 24/7 trading across EU markets",
+      "15-30% annual returns on battery investment",
+      "No manual intervention required",
+      "Real-time price monitoring and execution",
+      "Contribute to renewable energy grid stability"
+    ],
+    "bookingUrl": "https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt"
+  }
+]

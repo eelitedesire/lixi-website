@@ -1,15 +1,29 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { partners } from '@/data/partners';
+import { useState, useEffect } from 'react';
+import { partners as staticPartners } from '@/data/partners';
+import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { ExternalLink } from 'lucide-react';
 
 const Partners = () => {
   const [filter, setFilter] = useState<string>('All');
+  const [partners, setPartners] = useState(staticPartners);
   const categories = ['All', 'Trading', 'Technology', 'Distribution'];
   const filtered = filter === 'All' ? partners : partners.filter(p => p.category === filter);
+
+  useEffect(() => {
+    const loadPartners = async () => {
+      try {
+        const data = await api.getPartners();
+        if (data.length > 0) setPartners(data);
+      } catch {
+        setPartners(staticPartners);
+      }
+    };
+    loadPartners();
+  }, []);
 
   return (
     <>

@@ -1,15 +1,23 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { projects } from '@/data/projects';
+import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import { MapPin, Calendar, Zap } from 'lucide-react';
 
 const Projects = () => {
   const [filter, setFilter] = useState<string>('All');
+  const [projectList, setProjectList] = useState(projects);
   const categories = ['All', 'Residential', 'Commercial', 'Industrial'];
-  const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
+  const filtered = filter === 'All' ? projectList : projectList.filter(p => p.category === filter);
+
+  useEffect(() => {
+    api.getProjects().then(data => {
+      if (data.length) setProjectList(data);
+    }).catch(() => setProjectList(projects));
+  }, []);
 
   return (
     <>

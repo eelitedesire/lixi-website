@@ -1,15 +1,32 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { serviceCenters } from '@/data/serviceCenters';
+import { adminApi } from '@/services/api';
 import { toast } from 'sonner';
+
+interface ServiceCenter {
+  id: string;
+  name: string;
+  region: string;
+  address: string;
+  city: string;
+  country: string;
+  phone: string;
+  email: string;
+  hours: string;
+}
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const [centers, setCenters] = useState<ServiceCenter[]>([]);
+
+  useEffect(() => {
+    adminApi.list('service-centers').then(setCenters);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,17 +73,16 @@ const Contact = () => {
 
             <div className="space-y-6">
               <h2 className="font-display text-2xl text-brand-white mb-6">Service Centers</h2>
-              {serviceCenters.map(center => (
-                <Card key={center.region} glass>
-                  <div className="flex items-start space-x-4">
-                    <span className="text-4xl">{center.flag}</span>
-                    <div>
-                      <h3 className="font-bold text-brand-white mb-1">{center.region}</h3>
-                      <p className="text-brand-white/70 text-sm mb-2">{center.name}</p>
-                      <p className="text-brand-white/50 text-sm mb-2">{center.address}</p>
-                      {center.phone && <p className="text-brand-green text-sm">{center.phone}</p>}
-                      <a href={`mailto:${center.email}`} className="text-brand-green text-sm hover:text-brand-lime">{center.email}</a>
-                    </div>
+              {centers.map(center => (
+                <Card key={center.id} glass>
+                  <div>
+                    <h3 className="font-bold text-brand-green text-lg mb-1">{center.name}</h3>
+                    <p className="text-brand-lime text-sm mb-2">{center.region}</p>
+                    <p className="text-brand-white/70 text-sm mb-1">{center.address}</p>
+                    <p className="text-brand-white/70 text-sm mb-2">{center.city}, {center.country}</p>
+                    {center.phone && <p className="text-brand-white text-sm mb-1">📞 {center.phone}</p>}
+                    <a href={`mailto:${center.email}`} className="text-brand-green text-sm hover:text-brand-lime block mb-1">✉️ {center.email}</a>
+                    {center.hours && <p className="text-brand-white/50 text-sm">🕒 {center.hours}</p>}
                   </div>
                 </Card>
               ))}

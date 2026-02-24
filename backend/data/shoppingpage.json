@@ -1,0 +1,45 @@
+[
+  {
+    "id": "shopping-page",
+    "title": "Elite",
+    "subtitle": "Battery System",
+    "description": "Pre-configured and ready-to-use battery packs. Delivery to any EU country with full installation support.",
+    "productName": "LIXI LFP LiFePO4 Battery",
+    "capacity": "15 kWh",
+    "productDescription": "Stack up to 14 battery cases together. Includes JK BMS with Pylontech protocol support, Bluetooth and CAN-bus monitoring.",
+    "backgroundImage": "/images/uploads/1771939980321-image06.jpg",
+    "specs": [
+      {
+        "label": "Voltage",
+        "value": "51.2V"
+      },
+      {
+        "label": "Current",
+        "value": "200A"
+      },
+      {
+        "label": "Weight",
+        "value": "125kg"
+      },
+      {
+        "label": "Warranty",
+        "value": "1 Year"
+      }
+    ],
+    "features": [
+      "Ready to Use - Pre-configured systems",
+      "EU Delivery - Fast shipping",
+      "Full Support - Installation help"
+    ],
+    "included": [
+      "Stainless steel battery case",
+      "JK BMS 48V 16S with Pylontech protocol",
+      "CANBUS/RS485 communication",
+      "Bluetooth monitoring",
+      "Installation manual",
+      "Inverter compatibility guide"
+    ],
+    "createdAt": 1771939984018,
+    "updatedAt": 1771939989812
+  }
+]

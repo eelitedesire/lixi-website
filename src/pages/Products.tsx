@@ -1,11 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { products } from '@/data/products';
+import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
-// removed unused import 'Check'
+import { ShoppingCart } from 'lucide-react';
+import { useCartStore } from '@/store/cartStore';
 
 function renderSpecValue(val: any) {
   if (val === null || val === undefined) return '-';
@@ -14,6 +17,15 @@ function renderSpecValue(val: any) {
 }
 
 const Products = () => {
+  const [productList, setProductList] = useState(products);
+  const addItem = useCartStore(state => state.addItem);
+
+  useEffect(() => {
+    api.getProducts().then(data => {
+      if (data.length) setProductList(data);
+    }).catch(() => setProductList(products));
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -42,7 +54,7 @@ const Products = () => {
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {products.map((product, index) => (
+              {productList.map((product, index) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -58,41 +70,72 @@ const Products = () => {
                         loading="lazy"
                       />
                     </div>
-                    <Badge variant="green" className="mb-4 self-start">{product.voltage}</Badge>
+                    <Badge variant="green" className="mb-4 self-start">{product.category || product.voltage || 'Product'}</Badge>
                     <h2 className="font-display text-4xl text-brand-white mb-2">
                       {product.name}
                     </h2>
-                    <p className="text-brand-white/70 mb-6">{product.tagline}</p>
+                    <p className="text-brand-white/70 mb-6">{product.tagline || product.description}</p>
                     
-                    <div className="mb-6">
-                      <div className="text-6xl font-display text-brand-green">
-                        {product.capacity_kwh}
-                        <span className="text-2xl text-brand-white/70 ml-2">kWh</span>
+                    {product.capacity_kwh && (
+                      <div className="mb-6">
+                        <div className="text-6xl font-display text-brand-green">
+                          {product.capacity_kwh}
+                          <span className="text-2xl text-brand-white/70 ml-2">kWh</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
+
+                    {product.price && (
+                      <div className="mb-6">
+                        <div className="text-3xl font-display text-brand-green">{product.price}</div>
+                      </div>
+                    )}
 
                     <div className="space-y-3 mb-8 flex-1">
-                      <div className="text-sm">
-                        <span className="text-brand-white/50">Voltage:</span>
-                        <span className="text-brand-white ml-2">{product.nominal_voltage}</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-brand-white/50">Max Current:</span>
-                        <span className="text-brand-white ml-2">{product.max_current}</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-brand-white/50">Cycle Life:</span>
-                        <span className="text-brand-white ml-2">{product.cycle_life}</span>
-                      </div>
-                      <div className="text-sm">
-                        <span className="text-brand-white/50">Weight:</span>
-                        <span className="text-brand-white ml-2">{product.weight_kg} kg</span>
-                      </div>
+                      {product.nominal_voltage && (
+                        <div className="text-sm">
+                          <span className="text-brand-white/50">Voltage:</span>
+                          <span className="text-brand-white ml-2">{product.nominal_voltage}</span>
+                        </div>
+                      )}
+                      {product.max_current && (
+                        <div className="text-sm">
+                          <span className="text-brand-white/50">Max Current:</span>
+                          <span className="text-brand-white ml-2">{product.max_current}</span>
+                        </div>
+                      )}
+                      {product.cycle_life && (
+                        <div className="text-sm">
+                          <span className="text-brand-white/50">Cycle Life:</span>
+                          <span className="text-brand-white ml-2">{product.cycle_life}</span>
+                        </div>
+                      )}
+                      {product.weight_kg && (
+                        <div className="text-sm">
+                          <span className="text-brand-white/50">Weight:</span>
+                          <span className="text-brand-white ml-2">{product.weight_kg} kg</span>
+                        </div>
+                      )}
                     </div>
 
-                    <Link to={`/products/${product.slug}`} className="mt-auto">
-                      <Button className="w-full">View Details</Button>
-                    </Link>
+                    <div className="flex gap-2 mt-auto">
+                      <Link to={`/products/${product.slug}`} className="flex-1">
+                        <Button className="w-full">View Details</Button>
+                      </Link>
+                      <Button 
+                        variant="outline"
+                        onClick={() => addItem({
+                          id: product.id,
+                          type: 'product',
+                          name: product.name,
+                          price: parseFloat(product.price?.replace(/[^0-9.]/g, '') || '0'),
+                          image: product.image,
+                          details: product
+                        })}
+                      >
+                        <ShoppingCart size={20} />
+                      </Button>
+                    </div>
                   </Card>
                 </motion.div>
               ))}
@@ -114,7 +157,7 @@ const Products = () => {
                     <thead>
                       <tr className="border-b border-brand-greyMid">
                         <th className="text-left p-6 text-brand-white font-display text-xl">Specification</th>
-                        {products.map(p => (
+                        {productList.map(p => (
                           <th key={p.id} className="text-center p-6 bg-brand-black/20">
                             <div className="text-brand-green font-display text-2xl mb-2">{p.name}</div>
                             <Badge variant="green">{p.voltage}</Badge>
@@ -136,7 +179,7 @@ const Products = () => {
                       ].map((spec, i) => (
                         <tr key={spec.key} className={`border-b border-brand-greyMid/50 ${spec.highlight ? 'bg-brand-green/5' : i % 2 === 0 ? 'bg-brand-black/10' : ''}`}>
                           <td className="p-6 text-brand-white font-bold">{spec.label}</td>
-                          {products.map(p => (
+                          {productList.map(p => (
                             <td key={p.id} className="p-6 text-center">
                               <span className={`${spec.highlight ? 'text-brand-green font-bold text-lg' : 'text-brand-white'}`}>
                                 {renderSpecValue(p[spec.key as keyof typeof p])}{spec.unit}
@@ -147,7 +190,7 @@ const Products = () => {
                       ))}
                       <tr>
                         <td className="p-6"></td>
-                        {products.map(p => (
+                        {productList.map(p => (
                           <td key={p.id} className="p-6 text-center">
                             <Link to={`/products/${p.slug}`}>
                               <Button className="w-full">View Details</Button>

@@ -1,11 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Check, Zap, Shield, TrendingUp } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import { products } from '@/data/products';
+import { solutions } from '@/data/solutions';
+import { api } from '@/services/api';
 
 const solutionData = {
   residential: {
@@ -30,7 +33,7 @@ const solutionData = {
     title: 'Commercial & C&I Solutions',
     hero: 'Reduce operating costs and carbon footprint',
     description: 'Scalable energy storage for businesses, offices, retail, and light industrial facilities.',
-    image: '/images/solutions/commercial.jpg',
+    image: 'https://coldwellenergy.com/wp-content/uploads/2023/02/industrial-plant-solar-system.jpg',
     benefits: [
       'Peak demand charge reduction',
       'Power quality improvement',
@@ -66,19 +69,40 @@ const solutionData = {
 
 const SolutionDetail = () => {
   const { type } = useParams<{ type: string }>();
+  const [solutionList, setSolutionList] = useState(solutions);
+  
+  useEffect(() => {
+    api.getSolutions().then(data => {
+      if (data.length) setSolutionList(data);
+    }).catch(() => setSolutionList(solutions));
+  }, []);
+
+  const dbSolution = solutionList.find(s => s.slug === type);
   const solution = solutionData[type as keyof typeof solutionData];
 
-  if (!solution) {
+  if (!solution && !dbSolution) {
     return <div className="pt-20 min-h-screen bg-brand-black text-white flex items-center justify-center">Solution not found</div>;
   }
 
-  const recommendedProducts = products.filter(p => solution.systems.includes(p.name));
+  const displaySolution = solution || {
+    title: dbSolution!.title,
+    hero: dbSolution!.description,
+    description: dbSolution!.description,
+    image: dbSolution!.image || '',
+    benefits: [],
+    systems: [],
+    capacity: dbSolution!.capacity,
+    typical: dbSolution!.category,
+    payback: 'Contact for details',
+  };
+
+  const recommendedProducts = solution ? products.filter(p => solution.systems.includes(p.name)) : [];
 
   return (
     <>
       <Helmet>
-        <title>{solution.title} | LIXI Energy Systems</title>
-        <meta name="description" content={solution.description} />
+        <title>{displaySolution.title} | LIXI Energy Systems</title>
+        <meta name="description" content={displaySolution.description} />
       </Helmet>
 
       <div className="pt-20 bg-brand-black min-h-screen">
@@ -92,9 +116,9 @@ const SolutionDetail = () => {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-                <h1 className="font-display text-h2 text-brand-white mb-6">{solution.title}</h1>
-                <p className="text-2xl text-brand-green mb-6">{solution.hero}</p>
-                <p className="text-xl text-brand-white/70 mb-8">{solution.description}</p>
+                <h1 className="font-display text-h2 text-brand-white mb-6">{displaySolution.title}</h1>
+                <p className="text-2xl text-brand-green mb-6">{displaySolution.hero}</p>
+                <p className="text-xl text-brand-white/70 mb-8">{displaySolution.description}</p>
                 <Link to="/quote">
                   <Button size="lg">Get Custom Quote</Button>
                 </Link>
@@ -102,7 +126,7 @@ const SolutionDetail = () => {
 
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                 <div className="relative h-96 rounded-2xl overflow-hidden bg-brand-greyMid">
-                  <img src={solution.image} alt={solution.title} className="w-full h-full object-cover" loading="lazy" />
+                  <img src={displaySolution.image} alt={displaySolution.title} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </motion.div>
             </div>
@@ -110,27 +134,29 @@ const SolutionDetail = () => {
         </section>
 
         {/* Key Benefits */}
-        <section className="py-16 bg-brand-grey">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-h3 text-brand-white mb-12 text-center">Key Benefits</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {solution.benefits.map((benefit, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Card glass className="flex items-start space-x-3">
-                    <Check className="text-brand-green flex-shrink-0 mt-1" size={20} />
-                    <span className="text-brand-white">{benefit}</span>
-                  </Card>
-                </motion.div>
-              ))}
+        {displaySolution.benefits.length > 0 && (
+          <section className="py-16 bg-brand-grey">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="font-display text-h3 text-brand-white mb-12 text-center">Key Benefits</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displaySolution.benefits.map((benefit, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Card glass className="flex items-start space-x-3">
+                      <Check className="text-brand-green flex-shrink-0 mt-1" size={20} />
+                      <span className="text-brand-white">{benefit}</span>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* System Specs */}
         <section className="py-16">
@@ -139,39 +165,43 @@ const SolutionDetail = () => {
               <Card glass className="text-center">
                 <Zap className="text-brand-green mx-auto mb-4" size={48} />
                 <h3 className="font-display text-2xl text-brand-white mb-2">Capacity Range</h3>
-                <p className="text-brand-white/70">{solution.capacity}</p>
+                <p className="text-brand-white/70">{displaySolution.capacity}</p>
               </Card>
               <Card glass className="text-center">
                 <Shield className="text-brand-green mx-auto mb-4" size={48} />
                 <h3 className="font-display text-2xl text-brand-white mb-2">Typical Application</h3>
-                <p className="text-brand-white/70">{solution.typical}</p>
+                <p className="text-brand-white/70">{displaySolution.typical}</p>
               </Card>
               <Card glass className="text-center">
                 <TrendingUp className="text-brand-green mx-auto mb-4" size={48} />
                 <h3 className="font-display text-2xl text-brand-white mb-2">Payback Period</h3>
-                <p className="text-brand-white/70">{solution.payback}</p>
+                <p className="text-brand-white/70">{displaySolution.payback}</p>
               </Card>
             </div>
 
             {/* Recommended Products */}
-            <h2 className="font-display text-h3 text-brand-white mb-8 text-center">Recommended Systems</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recommendedProducts.map(product => (
-                <Link key={product.id} to={`/products/${product.slug}`}>
-                  <Card glass hover className="h-full">
-                    <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden bg-brand-greyMid">
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                    <Badge variant="green" className="mb-4">{product.voltage}</Badge>
-                    <h3 className="font-display text-2xl text-brand-white mb-2">{product.name}</h3>
-                    <p className="text-brand-white/70 mb-4">{product.tagline}</p>
-                    <div className="text-3xl font-display text-brand-green">
-                      {product.capacity_kwh} <span className="text-lg text-brand-white/70">kWh</span>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
+            {recommendedProducts.length > 0 && (
+              <>
+                <h2 className="font-display text-h3 text-brand-white mb-8 text-center">Recommended Systems</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {recommendedProducts.map(product => (
+                    <Link key={product.id} to={`/products/${product.slug}`}>
+                      <Card glass hover className="h-full">
+                        <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden bg-brand-greyMid">
+                          <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+                        </div>
+                        <Badge variant="green" className="mb-4">{product.voltage}</Badge>
+                        <h3 className="font-display text-2xl text-brand-white mb-2">{product.name}</h3>
+                        <p className="text-brand-white/70 mb-4">{product.tagline}</p>
+                        <div className="text-3xl font-display text-brand-green">
+                          {product.capacity_kwh} <span className="text-lg text-brand-white/70">kWh</span>
+                        </div>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </section>
       </div>

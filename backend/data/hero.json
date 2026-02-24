@@ -1,0 +1,27 @@
+[
+  {
+    "id": "hero",
+    "badge": "Enterprise Energy Solutions",
+    "title": "LIXI Solar &",
+    "titleHighlight": "Electricity Storage",
+    "description": "Discover the power and reliability of cutting-edge LIXI battery technology. Advanced lithium batteries designed for modern life, offering unmatched safety, longevity, and efficiency.",
+    "primaryButtonText": "Get Started",
+    "primaryButtonUrl": "https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt",
+    "secondaryButtonText": "Explore Products",
+    "secondaryButtonUrl": "/products",
+    "stat1Value": "8000+",
+    "stat1Label": "Charge Cycles",
+    "stat2Value": "112.5",
+    "stat2Label": "kWh Max",
+    "stat3Value": "3",
+    "stat3Label": "Continents",
+    "productName": "LIXI Stack 48V",
+    "productSubtitle": "Residential System",
+    "productCapacity": "14 kWh",
+    "productVoltage": "48V",
+    "productAmperage": "280Ah",
+    "productCells": "CATL",
+    "productImage": "/images/uploads/hero-1771941210732-image06.jpg",
+    "updatedAt": 1771941211644
+  }
+]

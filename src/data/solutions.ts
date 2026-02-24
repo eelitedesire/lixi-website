@@ -1,11 +1,43 @@
 export interface Solution {
   id: string;
   title: string;
+  slug: string;
+  category: 'Residential' | 'Commercial' | 'Industrial';
   description: string;
+  capacity: string;
+  voltage: string;
   image?: string;
 }
 
 export const solutions: Solution[] = [
-  { id: '1', title: 'Off-Grid Solar', description: 'Complete off-grid solar energy solution.', image: '' },
-  { id: '2', title: 'Grid-Tied Storage', description: 'Hybrid grid-tied battery storage.', image: '' },
+  { 
+    id: '1',
+    title: 'Residential', 
+    slug: 'residential', 
+    category: 'Residential',
+    description: 'Home energy independence with 48V LIXI Stack systems. Perfect for families seeking energy freedom.',
+    capacity: '14-196 kWh',
+    voltage: '48V',
+    image: ''
+  },
+  { 
+    id: '2',
+    title: 'Commercial', 
+    slug: 'commercial', 
+    category: 'Commercial',
+    description: 'C&I solutions with 192V Pro Rack systems. Reduce demand charges and maximize ROI.',
+    capacity: '20-400 kWh',
+    voltage: '192V',
+    image: ''
+  },
+  { 
+    id: '3',
+    title: 'Industrial', 
+    slug: 'industrial', 
+    category: 'Industrial',
+    description: 'Microgrid and utility-scale 400V Mega systems with integrated inverters.',
+    capacity: '112.5+ kWh',
+    voltage: '400V',
+    image: ''
+  },
 ];

@@ -1,11 +1,24 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Sun, Battery, TrendingDown, MapPin } from 'lucide-react';
+import { Sun, Battery, TrendingDown, MapPin, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCartStore } from '@/store/cartStore';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
 const Service = () => {
+  const addItem = useCartStore(state => state.addItem);
+
+  const handleAddService = (name: string, price: number, region: string) => {
+    addItem({
+      id: `service-${name.toLowerCase().replace(/\s+/g, '-')}`,
+      type: 'service',
+      name: `${name} - ${region}`,
+      price,
+      details: { region }
+    });
+  };
+
   return (
     <>
       <Helmet>
@@ -113,9 +126,11 @@ const Service = () => {
                       </li>
                     ))}
                   </ul>
-                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary-sm">
-                    Request Quote
-                  </a>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddService('SUN LIZZARD', 6000, 'Caribbean')} className="btn-primary-sm flex items-center gap-2">
+                      <ShoppingCart size={16} /> Add to Cart
+                    </button>
+                  </div>
                 </div>
 
                 <div className="bg-gradient-to-br from-[#0d1410] to-[#060a07] border border-brand-green/20 rounded-xl p-8">
@@ -139,9 +154,11 @@ const Service = () => {
                       </li>
                     ))}
                   </ul>
-                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary-sm">
-                    Request Quote
-                  </a>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddService('SUN IGUANA', 15000, 'Caribbean')} className="btn-primary-sm flex items-center gap-2">
+                      <ShoppingCart size={16} /> Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -203,9 +220,11 @@ const Service = () => {
                       </li>
                     ))}
                   </ul>
-                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary-sm">
-                    Request Quote
-                  </a>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddService('Solaire 1', 5000, 'Africa')} className="btn-primary-sm flex items-center gap-2">
+                      <ShoppingCart size={16} /> Add to Cart
+                    </button>
+                  </div>
                 </div>
 
                 <div className="bg-gradient-to-br from-[#0d1410] to-[#060a07] border border-brand-green/20 rounded-xl p-8">
@@ -230,9 +249,11 @@ const Service = () => {
                       </li>
                     ))}
                   </ul>
-                  <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary-sm">
-                    Request Quote
-                  </a>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddService('Solaire 2', 12000, 'Africa')} className="btn-primary-sm flex items-center gap-2">
+                      <ShoppingCart size={16} /> Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
 

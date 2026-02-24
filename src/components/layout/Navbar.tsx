@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ShoppingCart } from 'lucide-react';
 import Button from '../ui/Button';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
+import { useCartStore } from '@/store/cartStore';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const settings = useSiteSettings();
+  const cartItems = useCartStore(state => state.items);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +50,9 @@ const Navbar = () => {
       ],
     },
     { label: 'Shopping', href: '/shopping' },
+    { label: 'Technology', href: '/technology' },
     { label: 'Projects', href: '/projects' },
+    { label: 'Partners', href: '/partners' },
     { label: 'Blog', href: '/blog' },
     { label: 'Service', href: '/service' },
     { label: 'About', href: '/about' },
@@ -64,8 +70,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/images/logo.png" alt="LIXI" className="w-10 h-10 object-contain" />
-            <span className="font-display text-2xl text-brand-white">LIXI</span>
+            <img src={settings.logoUrl} alt={settings.siteName} className="w-10 h-10 object-contain" />
+            <span className="font-display text-2xl text-brand-white">{settings.siteName}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -113,9 +119,17 @@ const Navbar = () => {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Link to="/quote">
-              <Button size="sm">Get Started</Button>
+          <div className="hidden lg:flex items-center gap-4">
+            <Link to="/checkout" className="relative">
+              <ShoppingCart className="text-brand-white hover:text-brand-green transition-colors" size={24} />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-brand-green text-brand-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </Link>
+            <Link to={settings.ctaButtonUrl}>
+              <Button size="sm">{settings.ctaButtonText}</Button>
             </Link>
           </div>
 
@@ -163,8 +177,8 @@ const Navbar = () => {
                   )}
                 </div>
               ))}
-              <Link to="/quote" className="block pt-4">
-                <Button className="w-full">Get Started</Button>
+              <Link to={settings.ctaButtonUrl} className="block pt-4">
+                <Button className="w-full">{settings.ctaButtonText}</Button>
               </Link>
             </div>
           </motion.div>

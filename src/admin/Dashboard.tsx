@@ -1,51 +1,61 @@
-
+import { TrendingUp, Users, Package, MessageSquare, Activity } from 'lucide-react';
 
 const AdminDashboard = () => {
+  const stats = [
+    { label: 'Total Users', value: '1,234', change: '+12%', icon: Users, color: 'text-blue-400' },
+    { label: 'Products', value: '48', change: '+3', icon: Package, color: 'text-brand-green' },
+    { label: 'Quote Requests', value: '89', change: '+23%', icon: MessageSquare, color: 'text-yellow-400' },
+    { label: 'Active Projects', value: '15', change: '+5', icon: Activity, color: 'text-purple-400' },
+  ];
+
+  const recentActivity = [
+    { action: 'New quote request', user: 'John Doe', time: '5 min ago' },
+    { action: 'Product updated', user: 'Admin', time: '1 hour ago' },
+    { action: 'New user registered', user: 'Jane Smith', time: '2 hours ago' },
+    { action: 'Blog post published', user: 'Admin', time: '3 hours ago' },
+  ];
+
   return (
-    <div className="min-h-screen bg-brand-black/95 backdrop-blur-md p-0 flex flex-col items-center justify-center">
-      <div className="w-full max-w-5xl mt-12 mb-8">
-        <h1 className="text-4xl font-extrabold text-blue-900 mb-10 text-center drop-shadow">Admin Dashboard</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-8">
-                              <a href="/admin/users" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-                                <span className="text-2xl mb-2">👥</span>
-                                <span className="font-semibold text-blue-800">Manage Users</span>
-                              </a>
-                              <a href="/admin/shopping" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-                                <span className="text-2xl mb-2">🛒</span>
-                                <span className="font-semibold text-blue-800">Manage Shopping</span>
-                              </a>
-                              <a href="/admin/solutions" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-                                <span className="text-2xl mb-2">💡</span>
-                                <span className="font-semibold text-blue-800">Manage Solutions</span>
-                              </a>
-                              <a href="/admin/about" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-                                <span className="text-2xl mb-2">ℹ️</span>
-                                <span className="font-semibold text-blue-800">Manage About</span>
-                              </a>
-                    <a href="/admin/projects" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-                      <span className="text-2xl mb-2">🏗️</span>
-                      <span className="font-semibold text-blue-800">Manage Projects</span>
-                    </a>
-          <a href="/admin/blog" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-            <span className="text-2xl mb-2">📝</span>
-            <span className="font-semibold text-blue-800">Manage Blog Posts</span>
-          </a>
-          <a href="/admin/products" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-            <span className="text-2xl mb-2">📦</span>
-            <span className="font-semibold text-blue-800">Manage Products</span>
-          </a>
-          <a href="/admin/users" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-            <span className="text-2xl mb-2">👤</span>
-            <span className="font-semibold text-blue-800">Manage Users</span>
-          </a>
-          <a href="/admin/quotes" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-            <span className="text-2xl mb-2">💬</span>
-            <span className="font-semibold text-blue-800">Manage Quotes</span>
-          </a>
-          <a href="/admin/services" className="bg-brand-black/90 backdrop-blur-md shadow-xl rounded-2xl p-8 flex flex-col items-center transition hover:scale-105 hover:bg-brand-green/10 border border-brand-green/30">
-            <span className="text-2xl mb-2">🛠️</span>
-            <span className="font-semibold text-blue-800">Manage Services</span>
-          </a>
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-display text-brand-white mb-2">Dashboard</h1>
+        <p className="text-brand-white/60">Welcome back, Admin</p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div key={stat.label} className="bg-brand-grey border border-brand-greyMid rounded-xl p-6 hover:border-brand-green/50 transition">
+              <div className="flex items-center justify-between mb-4">
+                <Icon className={`w-8 h-8 ${stat.color}`} />
+                <span className="text-brand-green text-sm font-semibold flex items-center gap-1">
+                  <TrendingUp className="w-4 h-4" />
+                  {stat.change}
+                </span>
+              </div>
+              <div className="text-3xl font-bold text-brand-white mb-1">{stat.value}</div>
+              <div className="text-brand-white/60 text-sm">{stat.label}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-brand-grey border border-brand-greyMid rounded-xl p-6">
+        <h2 className="text-xl font-bold text-brand-white mb-4">Recent Activity</h2>
+        <div className="space-y-4">
+          {recentActivity.map((activity, idx) => (
+            <div key={idx} className="flex items-center justify-between py-3 border-b border-brand-greyMid last:border-0">
+              <div>
+                <div className="text-brand-white font-medium">{activity.action}</div>
+                <div className="text-brand-white/60 text-sm">{activity.user}</div>
+              </div>
+              <div className="text-brand-white/40 text-sm">{activity.time}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

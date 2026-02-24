@@ -1,0 +1,25 @@
+[
+  {
+    "id": "celltech",
+    "badge": "Cell Technology",
+    "title": "Premium CATL Cells",
+    "description": "Every LIXI battery uses certified CATL lithium iron phosphate (LiFePO4) cells — the same manufacturer trusted by Tesla, BMW, and Volkswagen.",
+    "image": "/images/uploads/celltech-1771942595552-FcCR-AKaQAEEGMW.jpeg",
+    "cardLabel": "CELL SUPPLIER",
+    "cardTitle": "CATL",
+    "cardSubtitle": "World's #1 Battery Manufacturer",
+    "feature1Icon": "🔒",
+    "feature1Title": "Thermal Safe",
+    "feature1Body": "LFP chemistry eliminates thermal runaway risk",
+    "feature2Icon": "♻️",
+    "feature2Title": "8,000+ Cycles",
+    "feature2Body": "More than 20 years of daily cycling",
+    "feature3Icon": "⚡",
+    "feature3Title": "Stable Voltage",
+    "feature3Body": "Flat discharge curve from 100% to 20%",
+    "feature4Icon": "🌱",
+    "feature4Title": "Eco-Friendly",
+    "feature4Body": "Non-toxic, fully recyclable materials",
+    "updatedAt": 1771942597626
+  }
+]

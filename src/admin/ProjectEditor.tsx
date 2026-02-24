@@ -19,9 +19,25 @@ const ProjectEditor: React.FC<ProjectEditorProps> = ({ project, onSave, onCancel
   const [year, setYear] = useState(project?.year?.toString() || '');
   const [description, setDescription] = useState(project?.description || '');
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+        try {
+          const res = await fetch('http://localhost:3000/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: base64, filename: `${Date.now()}-${file.name}` })
+          });
+          const data = await res.json();
+          setImage(data.url);
+        } catch (error) {
+          console.error('Upload failed:', error);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 

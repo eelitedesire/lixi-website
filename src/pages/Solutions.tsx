@@ -2,36 +2,20 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { solutions } from '@/data/solutions';
+import { api } from '@/services/api';
 import { IMAGES } from '@/data/images';
 import { ArrowRight } from 'lucide-react';
 
 const Solutions = () => {
-  const solutions = [
-    { 
-      title: 'Residential', 
-      slug: 'residential', 
-      desc: 'Home energy independence with 48V LIXI Stack systems. Perfect for families seeking energy freedom.',
-      image: IMAGES.family_home_solar,
-      capacity: '14-196 kWh',
-      voltage: '48V'
-    },
-    { 
-      title: 'Commercial', 
-      slug: 'commercial', 
-      desc: 'C&I solutions with 192V Pro Rack systems. Reduce demand charges and maximize ROI.',
-      image: IMAGES.commercial_solar,
-      capacity: '20-400 kWh',
-      voltage: '192V'
-    },
-    { 
-      title: 'Industrial', 
-      slug: 'industrial', 
-      desc: 'Microgrid and utility-scale 400V Mega systems with integrated inverters.',
-      image: IMAGES.industrial_energy,
-      capacity: '112.5+ kWh',
-      voltage: '400V'
-    },
-  ];
+  const [solutionList, setSolutionList] = useState(solutions);
+
+  useEffect(() => {
+    api.getSolutions().then(data => {
+      if (data.length) setSolutionList(data);
+    }).catch(() => setSolutionList(solutions));
+  }, []);
 
   return (
     <>
@@ -49,7 +33,7 @@ const Solutions = () => {
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {solutions.map((sol, i) => (
+              {solutionList.map((sol, i) => (
                 <motion.div
                   key={sol.slug}
                   initial={{ opacity: 0, y: 30 }}
@@ -60,7 +44,7 @@ const Solutions = () => {
                     <div className="rounded-2xl overflow-hidden border border-white/5 hover:border-brand-green/30 transition-all duration-500 h-full">
                       <div className="relative h-64 overflow-hidden">
                         <img 
-                          src={sol.image} 
+                          src={sol.image || IMAGES.family_home_solar} 
                           alt={sol.title} 
                           loading="lazy"
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
@@ -79,7 +63,7 @@ const Solutions = () => {
                       </div>
                       <div className="bg-[#0d1410] p-8">
                         <h2 className="text-white text-3xl font-bold mb-3 group-hover:text-brand-green transition-colors">{sol.title}</h2>
-                        <p className="text-white/60 text-sm leading-relaxed mb-6">{sol.desc}</p>
+                        <p className="text-white/60 text-sm leading-relaxed mb-6">{sol.description}</p>
                         <div className="inline-flex items-center gap-2 text-brand-green text-sm font-semibold">
                           Learn More <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </div>
