@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { blogPosts } from '@/data/blog';
 import { IMAGES } from '@/data/images';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const blogImages: Record<string, string> = {
   'lifepo4-vs-nmc': IMAGES.battery_cells_close,
@@ -16,6 +17,8 @@ const blogImages: Record<string, string> = {
 
 const BlogPost = () => {
   const { slug } = useParams();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language.split('-')[0];
   const post = blogPosts.find(p => p.slug === slug);
 
   if (!post) return <div className="pt-20 min-h-screen bg-[#060a07] text-white flex items-center justify-center">Post not found</div>;
@@ -25,7 +28,7 @@ const BlogPost = () => {
       <Helmet><title>{post.title} | LIXI Blog</title></Helmet>
       <div className="pt-20 bg-[#060a07] min-h-screen">
         <article className="max-w-4xl mx-auto px-6 py-24">
-          <Link to="/blog" className="inline-flex items-center text-brand-green hover:text-white mb-8 transition-colors">
+          <Link to={`/${currentLanguage}/blog`} className="inline-flex items-center text-brand-green hover:text-white mb-8 transition-colors">
             <ArrowLeft size={20} className="mr-2" /> Back to Blog
           </Link>
           

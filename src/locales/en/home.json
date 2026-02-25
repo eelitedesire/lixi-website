@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "badge": "Enterprise Energy Solutions",
+    "title": "LIXI Solar &",
+    "titleHighlight": "Electricity Storage",
+    "description": "Discover the power and reliability of cutting-edge LIXI battery technology. Advanced lithium batteries designed for modern life, offering unmatched safety, longevity, and efficiency.",
+    "primaryButton": "Get Started",
+    "secondaryButton": "Explore Products",
+    "stat1Label": "Charge Cycles",
+    "stat2Label": "kWh Max",
+    "stat3Label": "Continents"
+  },
+  "valueProps": {
+    "premiumCells": {
+      "title": "Premium Cells",
+      "desc": "CATL LiFePO4 cells with 8,000+ cycle life guarantee"
+    },
+    "germanEngineering": {
+      "title": "German Engineering",
+      "desc": "Designed and quality-controlled in Germany"
+    },
+    "cutCosts": {
+      "title": "Cut Energy Costs",
+      "desc": "Reduce electricity bills by 60-90% with smart storage"
+    },
+    "scalable": {
+      "title": "Scalable Systems",
+      "desc": "From 14kWh residential to multi-MWh industrial"
+    }
+  },
+  "solutions": {
+    "badge": "What We Do",
+    "title": "THREE CORE",
+    "titleHighlight": "SOLUTIONS",
+    "solarStorage": {
+      "title": "SOLAR STORAGE",
+      "description": "LiFePO4 battery banks store excess solar energy during the day and power your home at night."
+    },
+    "energyFreedom": {
+      "title": "ENERGY FREEDOM",
+      "description": "Combine solar panels with LIXI batteries to cover 80–100% of your electricity needs."
+    },
+    "electricityTrading": {
+      "title": "ELECTRICITY TRADING",
+      "description": "CARBONOZ platform enables automated electricity trading. Buy power when prices are low, maximize your savings."
+    }
+  },
+  "products": {
+    "badge": "Our Products",
+    "title": "Battery Systems"
+  },
+  "cellTech": {
+    "badge": "Cell Technology",
+    "title": "Premium CATL Cells",
+    "description": "Every LIXI battery uses certified CATL lithium iron phosphate (LiFePO4) cells — the same manufacturer trusted by Tesla, BMW, and Volkswagen.",
+    "cardLabel": "CELL SUPPLIER",
+    "cardTitle": "CATL",
+    "cardSubtitle": "World's #1 Battery Manufacturer",
+    "thermalSafe": {
+      "title": "Thermal Safe",
+      "body": "LFP chemistry eliminates thermal runaway risk"
+    },
+    "cycles": {
+      "title": "8,000+ Cycles",
+      "body": "More than 20 years of daily cycling"
+    },
+    "stableVoltage": {
+      "title": "Stable Voltage",
+      "body": "Flat discharge curve from 100% to 20%"
+    },
+    "ecoFriendly": {
+      "title": "Eco-Friendly",
+      "body": "Non-toxic, fully recyclable materials"
+    }
+  },
+  "cta": {
+    "title": "Ready to Transform Your",
+    "titleHighlight": "Energy Infrastructure?",
+    "description": "Join {{count}}+ installations across Europe, Africa, and the Caribbean.",
+    "primaryButton": "Get Started",
+    "secondaryButton": "View All Products",
+    "catlCertified": "CATL Certified",
+    "ip55Rated": "IP55 Rated",
+    "ceMarked": "CE Marked",
+    "carbonozPartner": "CARBONOZ Partner"
+  },
+  "partners": {
+    "badge": "Trusted Partners",
+    "title": "Global Network",
+    "featuredPartner": "Featured Partner",
+    "carbonozTitle": "CARBONOZ Trading Platform",
+    "carbonozDesc": "Automated electricity trading across EU markets. Turn your LIXI battery into a revenue-generating asset."
+  }
+}

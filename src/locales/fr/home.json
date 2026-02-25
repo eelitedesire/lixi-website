@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "badge": "Solutions Énergétiques d'Entreprise",
+    "title": "LIXI Solaire &",
+    "titleHighlight": "Stockage d'Électricité",
+    "description": "Découvrez la puissance et la fiabilité de la technologie de batterie LIXI de pointe. Batteries au lithium avancées conçues pour la vie moderne, offrant une sécurité, une longévité et une efficacité inégalées.",
+    "primaryButton": "Commencer",
+    "secondaryButton": "Explorer les Produits",
+    "stat1Label": "Cycles de Charge",
+    "stat2Label": "kWh Max",
+    "stat3Label": "Continents"
+  },
+  "valueProps": {
+    "premiumCells": {
+      "title": "Cellules Premium",
+      "desc": "Cellules CATL LiFePO4 avec garantie de 8 000+ cycles"
+    },
+    "germanEngineering": {
+      "title": "Ingénierie Allemande",
+      "desc": "Conçu et contrôlé qualité en Allemagne"
+    },
+    "cutCosts": {
+      "title": "Réduire les Coûts",
+      "desc": "Réduisez les factures d'électricité de 60 à 90% avec un stockage intelligent"
+    },
+    "scalable": {
+      "title": "Systèmes Évolutifs",
+      "desc": "De 14kWh résidentiel à multi-MWh industriel"
+    }
+  },
+  "solutions": {
+    "badge": "Ce Que Nous Faisons",
+    "title": "TROIS SOLUTIONS",
+    "titleHighlight": "PRINCIPALES"
+  },
+  "products": {
+    "badge": "Nos Produits",
+    "title": "Systèmes de Batteries"
+  },
+  "cellTech": {
+    "badge": "Technologie Cellulaire",
+    "title": "Cellules CATL Premium",
+    "description": "Chaque batterie LIXI utilise des cellules certifiées CATL au phosphate de fer et de lithium (LiFePO4) — le même fabricant auquel font confiance Tesla, BMW et Volkswagen."
+  },
+  "cta": {
+    "title": "Prêt à Transformer Votre",
+    "titleHighlight": "Infrastructure Énergétique?",
+    "description": "Rejoignez {{count}}+ installations en Europe, Afrique et Caraïbes.",
+    "primaryButton": "Commencer",
+    "secondaryButton": "Voir Tous les Produits"
+  },
+  "partners": {
+    "badge": "Partenaires de Confiance",
+    "title": "Réseau Mondial"
+  }
+}

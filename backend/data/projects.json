@@ -76,5 +76,41 @@
     "image": "https://media.licdn.com/dms/image/v2/D4D22AQEmb0hPRoSXAQ/feedshare-shrink_800/B4DZv6ZnbaJMAg-/0/1769432578206?e=1773273600&v=beta&t=sTokD5lGSN1ybOeay3MeOKJ_-00ZYy39szjhVzG4nvA",
     "year": 2023,
     "description": "Island resort achieving 85% solar fraction with LIXI Mega and 80kW PV array."
+  },
+  {
+    "id": "1771947369299",
+    "title": "ertyui",
+    "location": "ftgyui",
+    "country": "yuiop",
+    "flag": "gyuiop",
+    "category": "Residential",
+    "system": "gtyuio",
+    "capacity": "gyuio",
+    "image": "/images/uploads/1771947354224-image06.jpg",
+    "images": [
+      "/images/uploads/project-1771947362387-download.jpeg"
+    ],
+    "year": null,
+    "description": "tyuio",
+    "createdAt": 1771947369309
+  },
+  {
+    "id": "1771948129616",
+    "title": "ghvghjuio",
+    "location": "hjiop",
+    "country": "hjuiop",
+    "flag": "hjuiop",
+    "category": "Residential",
+    "system": "vghyuiop",
+    "capacity": "ghyuio",
+    "image": "/images/uploads/1771948101017-image06.jpg",
+    "images": [
+      "/images/uploads/project-1771948110180-download.jpeg",
+      "/images/uploads/project-1771948119994-ChatGPT Image Feb 24, 2026, 01_44_31 PM.png",
+      "/images/uploads/project-1771948125797-FcCR-AKaQAEEGMW.jpeg"
+    ],
+    "year": null,
+    "description": "gyuiop",
+    "createdAt": 1771948129621
   }
 ]

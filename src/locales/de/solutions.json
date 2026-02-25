@@ -1,0 +1,46 @@
+{
+  "title": "Energy Solutions",
+  "subtitle": "Tailored systems for every need",
+  "residential": {
+    "title": "Residential Solutions",
+    "subtitle": "Power your home with clean energy",
+    "description": "Complete solar + storage systems for homes. Reduce bills by 60-90% and gain energy independence.",
+    "features": {
+      "title": "What's Included",
+      "solarPanels": "High-efficiency solar panels",
+      "battery": "LIXI battery storage system",
+      "inverter": "Smart hybrid inverter",
+      "monitoring": "Real-time monitoring app",
+      "installation": "Professional installation",
+      "warranty": "10-year comprehensive warranty"
+    }
+  },
+  "commercial": {
+    "title": "Commercial Solutions",
+    "subtitle": "Optimize business energy costs",
+    "description": "Scalable systems for offices, retail, and small businesses. Peak shaving and demand charge reduction.",
+    "features": {
+      "title": "Business Benefits",
+      "peakShaving": "Peak demand reduction",
+      "backup": "Uninterrupted power supply",
+      "monitoring": "Advanced energy analytics",
+      "roi": "Fast ROI (3-5 years)",
+      "scalable": "Easily expandable",
+      "support": "24/7 technical support"
+    }
+  },
+  "industrial": {
+    "title": "Industrial Solutions",
+    "subtitle": "Enterprise-scale energy management",
+    "description": "Multi-MWh systems for factories, data centers, and large facilities. Grid services and revenue generation.",
+    "features": {
+      "title": "Industrial Features",
+      "capacity": "Multi-MWh capacity",
+      "gridServices": "Grid stabilization services",
+      "trading": "Automated energy trading",
+      "redundancy": "N+1 redundancy",
+      "integration": "ERP/SCADA integration",
+      "consulting": "Dedicated energy consultant"
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import { ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, Package, MessageSquare, Wrench, FolderKanban, Users, ShoppingCart, ShoppingBag, Table, Zap, FileEdit, Lightbulb, Info, Users2, Briefcase, Cpu, Settings, Layout, LogOut, Menu, X, MapPin } from 'lucide-react';
+import { LayoutDashboard, FileText, Package, MessageSquare, Wrench, FolderKanban, Users, ShoppingCart, ShoppingBag, FileEdit, Lightbulb, Info, Users2, Briefcase, Cpu, Settings, Layout, LogOut, Menu, X, Video, Layers } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: ReactNode;
+  currentUser?: any;
 }
 
-const AdminLayout = ({ children }: AdminLayoutProps) => {
+const AdminLayout = ({ children, currentUser }: AdminLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -15,20 +16,20 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
     { icon: FileText, label: 'Blog Posts', path: '/admin/blog' },
     { icon: Package, label: 'Products', path: '/admin/products' },
-    { icon: Table, label: 'Comparison Table', path: '/admin/comparison' },
+    { icon: Layers, label: 'Categories', path: '/admin/categories' },
+
     { icon: MessageSquare, label: 'Quotes', path: '/admin/quotes' },
     { icon: ShoppingBag, label: 'Orders', path: '/admin/orders' },
     { icon: Wrench, label: 'Services', path: '/admin/services' },
     { icon: FolderKanban, label: 'Projects', path: '/admin/projects' },
     { icon: Users2, label: 'Partners', path: '/admin/partners' },
     { icon: Lightbulb, label: 'Solutions', path: '/admin/solutions' },
-    { icon: Zap, label: 'Technology Items', path: '/admin/technology' },
-    { icon: FileEdit, label: 'Technology Content', path: '/admin/techcontent' },
+    { icon: FileEdit, label: 'Technology', path: '/admin/techcontent' },
     { icon: Info, label: 'About', path: '/admin/about' },
-    { icon: MapPin, label: 'Service Centers', path: '/admin/servicecenters' },
     { icon: Lightbulb, label: 'Hero', path: '/admin/hero' },
     { icon: Briefcase, label: 'What We Do', path: '/admin/whatwedo' },
     { icon: Cpu, label: 'Cell Tech', path: '/admin/celltech' },
+    { icon: Video, label: 'Video Showcase', path: '/admin/video' },
     { icon: Settings, label: 'Site Settings', path: '/admin/sitesettings' },
     { icon: Layout, label: 'Footer', path: '/admin/footer' },
     { icon: Users, label: 'Users', path: '/admin/users' },
@@ -37,6 +38,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = () => {
     localStorage.removeItem('admin-auth');
+    localStorage.removeItem('admin-user');
     window.location.href = '/admin';
   };
 
@@ -46,7 +48,14 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-brand-grey border-r border-brand-greyMid transition-all duration-300 flex flex-col`}>
         {/* Logo & Toggle */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-brand-greyMid">
-          {sidebarOpen && <span className="text-brand-green font-display text-2xl">LIXI</span>}
+          {sidebarOpen && (
+            <div>
+              <span className="text-brand-green font-display text-2xl">LIXI</span>
+              {currentUser && (
+                <div className="text-xs text-brand-white/60 mt-1">{currentUser.name}</div>
+              )}
+            </div>
+          )}
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 hover:bg-brand-greyMid rounded-lg transition">
             {sidebarOpen ? <X className="w-5 h-5 text-brand-white" /> : <Menu className="w-5 h-5 text-brand-white" />}
           </button>

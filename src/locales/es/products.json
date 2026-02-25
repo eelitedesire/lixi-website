@@ -1,0 +1,24 @@
+{
+  "title": "Sistemas de Baterías",
+  "subtitle": "Almacenamiento de Energía LiFePO4 Premium",
+  "description": "Sistemas de baterías de ingeniería alemana con celdas CATL.",
+  "filters": {
+    "all": "Todos los Productos",
+    "residential": "Residencial",
+    "commercial": "Comercial",
+    "industrial": "Industrial"
+  },
+  "specs": {
+    "capacity": "Capacidad",
+    "voltage": "Voltaje",
+    "amperage": "Amperaje",
+    "cycles": "Vida Útil",
+    "warranty": "Garantía",
+    "weight": "Peso",
+    "dimensions": "Dimensiones",
+    "cells": "Tipo de Celda",
+    "protection": "Clasificación de Protección",
+    "temperature": "Temperatura de Operación",
+    "compatibility": "Inversores Compatibles"
+  }
+}

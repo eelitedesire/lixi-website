@@ -8,8 +8,9 @@ import AdminLogin from './AdminLogin';
 import BlogManager from './BlogManager';
 import ProductManager from './ProductManager';
 import QuoteManager from './QuoteManager';
-import ServiceManager from './ServiceManager';
+import ServicesAdmin from './ServicesAdmin';
 import ProjectManager from './ProjectManager';
+import CategoryManager from './CategoryManager';
 import PartnerManager from './PartnerManager';
 import HeroManager from './HeroManager';
 import WhatWeDoManager from './WhatWeDoManager';
@@ -19,49 +20,57 @@ import FooterManager from './FooterManager';
 import UserManager from './UserManager';
 import ShoppingManager from './ShoppingManager';
 import OrdersManager from './OrdersManager';
-import ComparisonManager from './ComparisonManager';
-import TechnologyManager from './TechnologyManager';
+
 import TechnologyContentManager from './TechnologyContentManager';
 import SolutionManager from './SolutionManager';
-import AboutManager from './AboutManager';
-import ServiceCentersManager from './ServiceCentersManager';
+import AboutAdmin from './AboutAdmin';
+import VideoManager from './VideoManager';
 
 const AdminApp = () => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     if (localStorage.getItem('admin-auth') === 'true') {
+      const user = JSON.parse(localStorage.getItem('admin-user') || '{}');
+      setCurrentUser(user);
       setAuthenticated(true);
     }
   }, []);
 
   if (!authenticated) {
-    return <AdminLogin onLogin={() => setAuthenticated(true)} />;
+    return <AdminLogin onLogin={(user) => { setCurrentUser(user); setAuthenticated(true); }} />;
   }
+
+  const canAccess = (requiredRole: 'admin' | 'editor' | 'viewer') => {
+    const roleHierarchy: Record<string, number> = { admin: 3, editor: 2, viewer: 1 };
+    return roleHierarchy[currentUser?.role || 'viewer'] >= roleHierarchy[requiredRole];
+  };
+
   return (
-    <AdminLayout>
+    <AdminLayout currentUser={currentUser}>
       <Routes>
         <Route path="/" element={<AdminDashboard />} />
-        <Route path="/blog" element={<BlogManager />} />
-        <Route path="/products" element={<ProductManager />} />
+        <Route path="/blog" element={canAccess('editor') ? <BlogManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/products" element={canAccess('editor') ? <ProductManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
         <Route path="/quotes" element={<QuoteManager />} />
-        <Route path="/services" element={<ServiceManager />} />
-        <Route path="/projects" element={<ProjectManager />} />
-        <Route path="/partners" element={<PartnerManager />} />
-        <Route path="/hero" element={<HeroManager />} />
-        <Route path="/whatwedo" element={<WhatWeDoManager />} />
-        <Route path="/celltech" element={<CellTechnologyManager />} />
-        <Route path="/sitesettings" element={<SiteSettingsManager />} />
-        <Route path="/footer" element={<FooterManager />} />
-        <Route path="/users" element={<UserManager />} />
-        <Route path="/shopping" element={<ShoppingManager />} />
+        <Route path="/services" element={canAccess('editor') ? <ServicesAdmin /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/projects" element={canAccess('editor') ? <ProjectManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/categories" element={canAccess('admin') ? <CategoryManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/partners" element={canAccess('editor') ? <PartnerManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/hero" element={canAccess('editor') ? <HeroManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/whatwedo" element={canAccess('editor') ? <WhatWeDoManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/celltech" element={canAccess('editor') ? <CellTechnologyManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/video" element={canAccess('editor') ? <VideoManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/sitesettings" element={canAccess('admin') ? <SiteSettingsManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/footer" element={canAccess('editor') ? <FooterManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/users" element={canAccess('admin') ? <UserManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/shopping" element={canAccess('editor') ? <ShoppingManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
         <Route path="/orders" element={<OrdersManager />} />
-        <Route path="/comparison" element={<ComparisonManager />} />
-        <Route path="/technology" element={<TechnologyManager />} />
-        <Route path="/techcontent" element={<TechnologyContentManager />} />
-        <Route path="/solutions" element={<SolutionManager />} />
-        <Route path="/about" element={<AboutManager />} />
-        <Route path="/servicecenters" element={<ServiceCentersManager />} />
+
+        <Route path="/techcontent" element={canAccess('editor') ? <TechnologyContentManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/solutions" element={canAccess('editor') ? <SolutionManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/about" element={canAccess('editor') ? <AboutAdmin /> : <div className="p-8 text-brand-white">Access Denied</div>} />
       </Routes>
     </AdminLayout>
   );

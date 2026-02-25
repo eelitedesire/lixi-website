@@ -1,0 +1,38 @@
+{
+  "title": "CARBONOZ Electricity Trading",
+  "subtitle": "Turn Your Battery Into a Revenue Asset",
+  "description": "Automated electricity trading across European markets. Buy low, sell high, maximize savings.",
+  "livePrice": {
+    "title": "Live Market Price",
+    "current": "Current Price",
+    "average": "24h Average",
+    "high": "24h High",
+    "low": "24h Low"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": {
+      "title": "Connect Your Battery",
+      "description": "Link your LIXI system to the CARBONOZ platform"
+    },
+    "step2": {
+      "title": "AI Optimization",
+      "description": "Our algorithm monitors market prices 24/7"
+    },
+    "step3": {
+      "title": "Automatic Trading",
+      "description": "Buy electricity when cheap, use stored energy when expensive"
+    },
+    "step4": {
+      "title": "Earn Revenue",
+      "description": "Generate passive income from price arbitrage"
+    }
+  },
+  "benefits": {
+    "title": "Benefits",
+    "savings": "Up to 90% savings on electricity bills",
+    "revenue": "Generate passive income",
+    "automated": "Fully automated trading",
+    "realtime": "Real-time market data"
+  }
+}

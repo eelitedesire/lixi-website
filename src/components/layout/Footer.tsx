@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Linkedin, Twitter, Facebook, Instagram, Youtube, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '@/services/api';
 
 const Footer = () => {
+  const { t } = useTranslation('common');
+  const location = useLocation();
+  const lang = location.pathname.split('/')[1] || 'en';
   const currentYear = new Date().getFullYear();
   const [footer, setFooter] = useState<any>({
     logoUrl: '/images/logo.png',
@@ -19,10 +23,10 @@ const Footer = () => {
   });
 
   useEffect(() => {
-    api.getFooter().then(data => {
+    api.getFooter(lang).then(data => {
       if (data.length > 0) setFooter(data[0]);
     }).catch(() => {});
-  }, []);
+  }, [lang]);
 
   const iconMap: any = {
     Linkedin, Twitter, Facebook, Instagram, Youtube
@@ -37,7 +41,7 @@ const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-4">
-            <Link to="/" className="flex items-center space-x-3 mb-6">
+            <Link to={`/${lang}`} className="flex items-center space-x-3 mb-6">
               <img src={footer.logoUrl} alt={footer.siteName} className="w-12 h-12 object-contain" />
               <span className="font-display text-3xl text-brand-white">{footer.siteName}</span>
             </Link>
@@ -71,7 +75,7 @@ const Footer = () => {
             <div className="lg:col-span-2">
               <h3 className="font-display text-lg text-brand-white mb-6 flex items-center">
                 <span className="w-8 h-0.5 bg-brand-green mr-3" />
-                Products
+                {t('footer.products')}
               </h3>
               <ul className="space-y-3">
                 {footer.productLinks.map((link: any, i: number) => (
@@ -91,7 +95,7 @@ const Footer = () => {
             <div className="lg:col-span-2">
               <h3 className="font-display text-lg text-brand-white mb-6 flex items-center">
                 <span className="w-8 h-0.5 bg-brand-green mr-3" />
-                Solutions
+                {t('footer.solutions')}
               </h3>
               <ul className="space-y-3">
                 {footer.solutionLinks.map((link: any, i: number) => (
@@ -111,7 +115,7 @@ const Footer = () => {
             <div className="lg:col-span-2">
               <h3 className="font-display text-lg text-brand-white mb-6 flex items-center">
                 <span className="w-8 h-0.5 bg-brand-green mr-3" />
-                Company
+                {t('footer.company')}
               </h3>
               <ul className="space-y-3">
                 {footer.companyLinks.map((link: any, i: number) => (
@@ -167,17 +171,17 @@ const Footer = () => {
               © {currentYear} {footer.copyrightText}
             </p>
             <div className="flex flex-wrap gap-6 justify-center">
-              <Link to="/legal/privacy" className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
-                Privacy
+              <Link to={`/${lang}/legal/privacy`} className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
+                {t('footer.privacy')}
               </Link>
-              <Link to="/legal/terms" className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
-                Terms
+              <Link to={`/${lang}/legal/terms`} className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
+                {t('footer.terms')}
               </Link>
-              <Link to="/faq" className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
-                FAQ
+              <Link to={`/${lang}/faq`} className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
+                {t('footer.faq')}
               </Link>
-              <Link to="/contact" className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
-                Contact
+              <Link to={`/${lang}/contact`} className="text-brand-white/40 hover:text-brand-green transition-colors text-sm">
+                {t('footer.contact')}
               </Link>
             </div>
           </div>

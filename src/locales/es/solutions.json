@@ -1,0 +1,16 @@
+{
+  "title": "Soluciones Energéticas",
+  "subtitle": "Sistemas adaptados a cada necesidad",
+  "residential": {
+    "title": "Soluciones Residenciales",
+    "subtitle": "Alimente su hogar con energía limpia"
+  },
+  "commercial": {
+    "title": "Soluciones Comerciales",
+    "subtitle": "Optimice los costos energéticos del negocio"
+  },
+  "industrial": {
+    "title": "Soluciones Industriales",
+    "subtitle": "Gestión energética a escala empresarial"
+  }
+}

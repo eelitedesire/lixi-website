@@ -1,0 +1,16 @@
+{
+  "title": "Battery Technology",
+  "subtitle": "Inside LIXI Energy Systems",
+  "batteryCell": {
+    "title": "LiFePO4 Cell Chemistry",
+    "description": "Lithium iron phosphate cells with superior safety and longevity"
+  },
+  "solarArray": {
+    "title": "Solar Integration",
+    "description": "MPPT optimization for maximum energy harvest"
+  },
+  "inverterFlow": {
+    "title": "Power Flow Management",
+    "description": "Real-time energy routing and CARBONOZ trading integration"
+  }
+}

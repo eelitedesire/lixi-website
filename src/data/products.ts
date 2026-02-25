@@ -3,26 +3,33 @@ export interface Product {
   slug: string;
   name: string;
   tagline: string;
+  category: string;
+  description: string;
+  price: string;
   image: string;
-  voltage: string;
-  capacity_kwh: number;
-  cells: string;
+  images?: string[];
+  specs?: Record<string, any>;
+  compatible_inverters: string[];
+  highlight_features: string[];
+  cells?: string;
   configuration?: string;
-  nominal_voltage: string;
+  nominal_voltage?: string;
+  voltage?: string;
   voltage_range?: string;
   nominal_capacity?: string;
-  max_current: string;
+  capacity_kwh?: number;
+  max_current?: string;
   standard_current?: string;
-  bms: string;
-  communication: string;
+  bms?: string;
+  communication?: string;
   material?: string;
   cooling?: string;
   max_stack?: number;
   max_parallel?: number;
-  weight_kg: number;
-  dimensions_mm: string;
+  weight_kg?: number;
+  dimensions_mm?: string;
   rack_dimensions_mm?: string;
-  cycle_life: string;
+  cycle_life?: string;
   charge_temp?: string;
   discharge_temp?: string;
   temp_operating?: string;
@@ -31,13 +38,11 @@ export interface Product {
   storage_temp?: string;
   humidity?: string;
   altitude_m?: number;
-  warranty: string;
+  warranty?: string;
   certification?: string;
   protection?: string;
   noise_db?: string;
   hmi?: string;
-  compatible_inverters: string[];
-  highlight_features: string[];
   integrated_pcs?: {
     rated_power_kw: number;
     max_power_kw: number;
@@ -52,7 +57,11 @@ export const products: Product[] = [
     slug: 'stack-48v',
     name: 'LIXI Stack',
     tagline: 'Residential & Light Commercial',
+    category: 'Battery Storage',
+    description: 'Modular 48V battery system with stackable design for residential and light commercial applications.',
+    price: '$5,999',
     image: 'https://en.lixi.de/assets/images/image04.jpg?v=dfd5579b',
+    images: [],
     voltage: '48V',
     capacity_kwh: 14,
     cells: 'CATL 280Ah / 302Ah / 320Ah LiFePO4',
@@ -60,15 +69,10 @@ export const products: Product[] = [
     max_current: '200A',
     bms: 'JK BMS 16S (Pylontech protocol)',
     communication: 'CANBUS / RS485 / Bluetooth',
-    material: 'Stainless Steel',
-    max_stack: 14,
     weight_kg: 125,
     dimensions_mm: '415 × 700 × 263',
     cycle_life: '6000+ (80% DoD)',
-    charge_temp: '-5°C to +60°C',
-    discharge_temp: '-30°C to +60°C',
     warranty: '1 Year',
-    certification: 'CE',
     compatible_inverters: ['DEYE', 'Sunsynk', 'Growatt', 'Victron', 'MPP Solar', 'Voltronic', 'GoodWe'],
     highlight_features: ['Stackable modular design', 'Bluetooth BMS monitoring', 'No high-voltage certification needed', 'User-replaceable cells'],
   },
@@ -77,7 +81,11 @@ export const products: Product[] = [
     slug: 'pro-rack-192v',
     name: 'LIXI Pro Rack',
     tagline: 'Commercial & C&I',
+    category: 'Battery Storage',
+    description: 'High-voltage rack system for commercial and industrial applications with active cooling.',
+    price: '$12,999',
     image: 'https://en.lixi.de/assets/images/image05.jpg?v=dfd5579b',
+    images: [],
     voltage: '192V',
     capacity_kwh: 20.48,
     cells: 'EVE LF100LA LiFePO4',
@@ -106,7 +114,11 @@ export const products: Product[] = [
     slug: 'mega-400v',
     name: 'LIXI Mega',
     tagline: 'Industrial & Microgrid',
+    category: 'Battery Storage',
+    description: 'Industrial-grade 400V battery system with integrated PCS inverter for microgrids and large installations.',
+    price: '$89,999',
     image: 'https://en.lixi.de/assets/images/gallery02/202aa741.jpg?v=dfd5579b',
+    images: [],
     voltage: '400V',
     capacity_kwh: 112.5,
     cells: 'LiFePO4 3.2V / 314Ah (CATL-class)',

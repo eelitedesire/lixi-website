@@ -2,12 +2,13 @@
   {
     "id": "carbonoz",
     "name": "CARBONOZ",
-    "logo": "/images/partners/carbonoz.svg",
+    "logo": "/images/uploads/partner-1771955215167-ChatGPT Image Feb 24, 2026, 01_44_31 PM.png",
     "category": "Trading",
     "description": "Leading electricity trading platform enabling automated energy arbitrage across EU markets.",
     "website": "https://carbonoz.com",
     "country": "Germany",
-    "flag": "🇩🇪"
+    "flag": "🇩🇪",
+    "updatedAt": 1771955216911
   },
   {
     "id": "catl",

@@ -1,0 +1,24 @@
+{
+  "title": "Batterijsystemen",
+  "subtitle": "Premium LiFePO4 Energieopslag",
+  "description": "Duits ontworpen batterijsystemen met CATL cellen.",
+  "filters": {
+    "all": "Alle Producten",
+    "residential": "Residentieel",
+    "commercial": "Commercieel",
+    "industrial": "Industrieel"
+  },
+  "specs": {
+    "capacity": "Capaciteit",
+    "voltage": "Spanning",
+    "amperage": "Stroomsterkte",
+    "cycles": "Levensduur",
+    "warranty": "Garantie",
+    "weight": "Gewicht",
+    "dimensions": "Afmetingen",
+    "cells": "Celtype",
+    "protection": "Beschermingsklasse",
+    "temperature": "Bedrijfstemperatuur",
+    "compatibility": "Compatibele Omvormers"
+  }
+}

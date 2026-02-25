@@ -1,20 +1,24 @@
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { blogPosts } from '@/data/blog';
 import { api } from '@/services/api';
 import { IMAGES } from '@/data/images';
 import { Clock, Calendar } from 'lucide-react';
 
 const Blog = () => {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const { lang = 'en' } = useParams<{ lang: string }>();
   const [posts, setPosts] = useState(blogPosts);
 
   useEffect(() => {
-    api.getBlogPosts().then(data => {
+    api.getBlogPosts(currentLang).then(data => {
       if (data.length) setPosts(data);
     }).catch(() => setPosts(blogPosts));
-  }, []);
+  }, [currentLang]);
 
   return (
     <>
@@ -34,7 +38,7 @@ const Blog = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
               >
-                <Link to={`/blog/${post.slug}`} className="group block">
+                <Link to={`/${lang}/blog/${post.slug}`} className="group block">
                   <div className="rounded-2xl overflow-hidden border border-white/5 hover:border-brand-green/30 transition-all duration-500 h-full flex flex-col">
                     <div className="relative h-56 overflow-hidden">
                       <img 

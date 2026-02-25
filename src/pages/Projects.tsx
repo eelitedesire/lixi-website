@@ -1,23 +1,48 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { projects } from '@/data/projects';
 import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
-import { MapPin, Calendar, Zap } from 'lucide-react';
+import { MapPin, Calendar, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Projects = () => {
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language.split('-')[0];
+  const { lang = 'en' } = useParams<{ lang: string }>();
   const [filter, setFilter] = useState<string>('All');
   const [projectList, setProjectList] = useState(projects);
+  const [imageIndexes, setImageIndexes] = useState<Record<string, number>>({});
   const categories = ['All', 'Residential', 'Commercial', 'Industrial'];
   const filtered = filter === 'All' ? projectList : projectList.filter(p => p.category === filter);
 
   useEffect(() => {
-    api.getProjects().then(data => {
+    api.getProjects(currentLanguage).then(data => {
       if (data.length) setProjectList(data);
     }).catch(() => setProjectList(projects));
-  }, []);
+  }, [currentLanguage]);
+
+  const getProjectImages = (project: any) => {
+    return [project.image, ...(project.images || [])];
+  };
+
+  const nextImage = (projectId: string, totalImages: number) => {
+    setImageIndexes(prev => ({
+      ...prev,
+      [projectId]: ((prev[projectId] || 0) + 1) % totalImages
+    }));
+  };
+
+  const prevImage = (projectId: string, totalImages: number) => {
+    setImageIndexes(prev => ({
+      ...prev,
+      [projectId]: ((prev[projectId] || 0) - 1 + totalImages) % totalImages
+    }));
+  };
 
   return (
     <>
@@ -60,21 +85,39 @@ const Projects = () => {
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filtered.map((project, index) => (
+              {filtered.map((project, index) => {
+                const projectImages = getProjectImages(project);
+                const currentIndex = imageIndexes[project.id] || 0;
+                return (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card glass hover className="h-full overflow-hidden group">
+                  <Card glass hover className="h-full overflow-hidden group cursor-pointer" onClick={() => navigate(`/${lang}/projects/${project.id}`)}>
                     <div className="relative w-full h-64 mb-4 rounded-lg overflow-hidden bg-brand-greyMid">
                       <img 
-                        src={project.image} 
+                        src={projectImages[currentIndex]} 
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"
                       />
+                      {projectImages.length > 1 && (
+                        <>
+                          <button onClick={() => prevImage(project.id, projectImages.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full">
+                            <ChevronLeft size={20} />
+                          </button>
+                          <button onClick={() => nextImage(project.id, projectImages.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full">
+                            <ChevronRight size={20} />
+                          </button>
+                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                            {projectImages.map((_, i) => (
+                              <div key={i} className={`w-2 h-2 rounded-full ${i === currentIndex ? 'bg-brand-green' : 'bg-white/50'}`} />
+                            ))}
+                          </div>
+                        </>
+                      )}
                       <div className="absolute top-4 right-4">
                         <Badge variant="green">{project.category}</Badge>
                       </div>
@@ -105,7 +148,7 @@ const Projects = () => {
                     </p>
                   </Card>
                 </motion.div>
-              ))}
+              );})}
             </div>
           </div>
         </section>

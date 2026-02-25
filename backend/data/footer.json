@@ -1,7 +1,7 @@
 [
   {
     "id": "footer",
-    "logoUrl": "/images/logo.png",
+    "logoUrl": "/images/uploads/logo-1772017035183.png",
     "siteName": "LIXI",
     "tagline": "Premium lithium battery storage and solar solutions. Advanced LiFePO4 systems for homes, businesses, and microgrids.",
     "socialMedia": [
@@ -80,15 +80,10 @@
         "region": "AFRICA",
         "name": "buyAfraction Limited",
         "address": "Grand Baie\nMauritius"
-      },
-      {
-        "flag": "🇰🇾",
-        "region": "CARIBBEAN",
-        "name": "Caytech Limited",
-        "address": "Cayman Brac\nCayman Islands"
       }
     ],
     "carbonozText": "Powered by CARBONOZ Smart Buying Platform",
-    "copyrightText": "HelioAegis GmbH i.G. All rights reserved."
+    "copyrightText": "HelioAegis GmbH i.G. All rights reserved.",
+    "updatedAt": 1772017037570
   }
 ]

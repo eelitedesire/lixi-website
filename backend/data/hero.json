@@ -21,7 +21,11 @@
     "productVoltage": "48V",
     "productAmperage": "280Ah",
     "productCells": "CATL",
-    "productImage": "/images/uploads/hero-1771941210732-image06.jpg",
-    "updatedAt": 1771941211644
+    "productImage": "/images/uploads/hero-1771947003395-image06.jpg",
+    "updatedAt": 1771947004453,
+    "productImages": [
+      "/images/uploads/hero-carousel-1771946566167-ChatGPT Image Feb 24, 2026, 01_44_31 PM.png",
+      "/images/uploads/hero-carousel-1771946576783-download.jpeg"
+    ]
   }
 ]

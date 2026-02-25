@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Save } from 'lucide-react';
+import { Save, Plus, Edit2, Trash2 } from 'lucide-react';
 import { adminApi } from '../services/api';
 
+interface Technology {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  features: string[];
+}
+
 const TechnologyContentManager = () => {
+  const [technologies, setTechnologies] = useState<Technology[]>([]);
+  const [editing, setEditing] = useState<Technology | null>(null);
+  const [adding, setAdding] = useState(false);
   const [content, setContent] = useState({
     id: 'tech-content',
     pageTitle: 'Battery Technology',
@@ -41,11 +53,32 @@ const TechnologyContentManager = () => {
     adminApi.list('techcontent').then(data => {
       if (data.length > 0) setContent(data[0]);
     });
+    adminApi.list('technology').then(setTechnologies);
   }, []);
 
   const handleSave = async () => {
     await adminApi.update('techcontent', content);
     alert('Technology content updated!');
+  };
+
+  const handleSaveTech = async (tech: Technology) => {
+    if (editing) {
+      await adminApi.update('technology', tech);
+      setTechnologies(technologies.map(t => t.id === tech.id ? tech : t));
+    } else {
+      const newTech = { ...tech, id: Date.now().toString() };
+      await adminApi.create('technology', newTech);
+      setTechnologies([...technologies, newTech]);
+    }
+    setEditing(null);
+    setAdding(false);
+  };
+
+  const handleDeleteTech = async (id: string) => {
+    if (window.confirm('Delete this technology?')) {
+      await adminApi.delete('technology', id);
+      setTechnologies(technologies.filter(t => t.id !== id));
+    }
   };
 
   const handleDeleteSection = (section: 'lifepo4' | 'bms' | 'catl') => {
@@ -59,7 +92,7 @@ const TechnologyContentManager = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-display text-brand-white mb-1">Technology Page Content</h2>
-          <p className="text-brand-white/60">Edit static sections on technology page</p>
+          <p className="text-brand-white/60">Manage technology items and page content</p>
         </div>
         <button onClick={handleSave} className="bg-brand-green text-brand-black px-6 py-3 rounded-lg font-semibold hover:bg-brand-greenDim flex items-center gap-2">
           <Save size={20} /> Save Changes
@@ -67,6 +100,45 @@ const TechnologyContentManager = () => {
       </div>
 
       <div className="space-y-8">
+        {/* Technology Items Section */}
+        <div className="bg-brand-grey border border-brand-greyMid rounded-xl p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-bold text-brand-white">Technology Items</h3>
+            <button onClick={() => { setAdding(true); setEditing(null); }} className="bg-brand-green text-brand-black px-4 py-2 rounded-lg font-semibold hover:bg-brand-greenDim flex items-center gap-2">
+              <Plus size={16} /> Add Technology
+            </button>
+          </div>
+          
+          {(adding || editing) ? (
+            <TechnologyEditor
+              technology={editing || undefined}
+              onSave={handleSaveTech}
+              onCancel={() => { setAdding(false); setEditing(null); }}
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {technologies.map(tech => (
+                <div key={tech.id} className="bg-brand-black border border-brand-greyMid rounded-lg overflow-hidden">
+                  {tech.image && <img src={tech.image} alt={tech.title} className="w-full h-32 object-cover" />}
+                  <div className="p-4">
+                    <span className="inline-block bg-brand-green/10 text-brand-green px-2 py-1 rounded text-xs font-semibold mb-2">{tech.category}</span>
+                    <h4 className="text-sm font-bold text-brand-white mb-1">{tech.title}</h4>
+                    <p className="text-xs text-brand-white/60 mb-3 line-clamp-2">{tech.description}</p>
+                    <div className="flex gap-2">
+                      <button onClick={() => setEditing(tech)} className="flex-1 bg-brand-green/10 text-brand-green px-3 py-1 rounded text-xs hover:bg-brand-green/20">
+                        <Edit2 size={12} className="inline mr-1" />Edit
+                      </button>
+                      <button onClick={() => handleDeleteTech(tech.id)} className="flex-1 bg-red-500/10 text-red-400 px-3 py-1 rounded text-xs hover:bg-red-500/20">
+                        <Trash2 size={12} className="inline mr-1" />Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Page Header */}
         <div className="bg-brand-grey border border-brand-greyMid rounded-xl p-6">
           <h3 className="text-xl font-bold text-brand-white mb-4">Page Header</h3>
@@ -196,6 +268,96 @@ const TechnologyContentManager = () => {
         )}
       </div>
     </div>
+  );
+};
+
+interface TechnologyEditorProps {
+  technology?: Technology;
+  onSave: (tech: Technology) => void;
+  onCancel: () => void;
+}
+
+const TechnologyEditor = ({ technology, onSave, onCancel }: TechnologyEditorProps) => {
+  const [formData, setFormData] = useState({
+    id: technology?.id || '',
+    title: technology?.title || '',
+    description: technology?.description || '',
+    image: technology?.image || '',
+    category: technology?.category || 'Battery',
+    features: technology?.features || []
+  });
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+        try {
+          const res = await fetch('http://localhost:3000/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: base64, filename: `${Date.now()}-${file.name}` })
+          });
+          const data = await res.json();
+          setFormData({...formData, image: data.url});
+        } catch (error) {
+          console.error('Upload failed:', error);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData as Technology);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-brand-black border border-brand-greyMid rounded-lg p-4">
+      <h4 className="text-lg font-bold text-brand-white mb-4">{technology ? 'Edit' : 'Add'} Technology</h4>
+      
+      <div className="space-y-3">
+        <div>
+          <label className="block text-brand-white mb-1 text-sm font-semibold">Category</label>
+          <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full bg-brand-grey border border-brand-greyMid rounded px-3 py-2 text-brand-white text-sm" required>
+            <option value="Battery">Battery</option>
+            <option value="Solar Panel">Solar Panel</option>
+            <option value="Inverter">Inverter</option>
+            <option value="BMS">BMS</option>
+            <option value="Energy Storage">Energy Storage</option>
+            <option value="General">General</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-brand-white mb-1 text-sm font-semibold">Title</label>
+          <input value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-brand-grey border border-brand-greyMid rounded px-3 py-2 text-brand-white text-sm" required />
+        </div>
+
+        <div>
+          <label className="block text-brand-white mb-1 text-sm font-semibold">Description</label>
+          <textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-brand-grey border border-brand-greyMid rounded px-3 py-2 text-brand-white text-sm" rows={2} required />
+        </div>
+
+        <div>
+          <label className="block text-brand-white mb-1 text-sm font-semibold">Image</label>
+          <input type="file" accept="image/*" onChange={handleImageUpload} className="bg-brand-grey text-brand-white border border-brand-greyMid rounded p-2 w-full text-sm" />
+          {formData.image && <img src={formData.image} alt="Preview" className="mt-2 rounded max-h-32" />}
+        </div>
+
+        <div>
+          <label className="block text-brand-white mb-1 text-sm font-semibold">Features (one per line)</label>
+          <textarea value={formData.features.join('\n')} onChange={e => setFormData({...formData, features: e.target.value.split('\n').filter(f => f.trim())})} className="w-full bg-brand-grey border border-brand-greyMid rounded px-3 py-2 text-brand-white text-sm" rows={3} placeholder="Feature 1&#10;Feature 2&#10;Feature 3" />
+        </div>
+      </div>
+
+      <div className="flex gap-3 mt-4">
+        <button type="submit" className="bg-brand-green text-brand-black px-4 py-2 rounded-lg hover:bg-brand-greenDim font-semibold text-sm">Save</button>
+        <button type="button" onClick={onCancel} className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 font-semibold text-sm">Cancel</button>
+      </div>
+    </form>
   );
 };
 

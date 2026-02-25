@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useSearchParams, useParams } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { products } from '@/data/products';
 import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
@@ -9,22 +10,32 @@ import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import { ShoppingCart } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
-
-function renderSpecValue(val: any) {
-  if (val === null || val === undefined) return '-';
-  if (typeof val === 'object') return JSON.stringify(val);
-  return String(val);
-}
+import { useCategories } from '@/hooks/useCategories';
+import { useTranslatedData } from '@/hooks/useTranslatedData';
 
 const Products = () => {
+  const { t } = useTranslation(['products', 'common']);
+  const { lang = 'en' } = useParams<{ lang: string }>();
   const [productList, setProductList] = useState(products);
   const addItem = useCartStore(state => state.addItem);
+  const [searchParams] = useSearchParams();
+  const categories = useCategories();
+  const categoryFilter = searchParams.get('category');
 
   useEffect(() => {
-    api.getProducts().then(data => {
+    api.getProducts(lang).then(data => {
       if (data.length) setProductList(data);
     }).catch(() => setProductList(products));
-  }, []);
+  }, [lang]);
+
+  const filteredProducts = useMemo(() => {
+    if (!categoryFilter) return productList;
+    const category = categories.find(c => c.slug === categoryFilter);
+    if (!category) return productList;
+    return productList.filter(p => p.category === category.name);
+  }, [productList, categoryFilter, categories]);
+
+  const translatedProducts = useTranslatedData(filteredProducts, ['name', 'tagline', 'description', 'category']) as typeof products;
 
   return (
     <>
@@ -42,10 +53,10 @@ const Products = () => {
               animate={{ opacity: 1, y: 0 }}
               className="font-display text-h2 text-brand-white mb-6"
             >
-              Battery Storage Systems
+              {t('products:title')}
             </motion.h1>
             <p className="text-xl text-brand-white/70 max-w-3xl mx-auto">
-              Three voltage classes engineered for different scales. All featuring CATL-certified LiFePO4 cells.
+              {t('products:description')}
             </p>
           </div>
         </section>
@@ -54,7 +65,7 @@ const Products = () => {
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {productList.map((product, index) => (
+              {translatedProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -119,8 +130,8 @@ const Products = () => {
                     </div>
 
                     <div className="flex gap-2 mt-auto">
-                      <Link to={`/products/${product.slug}`} className="flex-1">
-                        <Button className="w-full">View Details</Button>
+                      <Link to={`/${lang}/products/${product.slug}`} className="flex-1">
+                        <Button className="w-full">{t('common:buttons.viewDetails')}</Button>
                       </Link>
                       <Button 
                         variant="outline"
@@ -143,68 +154,7 @@ const Products = () => {
           </div>
         </section>
 
-        {/* Comparison Table */}
-        <section className="py-16 bg-brand-grey">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-h3 text-brand-white mb-8 text-center">
-              Compare All Systems
-            </h2>
-            
-            <div className="overflow-x-auto">
-              <div className="inline-block min-w-full align-middle">
-                <div className="overflow-hidden glass rounded-2xl">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr className="border-b border-brand-greyMid">
-                        <th className="text-left p-6 text-brand-white font-display text-xl">Specification</th>
-                        {productList.map(p => (
-                          <th key={p.id} className="text-center p-6 bg-brand-black/20">
-                            <div className="text-brand-green font-display text-2xl mb-2">{p.name}</div>
-                            <Badge variant="green">{p.voltage}</Badge>
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        { label: 'Capacity', key: 'capacity_kwh', unit: ' kWh', highlight: true },
-                        { label: 'Voltage', key: 'voltage', unit: '' },
-                        { label: 'Cells', key: 'cells', unit: '' },
-                        { label: 'BMS', key: 'bms', unit: '' },
-                        { label: 'Communication', key: 'communication', unit: '' },
-                        { label: 'Cycle Life', key: 'cycle_life', unit: '', highlight: true },
-                        { label: 'Weight', key: 'weight_kg', unit: ' kg' },
-                        { label: 'Dimensions', key: 'dimensions_mm', unit: ' mm' },
-                        { label: 'Warranty', key: 'warranty', unit: '' },
-                      ].map((spec, i) => (
-                        <tr key={spec.key} className={`border-b border-brand-greyMid/50 ${spec.highlight ? 'bg-brand-green/5' : i % 2 === 0 ? 'bg-brand-black/10' : ''}`}>
-                          <td className="p-6 text-brand-white font-bold">{spec.label}</td>
-                          {productList.map(p => (
-                            <td key={p.id} className="p-6 text-center">
-                              <span className={`${spec.highlight ? 'text-brand-green font-bold text-lg' : 'text-brand-white'}`}>
-                                {renderSpecValue(p[spec.key as keyof typeof p])}{spec.unit}
-                              </span>
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                      <tr>
-                        <td className="p-6"></td>
-                        {productList.map(p => (
-                          <td key={p.id} className="p-6 text-center">
-                            <Link to={`/products/${p.slug}`}>
-                              <Button className="w-full">View Details</Button>
-                            </Link>
-                          </td>
-                        ))}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
       </div>
     </>
   );

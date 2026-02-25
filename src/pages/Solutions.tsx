@@ -1,21 +1,25 @@
 // Solutions.tsx
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { solutions } from '@/data/solutions';
 import { api } from '@/services/api';
 import { IMAGES } from '@/data/images';
 import { ArrowRight } from 'lucide-react';
 
 const Solutions = () => {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const { lang = 'en' } = useParams<{ lang: string }>();
   const [solutionList, setSolutionList] = useState(solutions);
 
   useEffect(() => {
-    api.getSolutions().then(data => {
+    api.getSolutions(currentLang).then(data => {
       if (data.length) setSolutionList(data);
     }).catch(() => setSolutionList(solutions));
-  }, []);
+  }, [currentLang]);
 
   return (
     <>
@@ -40,7 +44,7 @@ const Solutions = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
                 >
-                  <Link to={`/solutions/${sol.slug}`} className="group block">
+                  <Link to={`/${lang}/solutions/${sol.slug}`} className="group block">
                     <div className="rounded-2xl overflow-hidden border border-white/5 hover:border-brand-green/30 transition-all duration-500 h-full">
                       <div className="relative h-64 overflow-hidden">
                         <img 

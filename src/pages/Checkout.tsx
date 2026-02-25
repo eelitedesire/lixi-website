@@ -4,9 +4,12 @@ import { useCartStore } from '@/store/cartStore';
 import { Trash2, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language.split('-')[0];
   const { items, removeItem, updateQuantity, getTotal, setShippingAddress, clearCart } = useCartStore();
   const [formData, setFormData] = useState({
     fullName: '',
@@ -41,7 +44,7 @@ const Checkout = () => {
       if (res.ok) {
         setSubmitted(true);
         clearCart();
-        setTimeout(() => navigate('/'), 3000);
+        setTimeout(() => navigate(`/${currentLanguage}`), 3000);
       }
     } catch (error) {
       console.error('Order submission failed:', error);
@@ -67,7 +70,7 @@ const Checkout = () => {
       <div className="pt-20 min-h-screen bg-brand-black flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-4xl font-display text-brand-white mb-4">Your cart is empty</h2>
-          <button onClick={() => navigate('/products')} className="btn-primary">
+          <button onClick={() => navigate(`/${currentLanguage}/products`)} className="btn-primary">
             Browse Products
           </button>
         </div>

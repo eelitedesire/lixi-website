@@ -68,7 +68,7 @@ const solutionData = {
 };
 
 const SolutionDetail = () => {
-  const { type } = useParams<{ type: string }>();
+  const { type, lang = 'en' } = useParams<{ type: string; lang: string }>();
   const [solutionList, setSolutionList] = useState(solutions);
   
   useEffect(() => {
@@ -110,7 +110,7 @@ const SolutionDetail = () => {
         <section className="relative py-24 overflow-hidden">
           <div className="absolute inset-0 grid-bg opacity-50" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Link to="/solutions" className="inline-flex items-center text-brand-green hover:text-brand-lime mb-8">
+            <Link to={`/${lang}/solutions`} className="inline-flex items-center text-brand-green hover:text-brand-lime mb-8">
               <ArrowLeft size={20} className="mr-2" /> Back to Solutions
             </Link>
             
@@ -119,7 +119,7 @@ const SolutionDetail = () => {
                 <h1 className="font-display text-h2 text-brand-white mb-6">{displaySolution.title}</h1>
                 <p className="text-2xl text-brand-green mb-6">{displaySolution.hero}</p>
                 <p className="text-xl text-brand-white/70 mb-8">{displaySolution.description}</p>
-                <Link to="/quote">
+                <Link to={`/${lang}/quote`}>
                   <Button size="lg">Get Custom Quote</Button>
                 </Link>
               </motion.div>
@@ -185,7 +185,7 @@ const SolutionDetail = () => {
                 <h2 className="font-display text-h3 text-brand-white mb-8 text-center">Recommended Systems</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {recommendedProducts.map(product => (
-                    <Link key={product.id} to={`/products/${product.slug}`}>
+                    <Link key={product.id} to={`/${lang}/products/${product.slug}`}>
                       <Card glass hover className="h-full">
                         <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden bg-brand-greyMid">
                           <img src={product.image} alt={product.name} className="w-full h-full object-cover" loading="lazy" />

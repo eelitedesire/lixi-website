@@ -1,7 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Check, Calendar, Zap, Shield, TrendingDown, Battery, Sun, Building2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { IMAGES } from '@/data/images';
 import { products } from '@/data/products';
 import { partners as staticPartners } from '@/data/partners';
@@ -10,15 +11,19 @@ import { useCountUp } from '@/hooks/useCountUp';
 import { useRef, useEffect, useState } from 'react';
 import { ParticleField } from '@/animations/ParticleField';
 import { useCanvas } from '@/hooks/useCanvas';
+import VideoShowcase from '@/components/sections/VideoShowcase';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
 const Home = () => {
+  const { t } = useTranslation(['home', 'common']);
+  const { lang = 'en' } = useParams<{ lang: string }>();
   const particleFieldRef = useRef<ParticleField | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   const [partners, setPartners] = useState(staticPartners);
   const [whatWeDo, setWhatWeDo] = useState<any[]>([]);
+  const [videoData, setVideoData] = useState<any>(null);
   const [hero, setHero] = useState({
     badge: 'Enterprise Energy Solutions',
     title: 'LIXI Solar &',
@@ -41,7 +46,9 @@ const Home = () => {
     productAmperage: '280Ah',
     productCells: 'CATL',
     productImage: IMAGES.battery_rack,
+    productImages: [] as string[],
   });
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [cellTech, setCellTech] = useState({
     badge: 'Cell Technology',
     title: 'Premium CATL Cells',
@@ -120,26 +127,41 @@ const Home = () => {
     return () => obs.disconnect();
   }, [heroRef]);
 
-  const { count: cyclesCount, ref: cyclesRef } = useCountUp(8000);
   const { count: systemsCount, ref: systemsRef } = useCountUp(1200);
 
   useEffect(() => {
-    api.getPartners().then(data => {
+    api.getPartners(lang).then(data => {
       if (data.length > 0) setPartners(data);
     }).catch(() => {});
     
-    api.getHero().then(data => {
+    api.getHero(lang).then(data => {
       if (data.length > 0) setHero(data[0]);
     }).catch(() => {});
 
-    api.getWhatWeDo().then(data => {
+    api.getWhatWeDo(lang).then(data => {
       if (data.length > 0) setWhatWeDo(data);
     }).catch(() => {});
 
-    api.getCellTech().then(data => {
+    api.getCellTech(lang).then(data => {
       if (data.length > 0) setCellTech(data[0]);
     }).catch(() => {});
-  }, []);
+
+    api.getVideo(lang).then(data => {
+      if (data.length > 0) setVideoData(data[0]);
+    }).catch(() => {});
+  }, [lang]);
+
+  useEffect(() => {
+    const allImages = [hero.productImage, ...(hero.productImages || [])];
+    if (allImages.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [hero.productImage, hero.productImages]);
+
+  const allImages = [hero.productImage, ...(hero.productImages || [])];
 
   return (
     <>
@@ -170,47 +192,51 @@ const Home = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-2 bg-brand-green/10 border border-brand-green/30 rounded-full px-4 py-2 mb-8">
                 <Zap size={16} className="text-brand-green" />
-                <span className="text-brand-green text-sm font-semibold">{hero.badge}</span>
+                <span className="text-brand-green text-sm font-semibold">{t('home:hero.badge')}</span>
               </div>
               
               <h1 className="text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]">
-                {hero.title}
-                <span className="block text-brand-green mt-2">{hero.titleHighlight}</span>
+                {t('home:hero.title')}
+                <span className="block text-brand-green mt-2">{t('home:hero.titleHighlight')}</span>
               </h1>
 
               <p className="text-xl text-white/60 mb-10 leading-relaxed">
-                {hero.description}
+                {t('home:hero.description')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <a href={hero.primaryButtonUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-lg px-8 py-4 justify-center">
                   <Calendar size={20} />
-                  {hero.primaryButtonText}
+                  {t('home:hero.primaryButton')}
                 </a>
-                <Link to={hero.secondaryButtonUrl} className="btn-ghost text-lg px-8 py-4 justify-center">
-                  {hero.secondaryButtonText}
+                <Link to={`/${lang}/products`} className="btn-ghost text-lg px-8 py-4 justify-center">
+                  {t('home:hero.secondaryButton')}
                 </Link>
               </div>
 
               <div className="grid grid-cols-3 gap-6">
-                <div ref={cyclesRef}>
+                <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat1Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{hero.stat1Label}</div>
+                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat1Label')}</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat2Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{hero.stat2Label}</div>
+                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat2Label')}</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat3Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{hero.stat3Label}</div>
+                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat3Label')}</div>
                 </div>
               </div>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }} className="relative">
               <div className="relative rounded-3xl overflow-hidden border border-white/10">
-                <img src={hero.productImage} alt={hero.productName} className="w-full h-[600px] object-cover" />
+                <img 
+                  src={allImages[currentImageIndex]} 
+                  alt={hero.productName} 
+                  className="w-full h-[600px] object-cover transition-opacity duration-500" 
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
                   <div className="bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
@@ -252,10 +278,10 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Battery, title: 'Premium Cells', desc: 'CATL LiFePO4 cells with 8,000+ cycle life guarantee' },
-              { icon: Shield, title: 'German Engineering', desc: 'Designed and quality-controlled in Germany' },
-              { icon: TrendingDown, title: 'Cut Energy Costs', desc: 'Reduce electricity bills by 60-90% with smart storage' },
-              { icon: Zap, title: 'Scalable Systems', desc: 'From 14kWh residential to multi-MWh industrial' },
+              { icon: Battery, title: t('home:valueProps.premiumCells.title'), desc: t('home:valueProps.premiumCells.desc') },
+              { icon: Shield, title: t('home:valueProps.germanEngineering.title'), desc: t('home:valueProps.germanEngineering.desc') },
+              { icon: TrendingDown, title: t('home:valueProps.cutCosts.title'), desc: t('home:valueProps.cutCosts.desc') },
+              { icon: Zap, title: t('home:valueProps.scalable.title'), desc: t('home:valueProps.scalable.desc') },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -280,10 +306,10 @@ const Home = () => {
       <section className="py-24 bg-[#060a07]">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span className="mono-label text-brand-green">What We Do</span>
+            <span className="mono-label text-brand-green">{t('home:solutions.badge')}</span>
             <h2 className="display-font text-white mt-2 text-5xl lg:text-7xl">
-              THREE CORE<br />
-              <em className="text-brand-green">SOLUTIONS</em>
+              {t('home:solutions.title')}<br />
+              <em className="text-brand-green">{t('home:solutions.titleHighlight')}</em>
             </h2>
           </motion.div>
 
@@ -331,8 +357,8 @@ const Home = () => {
                   <div className="bg-[#0d1410] p-8">
                     <h3 className="text-white text-2xl font-bold mb-3">{card.title}</h3>
                     <p className="text-white/60 text-sm leading-relaxed mb-6">{card.description}</p>
-                    <Link to={`/whatwedo/${card.id}`} className="inline-flex items-center gap-2 text-brand-green text-sm font-semibold hover:gap-3 transition-all">
-                      Learn More <ArrowRight size={16} />
+                    <Link to={`/${lang}/whatwedo/${card.id}`} className="inline-flex items-center gap-2 text-brand-green text-sm font-semibold hover:gap-3 transition-all">
+                      {t('common:buttons.learnMore')} <ArrowRight size={16} />
                     </Link>
                   </div>
                 </motion.div>
@@ -347,13 +373,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-end justify-between mb-16">
             <div>
-              <span className="mono-label text-brand-green">Our Products</span>
+              <span className="mono-label text-brand-green">{t('home:products.badge')}</span>
               <h2 className="text-white mt-2 text-5xl font-bold">
-                Battery Systems
+                {t('home:products.title')}
               </h2>
             </div>
-            <Link to="/products" className="text-brand-green text-sm hover:text-white transition-colors">
-              View All →
+            <Link to={`/${lang}/products`} className="text-brand-green text-sm hover:text-white transition-colors">
+              {t('common:buttons.viewAll')} →
             </Link>
           </div>
 
@@ -377,8 +403,8 @@ const Home = () => {
                   <div className="mono text-brand-green text-xs mb-2">{(product.tagline ? product.tagline.toUpperCase() : 'BATTERY')} · {product.voltage}</div>
                   <h3 className="text-white text-2xl font-bold mb-2">{product.name}</h3>
                   <p className="text-white/50 text-sm leading-relaxed mb-6">{product.tagline}</p>
-                  <Link to={`/products/${product.slug}`} className="btn-primary-sm">
-                    View Details <ArrowRight size={14} />
+                  <Link to={`/${lang}/products/${product.slug}`} className="btn-primary-sm">
+                    {t('common:buttons.viewDetails')} <ArrowRight size={14} />
                   </Link>
                 </div>
               </motion.div>
@@ -403,19 +429,19 @@ const Home = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="mono-label text-brand-green">{cellTech.badge}</span>
+              <span className="mono-label text-brand-green">{t('home:cellTech.badge')}</span>
               <h2 className="text-white mt-2 mb-6 text-5xl font-bold">
-                {cellTech.title}
+                {t('home:cellTech.title')}
               </h2>
               <p className="text-white/55 text-base leading-relaxed mb-10">
-                {cellTech.description}
+                {t('home:cellTech.description')}
               </p>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: cellTech.feature1Icon, title: cellTech.feature1Title, body: cellTech.feature1Body },
-                  { icon: cellTech.feature2Icon, title: cellTech.feature2Title, body: cellTech.feature2Body },
-                  { icon: cellTech.feature3Icon, title: cellTech.feature3Title, body: cellTech.feature3Body },
-                  { icon: cellTech.feature4Icon, title: cellTech.feature4Title, body: cellTech.feature4Body },
+                  { icon: cellTech.feature1Icon, title: t('home:cellTech.thermalSafe.title'), body: t('home:cellTech.thermalSafe.body') },
+                  { icon: cellTech.feature2Icon, title: t('home:cellTech.cycles.title'), body: t('home:cellTech.cycles.body') },
+                  { icon: cellTech.feature3Icon, title: t('home:cellTech.stableVoltage.title'), body: t('home:cellTech.stableVoltage.body') },
+                  { icon: cellTech.feature4Icon, title: t('home:cellTech.ecoFriendly.title'), body: t('home:cellTech.ecoFriendly.body') },
                 ].map((p, i) => (
                   <div key={i} className="bg-[#0d1a10] border border-white/6 rounded-xl p-5 hover:border-brand-green/20 transition-colors">
                     <div className="text-2xl mb-3">{p.icon}</div>
@@ -436,29 +462,29 @@ const Home = () => {
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Ready to Transform Your
-              <span className="block text-brand-green mt-2">Energy Infrastructure?</span>
+              {t('home:cta.title')}
+              <span className="block text-brand-green mt-2">{t('home:cta.titleHighlight')}</span>
             </h2>
             <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto" ref={systemsRef}>
-              Join {systemsCount.toLocaleString()}+ installations across Europe, Africa, and the Caribbean.
+              {t('home:cta.description', { count: systemsCount })}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary text-lg px-10 py-5 justify-center">
                 <Calendar size={22} />
-                Get Started
+                {t('home:cta.primaryButton')}
               </a>
-              <Link to="/products" className="btn-ghost text-lg px-10 py-5 justify-center">
-                View All Products
+              <Link to={`/${lang}/products`} className="btn-ghost text-lg px-10 py-5 justify-center">
+                {t('home:cta.secondaryButton')}
               </Link>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               {[
-                { icon: Shield, label: 'CATL Certified' },
-                { icon: Zap, label: 'IP55 Rated' },
-                { icon: Check, label: 'CE Marked' },
-                { icon: Building2, label: 'CARBONOZ Partner' },
+                { icon: Shield, label: t('home:cta.catlCertified') },
+                { icon: Zap, label: t('home:cta.ip55Rated') },
+                { icon: Check, label: t('home:cta.ceMarked') },
+                { icon: Building2, label: t('home:cta.carbonozPartner') },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center gap-2 opacity-60">
                   <item.icon size={20} className="text-brand-green" />
@@ -470,13 +496,24 @@ const Home = () => {
         </div>
       </section>
 
+      {/* VIDEO SHOWCASE */}
+      {videoData && (
+        <VideoShowcase
+          title={videoData.title}
+          subtitle={videoData.subtitle}
+          videoUrl={videoData.videoUrl}
+          thumbnailUrl={videoData.thumbnailUrl}
+          description={videoData.description}
+        />
+      )}
+
       {/* PARTNERS */}
       <section className="py-24 bg-[#0a0f0b] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span className="mono-label text-brand-green">Trusted Partners</span>
+            <span className="mono-label text-brand-green">{t('home:partners.badge')}</span>
             <h2 className="text-white mt-2 text-5xl font-bold">
-              Global Network
+              {t('home:partners.title')}
             </h2>
           </motion.div>
 
@@ -506,14 +543,14 @@ const Home = () => {
             className="bg-gradient-to-r from-brand-green/10 to-transparent border border-brand-green/20 rounded-2xl p-8 text-center"
           >
             <div className="inline-block bg-brand-green/20 text-brand-green px-4 py-2 rounded-full text-sm font-bold mb-4">
-              Featured Partner
+              {t('home:partners.featuredPartner')}
             </div>
-            <h3 className="text-white text-3xl font-bold mb-4">CARBONOZ Trading Platform</h3>
+            <h3 className="text-white text-3xl font-bold mb-4">{t('home:partners.carbonozTitle')}</h3>
             <p className="text-white/60 max-w-2xl mx-auto mb-6">
-              Automated electricity trading across EU markets. Turn your LIXI battery into a revenue-generating asset.
+              {t('home:partners.carbonozDesc')}
             </p>
-            <Link to="/shopping" className="inline-flex items-center gap-2 text-brand-green font-semibold hover:text-white transition-colors">
-              Learn More <ArrowRight size={16} />
+            <Link to={`/${lang}/shopping`} className="inline-flex items-center gap-2 text-brand-green font-semibold hover:text-white transition-colors">
+              {t('common:buttons.learnMore')} <ArrowRight size={16} />
             </Link>
           </motion.div>
         </div>

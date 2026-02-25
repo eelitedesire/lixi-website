@@ -1,0 +1,16 @@
+{
+  "title": "Energie Oplossingen",
+  "subtitle": "Op maat gemaakte systemen voor elke behoefte",
+  "residential": {
+    "title": "Residentiële Oplossingen",
+    "subtitle": "Voed uw huis met schone energie"
+  },
+  "commercial": {
+    "title": "Commerciële Oplossingen",
+    "subtitle": "Optimaliseer zakelijke energiekosten"
+  },
+  "industrial": {
+    "title": "Industriële Oplossingen",
+    "subtitle": "Energiebeheer op ondernemingsschaal"
+  }
+}

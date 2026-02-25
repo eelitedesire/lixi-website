@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "badge": "Zakelijke Energie Oplossingen",
+    "title": "LIXI Zonne-energie &",
+    "titleHighlight": "Elektriciteitsopslag",
+    "description": "Ontdek de kracht en betrouwbaarheid van geavanceerde LIXI batterijtechnologie. Geavanceerde lithiumbatterijen ontworpen voor het moderne leven, met ongeëvenaarde veiligheid, levensduur en efficiëntie.",
+    "primaryButton": "Aan de Slag",
+    "secondaryButton": "Verken Producten",
+    "stat1Label": "Laadcycli",
+    "stat2Label": "kWh Max",
+    "stat3Label": "Continenten"
+  },
+  "valueProps": {
+    "premiumCells": {
+      "title": "Premium Cellen",
+      "desc": "CATL LiFePO4 cellen met 8.000+ cyclus levensduur garantie"
+    },
+    "germanEngineering": {
+      "title": "Duitse Engineering",
+      "desc": "Ontworpen en kwaliteitsgecontroleerd in Duitsland"
+    },
+    "cutCosts": {
+      "title": "Verlaag Kosten",
+      "desc": "Verlaag elektriciteitsrekeningen met 60-90% met slimme opslag"
+    },
+    "scalable": {
+      "title": "Schaalbare Systemen",
+      "desc": "Van 14kWh residentieel tot multi-MWh industrieel"
+    }
+  },
+  "solutions": {
+    "badge": "Wat Wij Doen",
+    "title": "DRIE KERN",
+    "titleHighlight": "OPLOSSINGEN"
+  },
+  "products": {
+    "badge": "Onze Producten",
+    "title": "Batterijsystemen"
+  },
+  "cellTech": {
+    "badge": "Cel Technologie",
+    "title": "Premium CATL Cellen",
+    "description": "Elke LIXI batterij gebruikt gecertificeerde CATL lithium-ijzerfosfaat (LiFePO4) cellen — dezelfde fabrikant die wordt vertrouwd door Tesla, BMW en Volkswagen."
+  },
+  "cta": {
+    "title": "Klaar om Uw",
+    "titleHighlight": "Energie-infrastructuur te Transformeren?",
+    "description": "Sluit u aan bij {{count}}+ installaties in Europa, Afrika en het Caribisch gebied.",
+    "primaryButton": "Aan de Slag",
+    "secondaryButton": "Bekijk Alle Producten"
+  },
+  "partners": {
+    "badge": "Vertrouwde Partners",
+    "title": "Wereldwijd Netwerk"
+  }
+}

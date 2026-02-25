@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save } from 'lucide-react';
+import { Save, Trash2, Upload } from 'lucide-react';
 import { adminApi } from '@/services/api';
 
 interface HeroData {
@@ -24,6 +24,7 @@ interface HeroData {
   productAmperage: string;
   productCells: string;
   productImage: string;
+  productImages?: string[];
 }
 
 const HeroManager = () => {
@@ -49,6 +50,7 @@ const HeroManager = () => {
     productAmperage: '280Ah',
     productCells: 'CATL',
     productImage: '/images/battery-rack.jpg',
+    productImages: [],
   });
 
   useEffect(() => {
@@ -82,6 +84,7 @@ const HeroManager = () => {
       productAmperage: formData.get('productAmperage') as string,
       productCells: formData.get('productCells') as string,
       productImage: formData.get('productImage') as string,
+      productImages: hero.productImages,
     };
 
     const existing = await adminApi.list('hero');
@@ -337,6 +340,44 @@ const HeroManager = () => {
               onChange={handleImageUpload}
               className="text-brand-white/70 text-sm"
             />
+          </div>
+        </div>
+
+        {/* Product Images Carousel */}
+        <div className="bg-brand-grey rounded-xl p-6 space-y-4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-brand-white">Product Images Carousel</h2>
+            <label className="bg-brand-green text-brand-black px-4 py-2 rounded-lg font-semibold hover:bg-brand-lime cursor-pointer flex items-center gap-2">
+              <Upload size={16} /> Add Image
+              <input type="file" accept="image/*" onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                  const base64 = event.target?.result as string;
+                  const filename = `hero-carousel-${Date.now()}-${file.name}`;
+                  const response = await fetch('http://localhost:3000/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: base64, filename }),
+                  });
+                  const { url } = await response.json();
+                  setHero(prev => ({ ...prev, productImages: [...(prev.productImages || []), url] }));
+                };
+                reader.readAsDataURL(file);
+              }} className="hidden" />
+            </label>
+          </div>
+          <p className="text-brand-white/60 text-sm mb-4">These images will rotate on the hero section</p>
+          <div className="grid grid-cols-3 gap-4">
+            {(hero.productImages || []).map((img, i) => (
+              <div key={i} className="relative bg-brand-black rounded-lg overflow-hidden">
+                <img src={img} alt={`Product ${i + 1}`} className="w-full h-32 object-cover" />
+                <button onClick={() => setHero(prev => ({ ...prev, productImages: prev.productImages?.filter((_, idx) => idx !== i) }))} className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-lg hover:bg-red-600">
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 

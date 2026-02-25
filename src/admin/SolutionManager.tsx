@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { solutions, Solution } from '../data/solutions';
 import SolutionEditor from './SolutionEditor';
-import { Plus, Lightbulb } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { adminApi } from '../services/api';
 
 const SolutionManager = () => {

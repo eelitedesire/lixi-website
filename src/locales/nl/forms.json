@@ -1,0 +1,15 @@
+{
+  "contact": {
+    "title": "Neem Contact Op",
+    "name": "Volledige Naam",
+    "email": "E-mailadres",
+    "phone": "Telefoonnummer",
+    "subject": "Onderwerp",
+    "message": "Bericht",
+    "send": "Bericht Verzenden"
+  },
+  "validation": {
+    "required": "Dit veld is verplicht",
+    "email": "Voer een geldig e-mailadres in"
+  }
+}

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import Card from '@/components/ui/Card';
-import { Battery, Cpu, Thermometer, Zap } from 'lucide-react';
+import { Battery, Cpu, Zap } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { adminApi } from '@/services/api';
 

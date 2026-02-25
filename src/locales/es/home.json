@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "badge": "Soluciones Energéticas Empresariales",
+    "title": "LIXI Solar y",
+    "titleHighlight": "Almacenamiento de Electricidad",
+    "description": "Descubra la potencia y confiabilidad de la tecnología de baterías LIXI de vanguardia. Baterías de litio avanzadas diseñadas para la vida moderna, ofreciendo seguridad, longevidad y eficiencia incomparables.",
+    "primaryButton": "Comenzar",
+    "secondaryButton": "Explorar Productos",
+    "stat1Label": "Ciclos de Carga",
+    "stat2Label": "kWh Máx",
+    "stat3Label": "Continentes"
+  },
+  "valueProps": {
+    "premiumCells": {
+      "title": "Celdas Premium",
+      "desc": "Celdas CATL LiFePO4 con garantía de 8,000+ ciclos"
+    },
+    "germanEngineering": {
+      "title": "Ingeniería Alemana",
+      "desc": "Diseñado y controlado en Alemania"
+    },
+    "cutCosts": {
+      "title": "Reducir Costos",
+      "desc": "Reduzca las facturas de electricidad en un 60-90% con almacenamiento inteligente"
+    },
+    "scalable": {
+      "title": "Sistemas Escalables",
+      "desc": "Desde 14kWh residencial hasta multi-MWh industrial"
+    }
+  },
+  "solutions": {
+    "badge": "Lo Que Hacemos",
+    "title": "TRES SOLUCIONES",
+    "titleHighlight": "PRINCIPALES"
+  },
+  "products": {
+    "badge": "Nuestros Productos",
+    "title": "Sistemas de Baterías"
+  },
+  "cellTech": {
+    "badge": "Tecnología de Celdas",
+    "title": "Celdas CATL Premium",
+    "description": "Cada batería LIXI utiliza celdas certificadas CATL de fosfato de hierro y litio (LiFePO4), el mismo fabricante en el que confían Tesla, BMW y Volkswagen."
+  },
+  "cta": {
+    "title": "¿Listo para Transformar Su",
+    "titleHighlight": "Infraestructura Energética?",
+    "description": "Únase a {{count}}+ instalaciones en Europa, África y el Caribe.",
+    "primaryButton": "Comenzar",
+    "secondaryButton": "Ver Todos los Productos"
+  },
+  "partners": {
+    "badge": "Socios de Confianza",
+    "title": "Red Global"
+  }
+}

@@ -6,12 +6,15 @@ import { useCartStore } from '@/store/cartStore';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { adminApi } from '@/services/api';
+import { useTranslation } from 'react-i18next';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
 const Shopping = () => {
   const { items } = useCartStore();
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language.split('-')[0];
   const [content, setContent] = useState<any>(null);
 
   useEffect(() => {
@@ -120,7 +123,7 @@ const Shopping = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
-                  onClick={() => navigate('/checkout')} 
+                  onClick={() => navigate(`/${currentLanguage}/checkout`)} 
                   className="btn-primary text-lg px-10 py-5 justify-center"
                 >
                   View Cart ({items.length})

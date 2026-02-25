@@ -1,0 +1,15 @@
+{
+  "contact": {
+    "title": "Contactez-Nous",
+    "name": "Nom Complet",
+    "email": "Adresse Email",
+    "phone": "Numéro de Téléphone",
+    "subject": "Sujet",
+    "message": "Message",
+    "send": "Envoyer le Message"
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "email": "Veuillez entrer une adresse email valide"
+  }
+}

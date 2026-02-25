@@ -1,0 +1,57 @@
+{
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "We're here to help with your energy needs",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully! We'll get back to you soon.",
+    "error": "Failed to send message. Please try again."
+  },
+  "quote": {
+    "title": "Request a Quote",
+    "step1": "System Requirements",
+    "step2": "Location & Installation",
+    "step3": "Contact Information",
+    "step4": "Review & Submit",
+    "systemType": "System Type",
+    "capacity": "Desired Capacity",
+    "usage": "Daily Energy Usage",
+    "location": "Installation Location",
+    "address": "Full Address",
+    "city": "City",
+    "country": "Country",
+    "postalCode": "Postal Code",
+    "installationType": "Installation Type",
+    "rooftop": "Rooftop",
+    "ground": "Ground Mount",
+    "indoor": "Indoor",
+    "outdoor": "Outdoor",
+    "timeline": "Desired Timeline",
+    "budget": "Budget Range",
+    "additionalNotes": "Additional Notes",
+    "success": "Quote request submitted!",
+    "successMessage": "A solar advisor will contact you within 24 hours.",
+    "error": "Failed to submit quote. Please try again."
+  },
+  "newsletter": {
+    "title": "Subscribe to Newsletter",
+    "email": "Email Address",
+    "subscribe": "Subscribe",
+    "success": "Successfully subscribed!",
+    "error": "Subscription failed. Please try again."
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "phone": "Please enter a valid phone number",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be no more than {{max}} characters",
+    "number": "Must be a number",
+    "positive": "Must be a positive number",
+    "url": "Please enter a valid URL"
+  }
+}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Save } from 'lucide-react';
+import { Plus, Trash2, Save, Upload } from 'lucide-react';
 import { adminApi } from '@/services/api';
 
 const FooterManager = () => {
@@ -15,9 +15,6 @@ const FooterManager = () => {
     carbonozText: 'Powered by CARBONOZ',
     copyrightText: 'HelioAegis GmbH i.G. All rights reserved.',
   });
-
-  const [editSection, setEditSection] = useState<string | null>(null);
-  const [editItem, setEditItem] = useState<any>(null);
 
   useEffect(() => {
     adminApi.list('footer').then(data => {
@@ -39,7 +36,7 @@ const FooterManager = () => {
     const newItem = section === 'socialMedia' ? { icon: 'Linkedin', url: '' } :
                     section === 'locations' ? { flag: '🇱🇮', region: 'EU', name: '', address: '' } :
                     { label: '', url: '' };
-    setFooter({ ...footer, [section]: [...footer[section], newItem] });
+    setFooter({ ...footer, [section]: [...(footer[section] || []), newItem] });
   };
 
   const deleteItem = (section: string, index: number) => {
@@ -65,8 +62,28 @@ const FooterManager = () => {
         {/* Branding */}
         <div className="bg-brand-grey rounded-xl p-6">
           <h2 className="text-xl font-bold text-brand-white mb-4">Branding</h2>
+          <div className="mb-4">
+            <label className="block text-brand-white mb-2">Logo</label>
+            <div className="flex items-center gap-4">
+              {footer.logoUrl && <img src={footer.logoUrl} alt="Logo" className="h-12 object-contain bg-white/10 px-2 py-1 rounded" />}
+              <input type="file" accept="image/*" onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = async () => {
+                    const url = await adminApi.upload(reader.result as string, `logo-${Date.now()}.${file.name.split('.').pop()}`);
+                    setFooter({ ...footer, logoUrl: url });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }} className="hidden" id="logo-upload" />
+              <label htmlFor="logo-upload" className="bg-brand-green text-brand-black px-4 py-2 rounded-lg cursor-pointer flex items-center gap-2 hover:bg-brand-lime">
+                <Upload size={16} /> Upload Logo
+              </label>
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-4">
-            <input placeholder="Logo URL" value={footer.logoUrl} onChange={(e) => setFooter({ ...footer, logoUrl: e.target.value })} className="bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            <input placeholder="Logo URL (or upload above)" value={footer.logoUrl} onChange={(e) => setFooter({ ...footer, logoUrl: e.target.value })} className="bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
             <input placeholder="Site Name" value={footer.siteName} onChange={(e) => setFooter({ ...footer, siteName: e.target.value })} className="bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
           </div>
           <textarea placeholder="Tagline" value={footer.tagline} onChange={(e) => setFooter({ ...footer, tagline: e.target.value })} rows={2} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg mt-4" />
@@ -154,14 +171,14 @@ const FooterManager = () => {
               <Plus size={16} /> Add
             </button>
           </div>
-          {footer.locations.map((item: any, i: number) => (
+          {(footer.locations || []).map((item: any, i: number) => (
             <div key={i} className="bg-brand-black rounded-lg p-4 mb-4">
               <div className="grid grid-cols-3 gap-2 mb-2">
-                <input placeholder="Flag 🇱🇮" value={item.flag} onChange={(e) => updateItem('locations', i, 'flag', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
-                <input placeholder="Region" value={item.region} onChange={(e) => updateItem('locations', i, 'region', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
-                <input placeholder="Company Name" value={item.name} onChange={(e) => updateItem('locations', i, 'name', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
+                <input placeholder="Flag 🇱🇮" value={item.flag || ''} onChange={(e) => updateItem('locations', i, 'flag', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
+                <input placeholder="Region" value={item.region || ''} onChange={(e) => updateItem('locations', i, 'region', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
+                <input placeholder="Company Name" value={item.name || ''} onChange={(e) => updateItem('locations', i, 'name', e.target.value)} className="bg-brand-grey text-brand-white px-4 py-2 rounded-lg" />
               </div>
-              <textarea placeholder="Address (multiline)" value={item.address} onChange={(e) => updateItem('locations', i, 'address', e.target.value)} rows={3} className="w-full bg-brand-grey text-brand-white px-4 py-2 rounded-lg mb-2" />
+              <textarea placeholder="Address (multiline)" value={item.address || ''} onChange={(e) => updateItem('locations', i, 'address', e.target.value)} rows={3} className="w-full bg-brand-grey text-brand-white px-4 py-2 rounded-lg mb-2" />
               <button onClick={() => deleteItem('locations', i)} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg w-full"><Trash2 size={16} className="inline mr-2" /> Delete Location</button>
             </div>
           ))}

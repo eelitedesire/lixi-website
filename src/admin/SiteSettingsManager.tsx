@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Save } from 'lucide-react';
+import { Save, Plus, Trash2 } from 'lucide-react';
 import { adminApi } from '@/services/api';
 
 const SiteSettingsManager = () => {
+  const [serviceCenters, setServiceCenters] = useState<any[]>([]);
   const [settings, setSettings] = useState({
     logoUrl: '/images/logo.png',
     siteName: 'LIXI',
@@ -25,15 +26,13 @@ const SiteSettingsManager = () => {
     badge2: 'IP55 Rated',
     badge3: 'CE Marked',
     badge4: 'CARBONOZ Partner',
-    emailEU: 'eu@lixi.de',
-    emailAfrica: 'africa@lixi.de',
-    emailCaribbean: 'caribbean@lixi.de',
   });
 
   useEffect(() => {
     adminApi.list('sitesettings').then(data => {
       if (data.length > 0) setSettings(data[0]);
     });
+    adminApi.list('service-centers').then(setServiceCenters);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,9 +60,6 @@ const SiteSettingsManager = () => {
       badge2: formData.get('badge2') as string,
       badge3: formData.get('badge3') as string,
       badge4: formData.get('badge4') as string,
-      emailEU: formData.get('emailEU') as string,
-      emailAfrica: formData.get('emailAfrica') as string,
-      emailCaribbean: formData.get('emailCaribbean') as string,
     };
 
     const existing = await adminApi.list('sitesettings');
@@ -191,28 +187,91 @@ const SiteSettingsManager = () => {
           </div>
         </div>
 
-        <div className="bg-brand-grey rounded-xl p-6 space-y-4">
-          <h2 className="text-xl font-bold text-brand-white mb-4">Service Center Emails</h2>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <label className="block text-brand-white mb-2">EU Email</label>
-              <input name="emailEU" type="email" defaultValue={settings.emailEU} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
-            </div>
-            <div>
-              <label className="block text-brand-white mb-2">Africa Email</label>
-              <input name="emailAfrica" type="email" defaultValue={settings.emailAfrica} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
-            </div>
-            <div>
-              <label className="block text-brand-white mb-2">Caribbean Email</label>
-              <input name="emailCaribbean" type="email" defaultValue={settings.emailCaribbean} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
-            </div>
-          </div>
-        </div>
-
         <button type="submit" className="w-full bg-brand-green text-brand-black px-6 py-3 rounded-lg font-bold hover:bg-brand-lime flex items-center justify-center gap-2">
           <Save size={20} /> Save Site Settings
         </button>
       </form>
+
+      <div className="max-w-4xl mt-12">
+        <div className="bg-brand-grey rounded-xl p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold text-brand-white">Service Centers</h2>
+            <button onClick={() => setServiceCenters([...serviceCenters, { id: Date.now().toString(), name: '', region: '', address: '', city: '', country: '', phone: '', email: '', hours: '' }])} className="bg-brand-green text-brand-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-brand-lime">
+              <Plus size={16} /> Add Service Center
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {serviceCenters.map((center, i) => (
+              <div key={center.id} className="bg-brand-black rounded-lg p-4">
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <input placeholder="Name" value={center.name || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].name = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                  <input placeholder="Region (e.g., EU, Africa)" value={center.region || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].region = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                </div>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <input placeholder="Address" value={center.address || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].address = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                  <input placeholder="City" value={center.city || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].city = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                </div>
+                <div className="grid grid-cols-3 gap-3 mb-3">
+                  <input placeholder="Country" value={center.country || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].country = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                  <input placeholder="Phone" value={center.phone || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].phone = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                  <input placeholder="Email" type="email" value={center.email || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].email = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                </div>
+                <div className="flex gap-3">
+                  <input placeholder="Hours (e.g., Mon-Fri 9AM-6PM)" value={center.hours || ''} onChange={(e) => {
+                    const updated = [...serviceCenters];
+                    updated[i].hours = e.target.value;
+                    setServiceCenters(updated);
+                  }} className="flex-1 bg-brand-grey text-brand-white px-3 py-2 rounded-lg text-sm" />
+                  <button onClick={async () => {
+                    await adminApi.delete('service-centers', center.id);
+                    setServiceCenters(serviceCenters.filter(c => c.id !== center.id));
+                  }} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg hover:bg-red-500/30">
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <button onClick={async () => {
+            for (const center of serviceCenters) {
+              await adminApi.update('service-centers', center);
+            }
+            alert('Service centers saved!');
+          }} className="w-full mt-4 bg-brand-green text-brand-black px-6 py-3 rounded-lg font-bold hover:bg-brand-lime flex items-center justify-center gap-2">
+            <Save size={20} /> Save Service Centers
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

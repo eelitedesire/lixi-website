@@ -1,0 +1,24 @@
+{
+  "title": "Systèmes de Batteries",
+  "subtitle": "Stockage d'Énergie LiFePO4 Premium",
+  "description": "Systèmes de batteries d'ingénierie allemande avec cellules CATL.",
+  "filters": {
+    "all": "Tous les Produits",
+    "residential": "Résidentiel",
+    "commercial": "Commercial",
+    "industrial": "Industriel"
+  },
+  "specs": {
+    "capacity": "Capacité",
+    "voltage": "Tension",
+    "amperage": "Ampérage",
+    "cycles": "Durée de Vie",
+    "warranty": "Garantie",
+    "weight": "Poids",
+    "dimensions": "Dimensions",
+    "cells": "Type de Cellule",
+    "protection": "Indice de Protection",
+    "temperature": "Température de Fonctionnement",
+    "compatibility": "Onduleurs Compatibles"
+  }
+}

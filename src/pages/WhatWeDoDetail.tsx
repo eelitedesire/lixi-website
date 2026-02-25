@@ -4,17 +4,80 @@ import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { api } from '@/services/api';
 import { Check, Calendar, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { IMAGES } from '@/data/images';
+
+const defaultWhatWeDo = [
+  {
+    id: 'solar-storage',
+    image: IMAGES.solar_panels_roof,
+    icon: 'Battery',
+    title: 'SOLAR STORAGE',
+    description: 'LiFePO4 battery banks store excess solar energy during the day and power your home at night.',
+    fullDescription: 'Our solar storage solutions combine high-efficiency solar panels with advanced LiFePO4 battery systems to provide reliable, clean energy for your home or business. Store excess solar energy generated during the day and use it at night or during peak demand periods.',
+    benefits: [
+      'Reduce electricity bills by up to 90%',
+      'Backup power during grid outages',
+      'Maximize solar panel ROI',
+      'Reduce carbon footprint',
+      'Smart energy management'
+    ],
+    bookingUrl: 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt'
+  },
+  {
+    id: 'energy-freedom',
+    image: IMAGES.family_home_solar,
+    icon: 'Sun',
+    title: 'ENERGY FREEDOM',
+    description: 'Combine solar panels with LIXI batteries to cover 80–100% of your electricity needs.',
+    fullDescription: 'Achieve true energy independence with our comprehensive solar + storage solutions. Our systems are designed to provide 80-100% of your energy needs, reducing or eliminating your dependence on the grid.',
+    benefits: [
+      'Complete energy independence',
+      'Protection from rising energy costs',
+      'Increase property value',
+      'Government incentives available',
+      'Professional installation and support'
+    ],
+    bookingUrl: 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt'
+  },
+  {
+    id: 'electricity-trading',
+    image: IMAGES.energy_trading,
+    icon: 'TrendingDown',
+    title: 'ELECTRICITY TRADING',
+    description: 'CARBONOZ platform enables automated electricity trading. Buy power when prices are low, maximize your savings.',
+    fullDescription: 'Our CARBONOZ platform uses AI-powered algorithms to automatically buy and sell electricity at optimal times, maximizing your savings and revenue from your solar + storage system.',
+    benefits: [
+      'Automated energy trading',
+      'Buy low, sell high automatically',
+      'Real-time market monitoring',
+      'Maximize ROI on your system',
+      'Easy-to-use dashboard'
+    ],
+    bookingUrl: 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt'
+  }
+];
 
 const WhatWeDoDetail = () => {
   const { slug } = useParams();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language.split('-')[0];
   const [item, setItem] = useState<any>(null);
 
   useEffect(() => {
-    api.getWhatWeDo().then(data => {
+    api.getWhatWeDo(currentLanguage).then(data => {
       const found = data.find((i: any) => i.id === slug);
-      if (found) setItem(found);
+      if (found) {
+        setItem(found);
+      } else {
+        const fallback = defaultWhatWeDo.find(i => i.id === slug);
+        if (fallback) setItem(fallback);
+      }
+    }).catch(() => {
+      const fallback = defaultWhatWeDo.find(i => i.id === slug);
+      if (fallback) setItem(fallback);
     });
-  }, [slug]);
+  }, [slug, currentLanguage]);
 
   if (!item) {
     return (
@@ -40,7 +103,7 @@ const WhatWeDoDetail = () => {
           </div>
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Link to="/" className="inline-flex items-center gap-2 text-brand-green hover:text-brand-lime mb-8">
+            <Link to={`/${currentLanguage}`} className="inline-flex items-center gap-2 text-brand-green hover:text-brand-lime mb-8">
               <ArrowLeft size={20} /> Back to Home
             </Link>
 

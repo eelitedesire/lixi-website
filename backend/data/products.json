@@ -79,53 +79,30 @@
     ]
   },
   {
-    "id": "mega-400v",
-    "slug": "mega-400v",
-    "name": "LIXI Mega",
-    "tagline": "Industrial & Microgrid",
-    "image": "https://en.lixi.de/assets/images/gallery02/202aa741.jpg?v=dfd5579b",
-    "voltage": "400V",
-    "capacity_kwh": 112.5,
-    "cells": "LiFePO4 3.2V / 314Ah (CATL-class)",
-    "configuration": "7 packs × 1P16S",
-    "nominal_voltage": "358.4V",
-    "voltage_range": "280V – 408.8V",
-    "nominal_capacity": "314Ah",
-    "max_current": "157A",
-    "cycle_life": "8000+ (90% DoD, 70% EoL)",
-    "cooling": "Intelligent air-cooling",
-    "communication": "WiFi, 4G, LAN, CAN, RS485",
-    "hmi": "LED status + 7\" maintenance display + WLAN/app",
-    "protection": "IP55",
-    "noise_db": "≤75dB",
-    "dimensions_mm": "1510 × 1010 × 1830",
-    "weight_kg": 1500,
-    "operating_temp": "-25°C to +55°C",
-    "storage_temp": "-30°C to +60°C",
-    "humidity": "5–95%",
-    "altitude_m": 4000,
-    "warranty": "1 Year",
-    "compatible_inverters": [
-      "DEYE",
-      "Growatt",
-      "Victron",
-      "GoodWe",
-      "SMA",
-      "Solis"
+    "name": "vbnm,",
+    "slug": "bnm,",
+    "tagline": "bhjkl",
+    "category": "Solar Panels",
+    "description": "njkop@",
+    "price": "njkl;",
+    "image": "/images/uploads/1771957134771-FcCR-AKaQAEEGMW.jpeg",
+    "images": [
+      "/images/uploads/product-1771957141460-download.jpeg"
     ],
-    "integrated_pcs": {
-      "rated_power_kw": 50,
-      "max_power_kw": 80,
-      "max_duration": "2 seconds",
-      "grid": "220/380V, 3/N/PE"
+    "specs": {
+      "wattage": 4,
+      "efficiency": "njkl;",
+      "cell_type": "Monocrystalline",
+      "voltage_voc": "njkl",
+      "current_isc": "bnjkl",
+      "temperature_coefficient": "nmkl;",
+      "weight_kg": 3,
+      "dimensions_mm": "njkl;",
+      "warranty": "bnjkl"
     },
-    "bms": "LIXI Advanced Redundant BMS",
-    "highlight_features": [
-      "Integrated 50kW PCS inverter",
-      "IP55 weatherproof cabinet",
-      "CARBONOZ trading ready",
-      "8000+ cycle life",
-      "WiFi + 4G + LAN monitoring"
-    ]
+    "compatible_inverters": [],
+    "highlight_features": [],
+    "id": "bnm,",
+    "createdAt": 1771957142796
   }
 ]

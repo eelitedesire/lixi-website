@@ -49,8 +49,26 @@ app.post('/api/upload', (req, res) => {
   }
 });
 
+const translateObject = (obj, lang = 'en') => {
+  const translated = { ...obj };
+  Object.keys(obj).forEach(key => {
+    if (key.match(/_(en|fr|es|nl)$/)) {
+      const baseField = key.replace(/_(en|fr|es|nl)$/, '');
+      const langField = `${baseField}_${lang}`;
+      const fallbackField = `${baseField}_en`;
+      if (!translated[baseField]) {
+        translated[baseField] = obj[langField] || obj[fallbackField] || obj[key];
+      }
+    }
+  });
+  return translated;
+};
+
 app.get('/api/admin/:resource/list', (req, res) => {
-  res.json(readData(req.params.resource));
+  const lang = req.query.lang || 'en';
+  const data = readData(req.params.resource);
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
 });
 
 app.post('/api/admin/:resource/create', (req, res) => {
@@ -77,6 +95,105 @@ app.post('/api/admin/:resource/delete', (req, res) => {
   const filtered = data.filter(item => item.id !== req.body.id && item.slug !== req.body.id);
   writeData(req.params.resource, filtered);
   res.json({ success: true });
+});
+
+// Public API endpoints with language support
+app.get('/api/products', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('products');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/blog', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('blog');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/hero', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('hero');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/celltech', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('celltech');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/whatwedo', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('whatwedo');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/partners', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('partners');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/solutions', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('solutions');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/services', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('services');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/footer', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('footer');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/about', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('about');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/video', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('video');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/shopping', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('shopping');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/projects', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('projects');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/:resource', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData(req.params.resource);
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
 });
 
 app.get('/api/orders', (req, res) => {

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Quote } from '../data/quotes';
-import { Plus, Mail, Phone, User } from 'lucide-react';
+import { Mail, User } from 'lucide-react';
 import { adminApi } from '../services/api';
 
 const QuoteManager = () => {

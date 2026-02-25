@@ -1,0 +1,14 @@
+{
+  "title": "LIXI Blog",
+  "subtitle": "Energy Insights & Updates",
+  "readTime": "{{minutes}} min read",
+  "categories": {
+    "all": "All Posts",
+    "technology": "Technology",
+    "industry": "Industry News",
+    "guides": "Guides",
+    "updates": "Product Updates"
+  },
+  "relatedPosts": "Related Posts",
+  "sharePost": "Share this post"
+}

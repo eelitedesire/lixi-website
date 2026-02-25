@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "badge": "Unternehmens-Energielösungen",
+    "title": "LIXI Solar &",
+    "titleHighlight": "Stromspeicher",
+    "description": "Entdecken Sie die Leistung und Zuverlässigkeit modernster LIXI-Batterietechnologie. Fortschrittliche Lithiumbatterien für das moderne Leben mit unübertroffener Sicherheit, Langlebigkeit und Effizienz.",
+    "primaryButton": "Jetzt starten",
+    "secondaryButton": "Produkte erkunden",
+    "stat1Label": "Ladezyklen",
+    "stat2Label": "kWh Max",
+    "stat3Label": "Kontinente"
+  },
+  "valueProps": {
+    "premiumCells": {
+      "title": "Premium-Zellen",
+      "desc": "CATL LiFePO4-Zellen mit 8.000+ Zyklen Lebensdauer-Garantie"
+    },
+    "germanEngineering": {
+      "title": "Deutsche Ingenieurskunst",
+      "desc": "Entwickelt und qualitätsgeprüft in Deutschland"
+    },
+    "cutCosts": {
+      "title": "Energiekosten senken",
+      "desc": "Reduzieren Sie Stromrechnungen um 60-90% mit intelligentem Speicher"
+    },
+    "scalable": {
+      "title": "Skalierbare Systeme",
+      "desc": "Von 14kWh für Privathaushalte bis zu Multi-MWh für Industrie"
+    }
+  },
+  "solutions": {
+    "badge": "Was wir tun",
+    "title": "DREI KERN",
+    "titleHighlight": "LÖSUNGEN",
+    "solarStorage": {
+      "title": "SOLARSPEICHER",
+      "description": "LiFePO4-Batteriespeicher speichern überschüssige Solarenergie tagsüber und versorgen Ihr Zuhause nachts."
+    },
+    "energyFreedom": {
+      "title": "ENERGIEFREIHEIT",
+      "description": "Kombinieren Sie Solarmodule mit LIXI-Batterien, um 80–100% Ihres Strombedarfs zu decken."
+    },
+    "electricityTrading": {
+      "title": "STROMHANDEL",
+      "description": "Die CARBONOZ-Plattform ermöglicht automatisierten Stromhandel. Kaufen Sie Strom bei niedrigen Preisen und maximieren Sie Ihre Einsparungen."
+    }
+  },
+  "products": {
+    "badge": "Unsere Produkte",
+    "title": "Batteriesysteme"
+  },
+  "cellTech": {
+    "badge": "Zellentechnologie",
+    "title": "Premium CATL-Zellen",
+    "description": "Jede LIXI-Batterie verwendet zertifizierte CATL-Lithium-Eisenphosphat-Zellen (LiFePO4) – vom selben Hersteller, dem Tesla, BMW und Volkswagen vertrauen.",
+    "cardLabel": "ZELLENLIEFERANT",
+    "cardTitle": "CATL",
+    "cardSubtitle": "Weltweiter #1 Batteriehersteller",
+    "thermalSafe": {
+      "title": "Thermisch sicher",
+      "body": "LFP-Chemie eliminiert das Risiko thermischen Durchgehens"
+    },
+    "cycles": {
+      "title": "8.000+ Zyklen",
+      "body": "Mehr als 20 Jahre täglicher Nutzung"
+    },
+    "stableVoltage": {
+      "title": "Stabile Spannung",
+      "body": "Flache Entladekurve von 100% bis 20%"
+    },
+    "ecoFriendly": {
+      "title": "Umweltfreundlich",
+      "body": "Ungiftige, vollständig recycelbare Materialien"
+    }
+  },
+  "cta": {
+    "title": "Bereit, Ihre",
+    "titleHighlight": "Energieinfrastruktur zu transformieren?",
+    "description": "Schließen Sie sich {{count}}+ Installationen in Europa, Afrika und der Karibik an.",
+    "primaryButton": "Jetzt starten",
+    "secondaryButton": "Alle Produkte ansehen",
+    "catlCertified": "CATL-zertifiziert",
+    "ip55Rated": "IP55-zertifiziert",
+    "ceMarked": "CE-gekennzeichnet",
+    "carbonozPartner": "CARBONOZ-Partner"
+  },
+  "partners": {
+    "badge": "Vertrauenswürdige Partner",
+    "title": "Globales Netzwerk",
+    "featuredPartner": "Ausgewählter Partner",
+    "carbonozTitle": "CARBONOZ Handelsplattform",
+    "carbonozDesc": "Automatisierter Stromhandel über EU-Märkte. Verwandeln Sie Ihre LIXI-Batterie in ein umsatzgenerierendes Asset."
+  }
+}

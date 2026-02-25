@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X } from 'lucide-react';
 
 const FloatingCTA = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isExpanded, setIsExpanded] = useState(true);
+  const { lang = 'en' } = useParams<{ lang: string }>();
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -36,7 +37,7 @@ const FloatingCTA = () => {
         exit={{ opacity: 0, scale: 0.8 }}
         className="fixed bottom-8 right-8 z-40"
       >
-        <Link to="/quote">
+        <Link to={`/${lang}/quote`}>
           <motion.button
             animate={{ scale: isExpanded ? 1 : 0.9 }}
             className="bg-brand-green text-brand-black font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 animate-pulse-glow"

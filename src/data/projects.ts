@@ -8,6 +8,7 @@ export interface Project {
   system: string;
   capacity: string;
   image: string;
+  images?: string[];
   year: number;
   description: string;
 }

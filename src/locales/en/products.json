@@ -1,0 +1,33 @@
+{
+  "title": "Battery Systems",
+  "subtitle": "Premium LiFePO4 Energy Storage",
+  "description": "German-engineered battery systems with CATL cells. From residential to industrial scale.",
+  "filters": {
+    "all": "All Products",
+    "residential": "Residential",
+    "commercial": "Commercial",
+    "industrial": "Industrial"
+  },
+  "specs": {
+    "capacity": "Capacity",
+    "voltage": "Voltage",
+    "amperage": "Amperage",
+    "cycles": "Cycle Life",
+    "warranty": "Warranty",
+    "weight": "Weight",
+    "dimensions": "Dimensions",
+    "cells": "Cell Type",
+    "protection": "Protection Rating",
+    "temperature": "Operating Temperature",
+    "compatibility": "Compatible Inverters"
+  },
+  "features": {
+    "title": "Key Features",
+    "catlCells": "CATL LiFePO4 Cells",
+    "bms": "Advanced BMS",
+    "modular": "Modular Design",
+    "monitoring": "Remote Monitoring",
+    "safety": "Multi-Layer Safety",
+    "warranty": "10-Year Warranty"
+  }
+}
