@@ -79,7 +79,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to={`/${lang}`} className="flex items-center space-x-3">
             <img src={settings.logoUrl} alt={settings.siteName} className="w-10 h-10 object-contain" />
-            <span className="font-display text-2xl text-brand-white">{settings.siteName}</span>
+            <span className="font-display text-2xl bg-gradient-to-r from-solar-orange via-solar-yellow to-solar-yellow bg-clip-text text-transparent">{settings.siteName}</span>
           </Link>
 
           {/* Desktop Navigation */}

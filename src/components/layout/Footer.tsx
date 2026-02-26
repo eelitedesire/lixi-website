@@ -43,7 +43,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <Link to={`/${lang}`} className="flex items-center space-x-3 mb-6">
               <img src={footer.logoUrl} alt={footer.siteName} className="w-12 h-12 object-contain" />
-              <span className="font-display text-3xl text-brand-white">{footer.siteName}</span>
+              <span className="font-display text-3xl bg-gradient-to-r from-solar-orange via-solar-yellow to-solar-yellow bg-clip-text text-transparent">{footer.siteName}</span>
             </Link>
             <p className="text-brand-white/60 mb-8 leading-relaxed">
               {footer.tagline}
