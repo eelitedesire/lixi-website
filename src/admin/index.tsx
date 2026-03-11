@@ -25,6 +25,8 @@ import TechnologyContentManager from './TechnologyContentManager';
 import SolutionManager from './SolutionManager';
 import AboutAdmin from './AboutAdmin';
 import VideoManager from './VideoManager';
+import FlagshipManager from './FlagshipManager';
+import MonitoringPlatformManager from './MonitoringPlatformManager';
 
 const AdminApp = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -71,6 +73,8 @@ const AdminApp = () => {
         <Route path="/techcontent" element={canAccess('editor') ? <TechnologyContentManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
         <Route path="/solutions" element={canAccess('editor') ? <SolutionManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
         <Route path="/about" element={canAccess('editor') ? <AboutAdmin /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/flagship" element={canAccess('editor') ? <FlagshipManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
+        <Route path="/monitoring-platform" element={canAccess('editor') ? <MonitoringPlatformManager /> : <div className="p-8 text-brand-white">Access Denied</div>} />
       </Routes>
     </AdminLayout>
   );

@@ -117,7 +117,7 @@ export const products: Product[] = [
     category: 'Battery Storage',
     description: 'Industrial-grade 400V battery system with integrated PCS inverter for microgrids and large installations.',
     price: '$89,999',
-    image: 'https://en.lixi.de/assets/images/gallery02/202aa741.jpg?v=dfd5579b',
+    image: 'https://images.unsplash.com/photo-1545259742-b4e3efa1ee29?w=1200&q=85',
     images: [],
     voltage: '400V',
     capacity_kwh: 112.5,

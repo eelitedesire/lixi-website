@@ -1,0 +1,26 @@
+[
+  {
+    "id": "monitoring-platform-1",
+    "title": "Smart Energy Monitoring Platforms",
+    "subtitle": "Intelligent Battery Management",
+    "description": "Our batteries connect to an intelligent monitoring system that provides comprehensive energy management and optimization capabilities.",
+    "features": [
+      "Real-time energy dashboards",
+      "Battery performance analytics",
+      "AI charging optimization",
+      "Carbon intensity tracking",
+      "Historical energy data",
+      "Remote access through secure client portal"
+    ],
+    "primaryButtonText": "View Platform Capabilities",
+    "primaryButtonUrl": "/technology",
+    "secondaryButtonText": "Access Dashboard",
+    "secondaryButtonUrl": "https://login.carbonoz.com",
+    "dashboardTitle": "CARBONOZ SolarAutopilot Platform",
+    "dashboardSubtitle": "Intelligent Battery Management",
+    "dashboardSystemId": "MEGA-400V • System ID: LX-2024-001",
+    "language": "en",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": 1773237656881
+  }
+]

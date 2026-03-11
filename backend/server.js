@@ -189,6 +189,20 @@ app.get('/api/projects', (req, res) => {
   res.json(translated);
 });
 
+app.get('/api/flagship', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('flagship');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
+app.get('/api/monitoring-platform', (req, res) => {
+  const lang = req.query.lang || 'en';
+  const data = readData('monitoring-platform');
+  const translated = data.map(item => translateObject(item, lang));
+  res.json(translated);
+});
+
 app.get('/api/:resource', (req, res) => {
   const lang = req.query.lang || 'en';
   const data = readData(req.params.resource);

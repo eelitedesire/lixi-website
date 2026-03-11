@@ -26,6 +26,37 @@ const SiteSettingsManager = () => {
     badge2: 'IP55 Rated',
     badge3: 'CE Marked',
     badge4: 'CARBONOZ Partner',
+    productsTitle: 'Energy Storage Systems',
+    productsSubtitle: 'View All Products',
+    productsBadge: 'Recommended for Large Projects',
+    productsName: 'LIXI Mega',
+    productsDesc: 'Industrial-grade 400V battery system with integrated PCS inverter for microgrids and large installations.',
+    productsCapacity: '112.5 kWh',
+    productsVoltage: '400V',
+    productsPower: '50kW',
+    productsButtonText: 'View Large Battery Details',
+    productsButtonUrl: '/products/mega-400v',
+    productsImage: 'https://images.unsplash.com/photo-1545259742-b4e3efa1ee29?w=1200&q=85',
+    technologyTitle: 'Advanced Energy Technology Platform',
+    technologySubtitle: 'Our comprehensive technology platform positions us as a leading provider of intelligent energy solutions.',
+    tech1Title: 'Real-time Monitoring',
+    tech1Desc: 'Advanced monitoring systems provide live data on battery performance, energy flows, and system health.',
+    tech2Title: 'AI Charging Optimization',
+    tech2Desc: 'Machine learning algorithms optimize charging patterns based on usage patterns and energy prices.',
+    tech3Title: 'Carbon Intensity Tracking',
+    tech3Desc: 'Track and optimize energy usage based on grid carbon intensity for maximum environmental impact.',
+    tech4Title: 'Data Dashboards',
+    tech4Desc: 'Comprehensive dashboards provide insights into energy usage, cost savings, and system performance.',
+    tech5Title: 'Remote Management',
+    tech5Desc: 'Secure remote access allows for system monitoring, diagnostics, and maintenance from anywhere.',
+    tech6Title: 'Grid Integration',
+    tech6Desc: 'Seamless integration with smart grids and energy trading platforms for maximum efficiency.',
+    dashboardTitle: 'Access Your Energy Dashboard',
+    dashboardSubtitle: 'Monitor your LIXI energy systems in real-time with our advanced monitoring platform. Track performance, optimize efficiency, and manage your energy infrastructure from anywhere.',
+    dashboardButtonText: 'Access Platform Dashboard',
+    dashboardButtonUrl: 'https://login.carbonoz.com',
+    dashboardSecondaryText: 'Request Demo Access',
+    dashboardSecondaryUrl: '/contact',
   });
 
   useEffect(() => {
@@ -60,6 +91,37 @@ const SiteSettingsManager = () => {
       badge2: formData.get('badge2') as string,
       badge3: formData.get('badge3') as string,
       badge4: formData.get('badge4') as string,
+      productsTitle: formData.get('productsTitle') as string,
+      productsSubtitle: formData.get('productsSubtitle') as string,
+      productsBadge: formData.get('productsBadge') as string,
+      productsName: formData.get('productsName') as string,
+      productsDesc: formData.get('productsDesc') as string,
+      productsCapacity: formData.get('productsCapacity') as string,
+      productsVoltage: formData.get('productsVoltage') as string,
+      productsPower: formData.get('productsPower') as string,
+      productsButtonText: formData.get('productsButtonText') as string,
+      productsButtonUrl: formData.get('productsButtonUrl') as string,
+      productsImage: settings.productsImage,
+      technologyTitle: formData.get('technologyTitle') as string,
+      technologySubtitle: formData.get('technologySubtitle') as string,
+      tech1Title: formData.get('tech1Title') as string,
+      tech1Desc: formData.get('tech1Desc') as string,
+      tech2Title: formData.get('tech2Title') as string,
+      tech2Desc: formData.get('tech2Desc') as string,
+      tech3Title: formData.get('tech3Title') as string,
+      tech3Desc: formData.get('tech3Desc') as string,
+      tech4Title: formData.get('tech4Title') as string,
+      tech4Desc: formData.get('tech4Desc') as string,
+      tech5Title: formData.get('tech5Title') as string,
+      tech5Desc: formData.get('tech5Desc') as string,
+      tech6Title: formData.get('tech6Title') as string,
+      tech6Desc: formData.get('tech6Desc') as string,
+      dashboardTitle: formData.get('dashboardTitle') as string,
+      dashboardSubtitle: formData.get('dashboardSubtitle') as string,
+      dashboardButtonText: formData.get('dashboardButtonText') as string,
+      dashboardButtonUrl: formData.get('dashboardButtonUrl') as string,
+      dashboardSecondaryText: formData.get('dashboardSecondaryText') as string,
+      dashboardSecondaryUrl: formData.get('dashboardSecondaryUrl') as string,
     };
 
     const existing = await adminApi.list('sitesettings');
@@ -88,6 +150,27 @@ const SiteSettingsManager = () => {
       
       const { url } = await response.json();
       setSettings(prev => ({ ...prev, logoUrl: url }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleProductImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64 = event.target?.result as string;
+      const filename = `products-${Date.now()}-${file.name}`;
+      
+      const response = await fetch('http://localhost:3000/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64, filename }),
+      });
+      
+      const { url } = await response.json();
+      setSettings(prev => ({ ...prev, productsImage: url }));
     };
     reader.readAsDataURL(file);
   };
@@ -184,6 +267,146 @@ const SiteSettingsManager = () => {
                 <input name={`badge${num}`} defaultValue={settings[`badge${num}` as keyof typeof settings]} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="bg-brand-grey rounded-xl p-6 space-y-4">
+          <h2 className="text-xl font-bold text-brand-white mb-4">Energy Storage Systems Section</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-brand-white mb-2">Section Title</label>
+              <input name="productsTitle" defaultValue={settings.productsTitle} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
+            <div>
+              <label className="block text-brand-white mb-2">Link Text</label>
+              <input name="productsSubtitle" defaultValue={settings.productsSubtitle} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
+          </div>
+          <div className="border-t border-brand-greyMid pt-4 mt-4">
+            <h3 className="text-brand-white font-semibold mb-3">Featured Product Card</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-brand-white/70 mb-2 text-sm">Product Image</label>
+                <input 
+                  type="text" 
+                  value={settings.productsImage} 
+                  onChange={(e) => setSettings(prev => ({ ...prev, productsImage: e.target.value }))} 
+                  className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg mb-2" 
+                  placeholder="Image URL"
+                />
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleProductImageUpload} 
+                  className="text-brand-white/70 text-sm" 
+                />
+                {settings.productsImage && (
+                  <img src={settings.productsImage} alt="Product preview" className="mt-2 w-32 h-32 object-cover rounded-lg" />
+                )}
+              </div>
+              <div>
+                <label className="block text-brand-white/70 mb-2 text-sm">Badge Text</label>
+                <input name="productsBadge" defaultValue={settings.productsBadge} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Product Name</label>
+                  <input name="productsName" defaultValue={settings.productsName} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Description</label>
+                  <input name="productsDesc" defaultValue={settings.productsDesc} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Capacity</label>
+                  <input name="productsCapacity" defaultValue={settings.productsCapacity} placeholder="112.5 kWh" className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Voltage</label>
+                  <input name="productsVoltage" defaultValue={settings.productsVoltage} placeholder="400V" className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">PCS Power</label>
+                  <input name="productsPower" defaultValue={settings.productsPower} placeholder="50kW" className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Button Text</label>
+                  <input name="productsButtonText" defaultValue={settings.productsButtonText} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+                <div>
+                  <label className="block text-brand-white/70 mb-2 text-sm">Button URL</label>
+                  <input name="productsButtonUrl" defaultValue={settings.productsButtonUrl} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-brand-grey rounded-xl p-6 space-y-4">
+          <h2 className="text-xl font-bold text-brand-white mb-4">Advanced Energy Technology Platform Section</h2>
+          <div>
+            <label className="block text-brand-white mb-2">Section Title</label>
+            <input name="technologyTitle" defaultValue={settings.technologyTitle} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+          </div>
+          <div>
+            <label className="block text-brand-white mb-2">Section Subtitle</label>
+            <textarea name="technologySubtitle" defaultValue={settings.technologySubtitle} rows={2} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+          </div>
+          <div className="border-t border-brand-greyMid pt-4 mt-4">
+            <h3 className="text-brand-white font-semibold mb-3">Technology Features</h3>
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5, 6].map(num => (
+                <div key={num} className="border border-brand-greyMid rounded p-4">
+                  <h4 className="text-brand-white/70 text-sm mb-3">Feature {num}</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-brand-white/70 mb-2 text-sm">Title</label>
+                      <input name={`tech${num}Title`} defaultValue={settings[`tech${num}Title` as keyof typeof settings]} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                    </div>
+                    <div>
+                      <label className="block text-brand-white/70 mb-2 text-sm">Description</label>
+                      <input name={`tech${num}Desc`} defaultValue={settings[`tech${num}Desc` as keyof typeof settings]} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-brand-grey rounded-xl p-6 space-y-4">
+          <h2 className="text-xl font-bold text-brand-white mb-4">Access Your Energy Dashboard Section</h2>
+          <div>
+            <label className="block text-brand-white mb-2">Section Title</label>
+            <input name="dashboardTitle" defaultValue={settings.dashboardTitle} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+          </div>
+          <div>
+            <label className="block text-brand-white mb-2">Section Subtitle</label>
+            <textarea name="dashboardSubtitle" defaultValue={settings.dashboardSubtitle} rows={3} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-brand-white mb-2">Primary Button Text</label>
+              <input name="dashboardButtonText" defaultValue={settings.dashboardButtonText} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
+            <div>
+              <label className="block text-brand-white mb-2">Primary Button URL</label>
+              <input name="dashboardButtonUrl" defaultValue={settings.dashboardButtonUrl} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-brand-white mb-2">Secondary Button Text</label>
+              <input name="dashboardSecondaryText" defaultValue={settings.dashboardSecondaryText} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
+            <div>
+              <label className="block text-brand-white mb-2">Secondary Button URL</label>
+              <input name="dashboardSecondaryUrl" defaultValue={settings.dashboardSecondaryUrl} className="w-full bg-brand-black text-brand-white px-4 py-2 rounded-lg" />
+            </div>
           </div>
         </div>
 

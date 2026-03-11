@@ -1,0 +1,71 @@
+[
+  {
+    "badge": "Flagship Productfffff",
+    "title": "Our Flagship Energy Storage System",
+    "subtitle": "LIXI Mega 400V - Industrial Energy Storage System",
+    "description": "The LIXI Mega represents the pinnacle of large-scale energy storage technology, designed for commercial projects and energy infrastructure.",
+    "features": [
+      "Scalable rack architecture",
+      "Designed for solar and hybrid energy systems",
+      "High capacity for commercial projects",
+      "Remote monitoring platform",
+      "AI-powered charging optimization",
+      "Carbon intensity monitoring"
+    ],
+    "buttonText": "View Large Battery Details",
+    "buttonUrl": "/flagship",
+    "productName": "LIXI Mega 400V",
+    "productTagline": "Industrial Energy Storage System",
+    "capacity": "112.5 kWh",
+    "voltage": "400V",
+    "power": "50kW",
+    "protection": "IP55",
+    "mainImage": "/images/uploads/flagship-main-1773234127247.png",
+    "carouselImages": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSF5dvhgrVRjICJHGNB2ZnPn2qq3AOQvR0cQ&s"
+    ],
+    "specifications": {
+      "cells": "LiFePO4 3.2V / 314Ah (CATL-class)",
+      "configuration": "7 packs × 1P16S",
+      "nominalVoltage": "358.4V",
+      "voltageRange": "280V – 408.8V",
+      "nominalCapacity": "314Ah",
+      "maxCurrent": "157A",
+      "cycleLife": "8000+ (90% DoD, 70% EoL)",
+      "cooling": "Intelligent air-cooling",
+      "communication": "WiFi, 4G, LAN, CAN, RS485",
+      "hmi": "LED status + 7\" maintenance display + WLAN/app",
+      "dimensions": "1510 × 1010 × 1830 mm",
+      "weight": "1500 kg",
+      "operatingTemp": "-25°C to +55°C",
+      "storageTemp": "-30°C to +60°C",
+      "humidity": "5–95%",
+      "altitude": "4000m",
+      "warranty": "1 Year",
+      "certification": "CE, IP55"
+    },
+    "highlightFeatures": [
+      "Integrated 50kW PCS inverter",
+      "IP55 weatherproof cabinet",
+      "CARBONOZ trading ready",
+      "8000+ cycle life",
+      "WiFi + 4G + LAN monitoring"
+    ],
+    "compatibleInverters": [
+      "DEYE",
+      "Growatt",
+      "Victron",
+      "GoodWe",
+      "SMA",
+      "Solis"
+    ],
+    "integratedPcs": {
+      "ratedPower": "50kW",
+      "maxPower": "80kW",
+      "maxDuration": "2 seconds",
+      "grid": "220/380V, 3/N/PE"
+    },
+    "createdAt": 1773231870305,
+    "updatedAt": 1773235151320
+  }
+]

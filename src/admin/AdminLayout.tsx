@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, Package, MessageSquare, Wrench, FolderKanban, Users, ShoppingCart, ShoppingBag, FileEdit, Lightbulb, Info, Users2, Briefcase, Cpu, Settings, Layout, LogOut, Menu, X, Video, Layers } from 'lucide-react';
+import { LayoutDashboard, FileText, Package, MessageSquare, Wrench, FolderKanban, Users, ShoppingCart, ShoppingBag, FileEdit, Lightbulb, Info, Users2, Briefcase, Cpu, Settings, Layout, LogOut, Menu, X, Video, Layers, Star, Activity } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -17,6 +17,8 @@ const AdminLayout = ({ children, currentUser }: AdminLayoutProps) => {
     { icon: FileText, label: 'Blog Posts', path: '/admin/blog' },
     { icon: Package, label: 'Products', path: '/admin/products' },
     { icon: Layers, label: 'Categories', path: '/admin/categories' },
+    { icon: Star, label: 'Flagship Product', path: '/admin/flagship' },
+    { icon: Activity, label: 'Monitoring Platform', path: '/admin/monitoring-platform' },
 
     { icon: MessageSquare, label: 'Quotes', path: '/admin/quotes' },
     { icon: ShoppingBag, label: 'Orders', path: '/admin/orders' },

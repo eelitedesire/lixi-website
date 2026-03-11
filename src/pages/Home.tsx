@@ -1,17 +1,20 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowRight, Check, Calendar, Zap, Shield, TrendingDown, Battery, Sun, Building2 } from 'lucide-react';
+import { ArrowRight, Check, Calendar, Zap, Shield, TrendingDown, Battery, Sun, Building2, BarChart3, Cpu, Globe, Factory, Layers, Monitor } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { IMAGES } from '@/data/images';
+import { projects } from '@/data/projects';
 import { products } from '@/data/products';
 import { partners as staticPartners } from '@/data/partners';
-import { api } from '@/services/api';
+import { adminApi, api } from '@/services/api';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useRef, useEffect, useState } from 'react';
 import { ParticleField } from '@/animations/ParticleField';
 import { useCanvas } from '@/hooks/useCanvas';
 import VideoShowcase from '@/components/sections/VideoShowcase';
+import EnergyDashboard from '@/components/sections/EnergyDashboard';
+import ImageCarousel from '@/components/ui/ImageCarousel';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
@@ -24,28 +27,72 @@ const Home = () => {
   const [partners, setPartners] = useState(staticPartners);
   const [whatWeDo, setWhatWeDo] = useState<any[]>([]);
   const [videoData, setVideoData] = useState<any>(null);
+  const [monitoringPlatform, setMonitoringPlatform] = useState<any>({
+    title: 'Smart Energy Monitoring Platform',
+    subtitle: 'Intelligent Battery Management',
+    description: 'Our batteries connect to an intelligent monitoring system that provides comprehensive energy management and optimization capabilities.',
+    features: [
+      'Real-time energy dashboards',
+      'Battery performance analytics',
+      'AI charging optimization',
+      'Carbon intensity tracking',
+      'Historical energy data',
+      'Remote access through secure client portal'
+    ],
+    primaryButtonText: 'View Platform Capabilities',
+    primaryButtonUrl: '/technology',
+    secondaryButtonText: 'Access Dashboard',
+    secondaryButtonUrl: 'https://login.carbonoz.com',
+    dashboardTitle: 'CARBONOZ SolarAutopilot Platform',
+    dashboardSubtitle: 'Intelligent Battery Management',
+    dashboardSystemId: 'MEGA-400V • System ID: LX-2024-001'
+  });
+  const [flagship, setFlagship] = useState<any>({
+    badge: 'Flagship Product',
+    title: 'Our Flagship Energy Storage System',
+    subtitle: 'LIXI Mega 400V - Industrial Energy Storage System',
+    description: 'The LIXI Mega represents the pinnacle of large-scale energy storage technology, designed for commercial projects and energy infrastructure.',
+    features: [
+      'Scalable rack architecture',
+      'Designed for solar and hybrid energy systems',
+      'High capacity for commercial projects',
+      'Remote monitoring platform',
+      'AI-powered charging optimization',
+      'Carbon intensity monitoring'
+    ],
+    buttonText: 'View Large Battery Details',
+    buttonUrl: '/flagship',
+    productName: 'LIXI Mega 400V',
+    productTagline: 'Industrial Energy Storage System',
+    capacity: '112.5 kWh',
+    voltage: '400V',
+    power: '50kW',
+    protection: 'IP55',
+    mainImage: 'https://images.unsplash.com/photo-1545259742-b4e3efa1ee29?w=1200&q=85',
+    carouselImages: []
+  });
   const [hero, setHero] = useState({
-    badge: 'Enterprise Energy Solutions',
-    title: 'LIXI Solar &',
-    titleHighlight: 'Electricity Storage',
-    description: 'Discover the power and reliability of cutting-edge LIXI battery technology. Advanced lithium batteries designed for modern life, offering unmatched safety, longevity, and efficiency.',
-    primaryButtonText: 'Get Started',
-    primaryButtonUrl: CALENDLY_URL,
-    secondaryButtonText: 'Explore Products',
-    secondaryButtonUrl: '/products',
-    stat1Value: '8000+',
-    stat1Label: 'Charge Cycles',
-    stat2Value: '112.5',
-    stat2Label: 'kWh Max',
-    stat3Value: '3',
-    stat3Label: 'Continents',
-    productName: 'LIXI Stack 48V',
-    productSubtitle: 'Residential System',
-    productCapacity: '14 kWh',
-    productVoltage: '48V',
-    productAmperage: '280Ah',
-    productCells: 'CATL',
-    productImage: IMAGES.battery_rack,
+    badge: 'Large-Scale Energy Storage',
+    title: 'Large-Scale Battery Storage for',
+    titleHighlight: 'Smart Energy Systems',
+    description: 'Advanced rack battery systems combined with real-time monitoring, AI energy optimization, and carbon intensity analytics.',
+    primaryButtonText: 'Explore Large Battery Systems',
+    primaryButtonUrl: '/flagship',
+    secondaryButtonText: 'Browse Battery Shop',
+    secondaryButtonUrl: '/shopping',
+    stat1Value: '112.5',
+    stat1Label: 'kWh Capacity',
+    stat2Value: '8000+',
+    stat2Label: 'Charge Cycles',
+    stat3Value: '50kW',
+    stat3Label: 'Integrated PCS',
+    productName: 'LIXI Mega 400V',
+    productSubtitle: 'Flagship Energy Storage System',
+    productCapacity: '112.5 kWh',
+    productVoltage: '400V',
+    productAmperage: '314Ah',
+    productCells: 'CATL LiFePO4',
+    productImage: IMAGES.battery_storage_1,
     productImages: [] as string[],
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -69,6 +116,20 @@ const Home = () => {
     feature4Icon: '🌱',
     feature4Title: 'Eco-Friendly',
     feature4Body: 'Non-toxic, fully recyclable materials',
+  });
+  const [shoppingProducts, setShoppingProducts] = useState(products.filter(p => p.slug !== 'mega-400v'));
+  const [siteSettings, setSiteSettings] = useState<any>({
+    productsTitle: 'Energy Storage Systems',
+    productsSubtitle: 'View All Products',
+    productsBadge: 'Recommended for Large Projects',
+    productsName: 'LIXI Mega',
+    productsDesc: 'Industrial-grade 400V battery system with integrated PCS inverter for microgrids and large installations.',
+    productsCapacity: '112.5 kWh',
+    productsVoltage: '400V',
+    productsPower: '50kW',
+    productsButtonText: 'View Large Battery Details',
+    productsButtonUrl: '/products/mega-400v',
+    productsImage: 'https://images.unsplash.com/photo-1545259742-b4e3efa1ee29?w=1200&q=85',
   });
 
   const canvasRef = useCanvas((ctx) => {
@@ -149,6 +210,18 @@ const Home = () => {
     api.getVideo(lang).then(data => {
       if (data.length > 0) setVideoData(data[0]);
     }).catch(() => {});
+
+    api.getFlagship(lang).then(data => {
+      if (data.length > 0) setFlagship(data[0]);
+    }).catch(() => {});
+
+    api.getMonitoringPlatform(lang).then(data => {
+      if (data.length > 0) setMonitoringPlatform(data[0]);
+    }).catch(() => {});
+
+    adminApi.list('sitesettings').then(data => {
+      if (data.length > 0) setSiteSettings(data[0]);
+    }).catch(() => {});
   }, [lang]);
 
   useEffect(() => {
@@ -166,9 +239,9 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>LIXI Energy Systems | Advanced Battery Storage Solutions</title>
-        <meta name="description" content="Premium LiFePO4 battery systems engineered in Germany. From 14kWh residential to 112.5kWh industrial solutions." />
-        <link rel="preload" as="image" href={IMAGES.battery_rack} />
+        <title>Helio Aegis | Large-Scale Battery Storage & Smart Energy Monitoring</title>
+        <meta name="description" content="Advanced rack battery systems with intelligent monitoring software for energy project developers, solar installers, and commercial clients. Flagship 112.5kWh systems with AI optimization." />
+        <link rel="preload" as="image" href={IMAGES.battery_storage_1} />
       </Helmet>
 
       {/* HERO */}
@@ -191,41 +264,41 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-2 bg-brand-green/10 border border-brand-green/30 rounded-full px-4 py-2 mb-8">
-                <Zap size={16} className="text-brand-green" />
-                <span className="text-brand-green text-sm font-semibold">{t('home:hero.badge')}</span>
+                <Factory size={16} className="text-brand-green" />
+                <span className="text-brand-green text-sm font-semibold">{hero.badge}</span>
               </div>
               
               <h1 className="text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]">
-                {t('home:hero.title')}
-                <span className="block text-brand-green mt-2">{t('home:hero.titleHighlight')}</span>
+                {hero.title}
+                <span className="block text-brand-green mt-2">{hero.titleHighlight}</span>
               </h1>
 
               <p className="text-xl text-white/60 mb-10 leading-relaxed">
-                {t('home:hero.description')}
+                {hero.description}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <a href={hero.primaryButtonUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-lg px-8 py-4 justify-center">
-                  <Calendar size={20} />
-                  {t('home:hero.primaryButton')}
-                </a>
-                <Link to={`/${lang}/products`} className="btn-ghost text-lg px-8 py-4 justify-center">
-                  {t('home:hero.secondaryButton')}
+                <Link to={`/${lang}${hero.primaryButtonUrl}`} className="btn-primary text-lg px-8 py-4 justify-center">
+                  <Battery size={20} />
+                  {hero.primaryButtonText}
+                </Link>
+                <Link to={`/${lang}${hero.secondaryButtonUrl}`} className="btn-ghost text-lg px-8 py-4 justify-center">
+                  {hero.secondaryButtonText}
                 </Link>
               </div>
 
               <div className="grid grid-cols-3 gap-6">
                 <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat1Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat1Label')}</div>
+                  <div className="text-sm text-white/50 mt-1">{hero.stat1Label}</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat2Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat2Label')}</div>
+                  <div className="text-sm text-white/50 mt-1">{hero.stat2Label}</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-brand-green mono">{hero.stat3Value}</div>
-                  <div className="text-sm text-white/50 mt-1">{t('home:hero.stat3Label')}</div>
+                  <div className="text-sm text-white/50 mt-1">{hero.stat3Label}</div>
                 </div>
               </div>
             </motion.div>
@@ -242,7 +315,7 @@ const Home = () => {
                   <div className="bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <div className="text-white font-bold text-lg">{hero.productName}</div>
+                        <Link to={`/${lang}/hero-product`} className="text-white font-bold text-lg hover:text-brand-green transition-colors">{hero.productName}</Link>
                         <div className="text-brand-green text-sm mono">{hero.productSubtitle}</div>
                       </div>
                       <div className="text-right">
@@ -270,6 +343,190 @@ const Home = () => {
               <div className="absolute -z-10 top-8 -right-8 w-full h-full bg-brand-green/20 rounded-3xl blur-3xl" />
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* FLAGSHIP PRODUCT */}
+      <section className="py-24 bg-[#0a0f0b] border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <div className="inline-flex items-center gap-2 bg-brand-green/20 border border-brand-green/40 rounded-full px-4 py-2 mb-6">
+                <Layers size={16} className="text-brand-green" />
+                <span className="text-brand-green text-sm font-bold">{flagship.badge}</span>
+              </div>
+              
+              <h2 className="text-5xl font-bold text-white mb-6">
+                {flagship.title}
+              </h2>
+              
+              <p className="text-xl text-white/60 mb-8">
+                {flagship.description}
+              </p>
+
+              <div className="space-y-4 mb-8">
+                {flagship.features?.map((feature: string, i: number) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <Check size={20} className="text-brand-green flex-shrink-0" />
+                    <span className="text-white">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Link to={`/${lang}${flagship.buttonUrl}`} className="btn-primary">
+                {flagship.buttonText} <ArrowRight size={16} />
+              </Link>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
+              <div className="relative rounded-3xl overflow-hidden border border-white/10">
+                <ImageCarousel 
+                  images={[flagship.mainImage, ...(flagship.carouselImages || [])].filter(Boolean)}
+                  className="w-full h-[600px]"
+                />
+                <div className="absolute top-8 right-8">
+                  <div className="bg-brand-green text-brand-black font-bold px-4 py-2 rounded-full text-sm">
+                    {flagship.capacity}
+                  </div>
+                </div>
+                <div className="absolute bottom-8 left-8 right-8">
+                  <div className="bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
+                    <div className="text-white font-bold text-2xl mb-2">{flagship.productName}</div>
+                    <div className="text-brand-green text-sm mono mb-4">{flagship.productTagline}</div>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-brand-green font-bold mono">{flagship.voltage}</div>
+                        <div className="text-white/50 text-xs">Voltage</div>
+                      </div>
+                      <div>
+                        <div className="text-brand-green font-bold mono">{flagship.power}</div>
+                        <div className="text-white/50 text-xs">PCS Power</div>
+                      </div>
+                      <div>
+                        <div className="text-brand-green font-bold mono">{flagship.protection}</div>
+                        <div className="text-white/50 text-xs">Protection</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -z-10 top-8 -right-8 w-full h-full bg-brand-green/20 rounded-3xl blur-3xl" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ENERGY MONITORING PLATFORM */}
+      <section className="py-24 bg-[#060a07]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
+              <EnergyDashboard 
+                title={monitoringPlatform.dashboardTitle}
+                subtitle={monitoringPlatform.dashboardSubtitle}
+                systemId={monitoringPlatform.dashboardSystemId}
+              />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <h2 className="text-5xl font-bold text-white mb-4">
+                {monitoringPlatform.title}
+              </h2>
+              {monitoringPlatform.subtitle && (
+                <p className="text-brand-green text-lg mono mb-6">
+                  {monitoringPlatform.subtitle}
+                </p>
+              )}
+              
+              <p className="text-xl text-white/60 mb-8">
+                {monitoringPlatform.description}
+              </p>
+
+              <div className="space-y-4 mb-8">
+                {monitoringPlatform.features?.map((feature: string, i: number) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <Check size={20} className="text-brand-green flex-shrink-0" />
+                    <span className="text-white">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-white/50 mb-8">
+                Customers can log in to view their system dashboards and access detailed performance metrics.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to={`/${lang}${monitoringPlatform.primaryButtonUrl}`} className="btn-primary">
+                  {monitoringPlatform.primaryButtonText} <ArrowRight size={16} />
+                </Link>
+                <a 
+                  href={monitoringPlatform.secondaryButtonUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn-ghost"
+                >
+                  <Monitor size={16} />
+                  {monitoringPlatform.secondaryButtonText}
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* APPLICATIONS */}
+      <section className="py-24 bg-[#0a0f0b]">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <h2 className="text-5xl font-bold text-white mb-6">
+              Applications for Large Energy Storage
+            </h2>
+            <p className="text-xl text-white/60 max-w-3xl mx-auto">
+              Our large-scale battery systems serve diverse applications across commercial and industrial sectors.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.slice(0, 6).map((project, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group rounded-2xl overflow-hidden border border-white/8 hover:border-brand-green/30 transition-all duration-500"
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+                  <div className="absolute top-4 left-4">
+                    <div className="bg-brand-green text-brand-black font-bold px-3 py-1 rounded text-xs">
+                      {project.category}
+                    </div>
+                  </div>
+                  <div className="absolute bottom-4 left-4">
+                    <div className="text-white/80 text-sm">{project.flag} {project.location}</div>
+                  </div>
+                </div>
+                <div className="bg-[#0d1410] p-6">
+                  <h3 className="text-white text-xl font-bold mb-2">{project.title}</h3>
+                  <div className="text-brand-green text-sm mono mb-3">{project.system} • {project.capacity}</div>
+                  <p className="text-white/60 text-sm leading-relaxed">{project.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Link to={`/${lang}/projects`} className="btn-primary">
+              View All Projects <ArrowRight size={16} />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -306,10 +563,10 @@ const Home = () => {
       <section className="py-24 bg-[#060a07]">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span className="mono-label text-brand-green">{t('home:solutions.badge')}</span>
+            <span className="mono-label text-brand-green">Energy Solutions</span>
             <h2 className="display-font text-white mt-2 text-5xl lg:text-7xl">
-              {t('home:solutions.title')}<br />
-              <em className="text-brand-green">{t('home:solutions.titleHighlight')}</em>
+              Complete Energy<br />
+              <em className="text-brand-green">Solutions</em>
             </h2>
           </motion.div>
 
@@ -373,18 +630,70 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-end justify-between mb-16">
             <div>
-              <span className="mono-label text-brand-green">{t('home:products.badge')}</span>
+              <span className="mono-label text-brand-green">Product Overview</span>
               <h2 className="text-white mt-2 text-5xl font-bold">
-                {t('home:products.title')}
+                {siteSettings.productsTitle}
               </h2>
             </div>
             <Link to={`/${lang}/products`} className="text-brand-green text-sm hover:text-white transition-colors">
-              {t('common:buttons.viewAll')} →
+              {siteSettings.productsSubtitle} →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {products.map((product, i) => (
+          {/* Flagship Large Rack Battery */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <div className="bg-gradient-to-r from-brand-green/10 to-transparent border border-brand-green/30 rounded-3xl overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+                <div className="flex flex-col justify-center">
+                  <div className="inline-flex items-center gap-2 bg-brand-green text-brand-black font-bold px-4 py-2 rounded-full text-sm mb-4 w-fit">
+                    <Factory size={16} />
+                    {siteSettings.productsBadge}
+                  </div>
+                  <h3 className="text-white text-4xl font-bold mb-4">{siteSettings.productsName}</h3>
+                  <p className="text-white/60 text-lg mb-6">{siteSettings.productsDesc}</p>
+                  
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="text-center">
+                      <div className="text-brand-green font-bold text-2xl mono">{siteSettings.productsCapacity}</div>
+                      <div className="text-white/50 text-xs">Capacity</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-brand-green font-bold text-2xl mono">{siteSettings.productsVoltage}</div>
+                      <div className="text-white/50 text-xs">Voltage</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-brand-green font-bold text-2xl mono">{siteSettings.productsPower}</div>
+                      <div className="text-white/50 text-xs">PCS Power</div>
+                    </div>
+                  </div>
+
+                  <Link to={`/${lang}${siteSettings.productsButtonUrl}`} className="btn-primary w-fit">
+                    {siteSettings.productsButtonText} <ArrowRight size={16} />
+                  </Link>
+                </div>
+                
+                <div className="relative">
+                  <img 
+                    src={siteSettings.productsImage || IMAGES.battery_storage_1} 
+                    alt={siteSettings.productsName} 
+                    className="w-full h-[400px] object-cover rounded-2xl" 
+                  />
+                  <div className="absolute top-4 right-4 bg-brand-green text-brand-black font-bold px-3 py-1 rounded-full text-sm">
+                    Flagship Product
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Other Battery Systems */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {shoppingProducts.slice(0, 2).map((product, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -396,20 +705,172 @@ const Home = () => {
                 <div className="h-56 overflow-hidden relative bg-[#0d1410]">
                   <img src={product.image || IMAGES.battery_rack} alt={product.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute top-4 left-4 bg-brand-green text-brand-black font-bold px-3 py-1 rounded mono text-xs">
-                    {product.capacity_kwh ? `${product.capacity_kwh} kWh` : ''}
+                    {product.capacity_kwh} kWh
                   </div>
                 </div>
                 <div className="bg-[#0d1410] p-8">
-                  <div className="mono text-brand-green text-xs mb-2">{(product.tagline ? product.tagline.toUpperCase() : 'BATTERY')} · {product.voltage}</div>
+                  <div className="mono text-brand-green text-xs mb-2">{product.tagline.toUpperCase()} · {product.voltage}</div>
                   <h3 className="text-white text-2xl font-bold mb-2">{product.name}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed mb-6">{product.tagline}</p>
+                  <p className="text-white/50 text-sm leading-relaxed mb-6">{product.description}</p>
                   <Link to={`/${lang}/products/${product.slug}`} className="btn-primary-sm">
-                    {t('common:buttons.viewDetails')} <ArrowRight size={14} />
+                    View Details <ArrowRight size={14} />
                   </Link>
                 </div>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* BATTERY SHOP */}
+      <section className="py-24 bg-[#060a07] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span className="mono-label text-brand-green">Battery Shop</span>
+            <h2 className="text-white mt-2 text-5xl font-bold">
+              Battery Shop for Residential & Small Systems
+            </h2>
+            <p className="text-xl text-white/60 mt-4 max-w-3xl mx-auto">
+              Browse our selection of smaller battery systems perfect for residential and small commercial applications.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {shoppingProducts.slice(0, 3).map((product, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-[#0d1410] border border-white/8 rounded-2xl overflow-hidden hover:border-brand-green/30 transition-all duration-500"
+              >
+                <div className="h-48 overflow-hidden relative">
+                  <img src={product.image || IMAGES.battery_rack} alt={product.name} className="w-full h-full object-cover" />
+                  <div className="absolute top-4 right-4 bg-brand-green text-brand-black font-bold px-3 py-1 rounded text-xs">
+                    {product.price}
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="mono text-brand-green text-xs mb-2">{product.tagline.toUpperCase()}</div>
+                  <h3 className="text-white text-lg font-bold mb-2">{product.name}</h3>
+                  <p className="text-white/50 text-sm mb-4">{product.description}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="text-brand-green font-bold">{product.capacity_kwh} kWh</div>
+                    <Link to={`/${lang}/products/${product.slug}`} className="text-brand-green text-sm hover:text-white transition-colors">
+                      View Details →
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <Link to={`/${lang}/shopping`} className="btn-primary">
+              Browse Full Battery Shop <ArrowRight size={16} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* TECHNOLOGY PLATFORM */}
+      <section className="py-24 bg-[#0a0f0b]">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span className="mono-label text-brand-green">Technology Platform</span>
+            <h2 className="text-white mt-2 text-5xl font-bold">
+              Advanced Energy Technology Platform
+            </h2>
+            <p className="text-xl text-white/60 mt-4 max-w-3xl mx-auto">
+              Our comprehensive technology platform positions us as a leading provider of intelligent energy solutions.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Monitor,
+                title: 'Real-time Monitoring',
+                description: 'Advanced monitoring systems provide live data on battery performance, energy flows, and system health.',
+              },
+              {
+                icon: Cpu,
+                title: 'AI Charging Optimization',
+                description: 'Machine learning algorithms optimize charging patterns based on usage patterns and energy prices.',
+              },
+              {
+                icon: Globe,
+                title: 'Carbon Intensity Tracking',
+                description: 'Track and optimize energy usage based on grid carbon intensity for maximum environmental impact.',
+              },
+              {
+                icon: BarChart3,
+                title: 'Data Dashboards',
+                description: 'Comprehensive dashboards provide insights into energy usage, cost savings, and system performance.',
+              },
+              {
+                icon: Shield,
+                title: 'Remote Management',
+                description: 'Secure remote access allows for system monitoring, diagnostics, and maintenance from anywhere.',
+              },
+              {
+                icon: Zap,
+                title: 'Grid Integration',
+                description: 'Seamless integration with smart grids and energy trading platforms for maximum efficiency.',
+              },
+            ].map((tech, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-[#0d1410] border border-white/8 rounded-2xl p-8 hover:border-brand-green/30 transition-all duration-500"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-green/10 border border-brand-green/20 mb-6">
+                  <tech.icon className="text-brand-green" size={28} />
+                </div>
+                <h3 className="text-white font-bold text-xl mb-4">{tech.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">{tech.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Platform Access CTA */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }}
+            className="mt-16 text-center"
+          >
+            <div className="bg-gradient-to-r from-brand-green/10 via-brand-green/5 to-transparent border border-brand-green/30 rounded-3xl p-8">
+              <h3 className="text-white text-2xl font-bold mb-4">Access Your Energy Dashboard</h3>
+              <p className="text-white/60 mb-6 max-w-2xl mx-auto">
+                Monitor your LIXI energy systems in real-time with our advanced monitoring platform. 
+                Track performance, optimize efficiency, and manage your energy infrastructure from anywhere.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a 
+                  href="https://login.carbonoz.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn-primary text-lg px-8 py-4 justify-center"
+                >
+                  <Monitor size={20} />
+                  Access Platform Dashboard
+                </a>
+                <Link to={`/${lang}/contact`} className="btn-ghost text-lg px-8 py-4 justify-center">
+                  Request Demo Access
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -462,29 +923,29 @@ const Home = () => {
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              {t('home:cta.title')}
-              <span className="block text-brand-green mt-2">{t('home:cta.titleHighlight')}</span>
+              Ready to Scale Your
+              <span className="block text-brand-green mt-2">Energy Infrastructure?</span>
             </h2>
             <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto" ref={systemsRef}>
-              {t('home:cta.description', { count: systemsCount })}
+              Join {systemsCount}+ energy projects worldwide powered by LIXI large-scale battery storage systems.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-primary text-lg px-10 py-5 justify-center">
                 <Calendar size={22} />
-                {t('home:cta.primaryButton')}
+                Schedule Consultation
               </a>
-              <Link to={`/${lang}/products`} className="btn-ghost text-lg px-10 py-5 justify-center">
-                {t('home:cta.secondaryButton')}
+              <Link to={`/${lang}/products/mega-400v`} className="btn-ghost text-lg px-10 py-5 justify-center">
+                View Flagship System
               </Link>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               {[
-                { icon: Shield, label: t('home:cta.catlCertified') },
-                { icon: Zap, label: t('home:cta.ip55Rated') },
-                { icon: Check, label: t('home:cta.ceMarked') },
-                { icon: Building2, label: t('home:cta.carbonozPartner') },
+                { icon: Shield, label: 'CATL Certified Cells' },
+                { icon: Zap, label: 'IP55 Weatherproof' },
+                { icon: Check, label: 'CE Marked' },
+                { icon: Building2, label: 'CARBONOZ Integration' },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center gap-2 opacity-60">
                   <item.icon size={20} className="text-brand-green" />
@@ -511,9 +972,9 @@ const Home = () => {
       <section className="py-24 bg-[#0a0f0b] border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div className="text-center mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span className="mono-label text-brand-green">{t('home:partners.badge')}</span>
+            <span className="mono-label text-brand-green">Strategic Partners</span>
             <h2 className="text-white mt-2 text-5xl font-bold">
-              {t('home:partners.title')}
+              Trusted by Industry Leaders
             </h2>
           </motion.div>
 
@@ -543,15 +1004,26 @@ const Home = () => {
             className="bg-gradient-to-r from-brand-green/10 to-transparent border border-brand-green/20 rounded-2xl p-8 text-center"
           >
             <div className="inline-block bg-brand-green/20 text-brand-green px-4 py-2 rounded-full text-sm font-bold mb-4">
-              {t('home:partners.featuredPartner')}
+              Featured Partner
             </div>
-            <h3 className="text-white text-3xl font-bold mb-4">{t('home:partners.carbonozTitle')}</h3>
+            <h3 className="text-white text-3xl font-bold mb-4">CARBONOZ Energy Trading</h3>
             <p className="text-white/60 max-w-2xl mx-auto mb-6">
-              {t('home:partners.carbonozDesc')}
+              Integrated electricity trading platform for automated energy optimization and carbon intensity monitoring.
             </p>
-            <Link to={`/${lang}/shopping`} className="inline-flex items-center gap-2 text-brand-green font-semibold hover:text-white transition-colors">
-              {t('common:buttons.learnMore')} <ArrowRight size={16} />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to={`/${lang}/trading`} className="inline-flex items-center gap-2 text-brand-green font-semibold hover:text-white transition-colors">
+                Learn More <ArrowRight size={16} />
+              </Link>
+              <a 
+                href="https://login.carbonoz.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-2 text-white font-semibold hover:text-brand-green transition-colors"
+              >
+                <Monitor size={16} />
+                Platform Login
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>

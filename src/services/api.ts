@@ -61,4 +61,9 @@ export const api = {
   getUsers: () => adminApi.list('users'),
   getShopping: (lang = 'en') => fetch(`${API_URL}/api/shopping?lang=${lang}`).then(r => r.json()).catch(() => adminApi.list('shopping')),
   getVideo: (lang = 'en') => fetch(`${API_URL}/api/video?lang=${lang}`).then(r => r.json()).catch(() => adminApi.list('video')),
+  getFlagship: (lang = 'en') => fetch(`${API_URL}/api/flagship?lang=${lang}`).then(r => r.json()).catch(() => adminApi.list('flagship')),
+  saveFlagship: (data: any) => adminApi.update('flagship', data),
+  getMonitoringPlatform: (lang = 'en') => fetch(`${API_URL}/api/monitoring-platform?lang=${lang}`).then(r => r.json()).catch(() => adminApi.list('monitoring-platform')),
+  saveMonitoringPlatform: (data: any) => adminApi.update('monitoring-platform', data),
+  upload: (base64Image: string, filename: string) => adminApi.upload(base64Image, filename),
 };

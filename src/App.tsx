@@ -33,6 +33,8 @@ const BlogPost = lazy(() => import('./pages/BlogPost'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
+const FlagshipDetail = lazy(() => import('./pages/FlagshipDetail'));
+const HeroDetail = lazy(() => import('./pages/HeroDetail'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function LanguageWrapper({ children }: { children: React.ReactNode }) {
@@ -96,6 +98,8 @@ function AppContent() {
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:slug" element={<BlogPost />} />
                   <Route path="/faq" element={<FAQ />} />
+                  <Route path="/flagship" element={<FlagshipDetail />} />
+                  <Route path="/hero-product" element={<HeroDetail />} />
                   <Route path="/legal/privacy" element={<Privacy />} />
                   <Route path="/legal/terms" element={<Terms />} />
                   <Route path="*" element={<NotFound />} />
