@@ -115,7 +115,6 @@ const FlagshipManager: React.FC = () => {
   const [newFeature, setNewFeature] = useState('');
   const [newImage, setNewImage] = useState('');
   const [newHighlightFeature, setNewHighlightFeature] = useState('');
-  const [newInverter, setNewInverter] = useState('');
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingCarousel, setUploadingCarousel] = useState(false);
 
