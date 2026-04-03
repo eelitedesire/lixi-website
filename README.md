@@ -353,14 +353,14 @@ Edit `src/data/serviceCenters.ts`.
 
 ## 📞 Support
 
-- **Email**: info@helioaegis.com
+- **Email**: info@lixibattery.com
 - **EU**: eu@lixi.de
 - **Africa**: africa@lixi.de
 - **Caribbean**: caribbean@lixi.de
 
 ## 📄 License
 
-Proprietary - HelioAegis GmbH i.G.
+Proprietary - LIXI Battery GmbH i.G.
 
 ## 🙏 Credits
 

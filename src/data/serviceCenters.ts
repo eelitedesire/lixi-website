@@ -38,8 +38,8 @@ export const serviceCenters: ServiceCenter[] = [
   {
     region: 'Group HQ',
     flag: '🇱🇮',
-    name: 'HelioAegis GmbH i.G.',
+    name: 'LIXI Battery GmbH i.G.',
     address: 'Grossfeld 36, 9492 Eschen, Liechtenstein',
-    email: 'info@helioaegis.com',
+    email: 'info@lixibattery.com',
   },
 ];

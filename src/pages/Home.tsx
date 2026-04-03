@@ -239,7 +239,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Helio Aegis | Large-Scale Battery Storage & Smart Energy Monitoring</title>
+        <title>LIXI Battery | Large-Scale Battery Storage & Smart Energy Monitoring</title>
         <meta name="description" content="Advanced rack battery systems with intelligent monitoring software for energy project developers, solar installers, and commercial clients. Flagship 112.5kWh systems with AI optimization." />
         <link rel="preload" as="image" href={IMAGES.battery_storage_1} />
       </Helmet>

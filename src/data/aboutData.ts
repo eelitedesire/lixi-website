@@ -52,7 +52,7 @@ export const defaultAboutData: AboutData = {
   hero: {
     title: 'Powering the Future',
     subtitle: 'of Sustainable Energy',
-    description: 'LIXI Energy Systems is a premium provider of lithium battery storage solutions, part of the HelioAegis GmbH group based in Liechtenstein.',
+    description: 'LIXI Energy Systems is a premium provider of lithium battery storage solutions, part of the LIXI Battery GmbH group based in Liechtenstein.',
     image: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=1920&q=85'
   },
   mission: {
@@ -72,14 +72,14 @@ export const defaultAboutData: AboutData = {
   story: {
     title: 'Our Story',
     paragraphs: [
-      'Founded as part of the HelioAegis GmbH group in Liechtenstein, LIXI Energy Systems emerged from a vision to democratize access to premium energy storage solutions.',
+      'Founded as part of the LIXI Battery GmbH group in Liechtenstein, LIXI Energy Systems emerged from a vision to democratize access to premium energy storage solutions.',
       'We recognized that the future of energy lies not just in generation, but in intelligent storage and distribution. Our team of engineers and energy experts developed the LIXI product line to meet the demanding needs of modern energy consumers.',
       'Today, we serve customers across Europe, Africa, and the Caribbean through our network of dedicated service centers, providing world-class battery storage solutions backed by local expertise and support.'
     ]
   },
   team: [],
   timeline: [
-    { id: '1', year: '2020', title: 'Company Founded', description: 'HelioAegis GmbH established in Liechtenstein' },
+    { id: '1', year: '2020', title: 'Company Founded', description: 'LIXI Battery GmbH established in Liechtenstein' },
     { id: '2', year: '2021', title: 'LIXI Brand Launch', description: 'Introduced premium LiFePO4 battery systems' },
     { id: '3', year: '2022', title: 'Global Expansion', description: 'Service centers opened in EU, Africa, and Caribbean' },
     { id: '4', year: '2023', title: 'CARBONOZ Integration', description: 'Launched electricity trading platform' },

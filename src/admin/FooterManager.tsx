@@ -13,7 +13,7 @@ const FooterManager = () => {
     companyLinks: [],
     locations: [],
     carbonozText: 'Powered by CARBONOZ',
-    copyrightText: 'HelioAegis GmbH i.G. All rights reserved.',
+    copyrightText: 'LIXI Battery GmbH i.G. All rights reserved.',
   });
 
   useEffect(() => {

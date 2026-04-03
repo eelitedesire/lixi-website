@@ -11,7 +11,7 @@ const About = () => (
         </motion.h1>
         <div className="prose prose-invert max-w-none">
           <p className="text-xl text-brand-white/70 mb-6">
-            LIXI Energy Systems is a premium provider of lithium battery storage solutions, part of the HelioAegis GmbH group based in Liechtenstein.
+            LIXI Energy Systems is a premium provider of lithium battery storage solutions, part of the LIXI Battery GmbH group based in Liechtenstein.
           </p>
           <p className="text-brand-white/70 mb-6">
             We specialize in advanced LiFePO4 battery systems for residential, commercial, and industrial applications, with service centers across EU, Africa, and the Caribbean.
@@ -22,7 +22,7 @@ const About = () => (
           </p>
           <h2 className="font-display text-h3 text-brand-white mt-12 mb-6">Group Structure</h2>
           <ul className="text-brand-white/70 space-y-2">
-            <li>HelioAegis GmbH i.G. - Group HQ (Liechtenstein)</li>
+            <li>LIXI Battery GmbH i.G. - Group HQ (Liechtenstein)</li>
             <li>Förner Technik - EU Service Center (Germany)</li>
             <li>buyAfraction Ltd. - Africa Service Center (Mauritius)</li>
             <li>CAYTECH Ltd. - Caribbean Service Center (Cayman Islands)</li>

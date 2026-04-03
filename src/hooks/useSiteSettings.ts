@@ -11,7 +11,7 @@ export const useSiteSettings = () => {
     ctaButtonUrl: '/quote',
     location1Flag: '🇱🇮',
     location1Region: 'EU',
-    location1Name: 'HelioAegis GmbH i. G.',
+    location1Name: 'LIXI Battery GmbH i. G.',
     location1Address: 'Grossfeld 36\n9492 Eschen\nLiechtenstein',
     location2Flag: '🇲🇺',
     location2Region: 'AFRICA',
@@ -22,7 +22,7 @@ export const useSiteSettings = () => {
     location3Name: 'Caytech Limited',
     location3Address: 'P.O. BOX 8\nCayman Brac\nKY2-2201\nCayman Islands',
     carbonozText: 'Powered by CARBONOZ Smart Buying Platform',
-    copyrightText: 'HelioAegis GmbH i.G. All rights reserved.',
+    copyrightText: 'LIXI Battery GmbH i.G. All rights reserved.',
   });
 
   useEffect(() => {
