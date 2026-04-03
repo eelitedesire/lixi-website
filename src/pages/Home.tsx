@@ -117,7 +117,7 @@ const Home = () => {
     feature4Title: 'Eco-Friendly',
     feature4Body: 'Non-toxic, fully recyclable materials',
   });
-  const [shoppingProducts, setShoppingProducts] = useState(products.filter(p => p.slug !== 'mega-400v'));
+  const [shoppingProducts] = useState(products.filter(p => p.slug !== 'mega-400v'));
   const [siteSettings, setSiteSettings] = useState<any>({
     productsTitle: 'Energy Storage Systems',
     productsSubtitle: 'View All Products',

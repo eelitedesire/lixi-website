@@ -198,22 +198,7 @@ const FlagshipManager: React.FC = () => {
     }));
   };
 
-  const addInverter = () => {
-    if (newInverter.trim()) {
-      setFlagship(prev => ({
-        ...prev,
-        compatibleInverters: [...prev.compatibleInverters, newInverter.trim()]
-      }));
-      setNewInverter('');
-    }
-  };
 
-  const removeInverter = (index: number) => {
-    setFlagship(prev => ({
-      ...prev,
-      compatibleInverters: prev.compatibleInverters.filter((_, i) => i !== index)
-    }));
-  };
 
   const handleMainImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

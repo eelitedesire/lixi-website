@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Check, Zap, Shield, Battery, Monitor, Globe, BarChart3, Download, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Check, Zap, Monitor, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { api } from '@/services/api';
 import ImageCarousel from '@/components/ui/ImageCarousel';

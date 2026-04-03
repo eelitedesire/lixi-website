@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Battery, Zap, TrendingUp, Activity, Wifi, Shield, BarChart3, Globe } from 'lucide-react';
+import { Battery, TrendingUp, Activity, Wifi, Shield, BarChart3, Globe } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface EnergyDashboardProps {
@@ -10,13 +10,12 @@ interface EnergyDashboardProps {
 
 const EnergyDashboard: React.FC<EnergyDashboardProps> = ({ 
   title = 'CARBONOZ SolarAutopilot Platform',
-  subtitle = 'Intelligent Battery Management',
   systemId = 'MEGA-400V • System ID: LX-2024-001'
 }) => {
   const [batteryLevel, setBatteryLevel] = useState(87);
   const [powerOutput, setPowerOutput] = useState(45.2);
   const [efficiency, setEfficiency] = useState(98.5);
-  const [carbonIntensity, setCarbonIntensity] = useState('Low');
+  const [carbonIntensity] = useState('Low');
   const [isCharging, setIsCharging] = useState(true);
 
   // Simulate real-time data updates
