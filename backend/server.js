@@ -43,7 +43,7 @@ app.post('/api/upload', (req, res) => {
     const filepath = path.join(UPLOAD_DIR, filename);
     
     fs.writeFileSync(filepath, buffer);
-    res.json({ url: `/images/uploads/${filename}` });
+    res.json({ url: `/uploads/${filename}` });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

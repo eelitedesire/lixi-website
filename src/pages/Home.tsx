@@ -12,6 +12,7 @@ import { useCanvas } from '@/hooks/useCanvas';
 import VideoShowcase from '@/components/sections/VideoShowcase';
 import EnergyDashboard from '@/components/sections/EnergyDashboard';
 import ImageCarousel from '@/components/ui/ImageCarousel';
+import { getImageUrl } from '@/utils/imageUrl';
 
 const CALENDLY_URL = 'https://calendly.com/felix-zuckschwerdt-diplomatic-council/meeting-felix-zuckschwerdt';
 
@@ -231,7 +232,7 @@ const Home = () => {
   }, [lang]);
 
   useEffect(() => {
-    const allImages = [hero.productImage, ...(hero.productImages || [])];
+    const allImages = [hero.productImage, ...(hero.productImages || [])].map(getImageUrl);
     if (allImages.length > 1) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -240,7 +241,7 @@ const Home = () => {
     }
   }, [hero.productImage, hero.productImages]);
 
-  const allImages = [hero.productImage, ...(hero.productImages || [])];
+  const allImages = [hero.productImage, ...(hero.productImages || [])].map(getImageUrl);
 
   return (
     <>

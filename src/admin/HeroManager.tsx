@@ -83,7 +83,7 @@ const HeroManager = () => {
       productVoltage: formData.get('productVoltage') as string,
       productAmperage: formData.get('productAmperage') as string,
       productCells: formData.get('productCells') as string,
-      productImage: formData.get('productImage') as string,
+      productImage: hero.productImage,
       productImages: hero.productImages,
     };
 
