@@ -61,7 +61,7 @@ const ShoppingManager = () => {
       reader.onloadend = async () => {
         const base64 = reader.result as string;
         try {
-          const res = await fetch('http://localhost:3000/api/upload', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3003'}/api/upload`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image: base64, filename: `${Date.now()}-${file.name}` })

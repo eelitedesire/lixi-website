@@ -52,8 +52,9 @@ app.post('/api/upload', (req, res) => {
 const translateObject = (obj, lang = 'en') => {
   const translated = { ...obj };
   Object.keys(obj).forEach(key => {
-    if (key.match(/_(en|fr|es|nl)$/)) {
-      const baseField = key.replace(/_(en|fr|es|nl)$/, '');
+    // Check for language-specific field with suffix
+    if (key.match(/_(en|fr|es|nl|de)$/)) {
+      const baseField = key.replace(/_(en|fr|es|nl|de)$/, '');
       const langField = `${baseField}_${lang}`;
       const fallbackField = `${baseField}_en`;
       if (!translated[baseField]) {
@@ -61,6 +62,19 @@ const translateObject = (obj, lang = 'en') => {
       }
     }
   });
+  
+  // For fields without language suffix, use them as-is (fallback for all languages)
+  // This allows existing data without language suffixes to work
+  Object.keys(obj).forEach(key => {
+    if (!key.match(/_(en|fr|es|nl|de)$/) && !key.match(/^(id|createdAt|updatedAt)$/)) {
+      const baseField = key;
+      // Only set if not already set by language-specific field
+      if (!translated[baseField] || translated[baseField] === undefined) {
+        translated[baseField] = obj[key];
+      }
+    }
+  });
+  
   return translated;
 };
 

@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "name": "LIXI Pro Rack",
+    "slug": "LIXI-Pro-Rack",
+    "tagline": "",
+    "category": "Battery Storage",
+    "description": "The LIXI Pro Rack is a high-performance commercial energy storage cabinet designed for large solar installations, micro-grids, and industrial facilities. It features LiFePO₄ battery technology, intelligent BMS monitoring, air-cooled thermal management, and advanced communication interfaces. The system supports grid trading, peak-shaving, and backup power for commercial photovoltaic systems.",
+    "price": "$89,000 – $120,000 (depending on configuration)",
+    "image": "/images/uploads/1775403977985-LIXI PRO RACK.png",
+    "images": [],
+    "specs": {
+      "voltage": "358.4",
+      "capacity_kwh": 112.5,
+      "cells": "LiFePO₄ (Lithium Iron Phosphate)",
+      "nominal_voltage": "358.4",
+      "max_current": "157",
+      "bms": "Master-slave intelligent BMS with full monitoring and protection",
+      "cycle_life": "8000",
+      "weight_kg": 1500,
+      "dimensions_mm": "1510 × 1010 × 1830 mm",
+      "warranty": "10 years / up to 8000 cycles"
+    },
+    "compatible_inverters": [],
+    "highlight_features": [],
+    "id": "LIXI-Pro-Rack",
+    "createdAt": 1775401408831,
+    "updatedAt": 1775403979580
+  }
+]

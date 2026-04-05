@@ -10,7 +10,7 @@ const ProductManager = () => {
   const [adding, setAdding] = useState(false);
 
   useEffect(() => {
-    adminApi.list('products').then(data => setItems(data.length ? data : products)).catch(() => setItems(products));
+    adminApi.list('products').then(data => setItems(data)).catch(() => setItems([]));
   }, []);
 
   const handleSave = async (product: Product) => {

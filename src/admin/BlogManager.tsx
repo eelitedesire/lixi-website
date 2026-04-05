@@ -10,7 +10,7 @@ const BlogManager = () => {
   const [adding, setAdding] = useState(false);
 
   useEffect(() => {
-    adminApi.list('blog').then(data => setPosts(data.length ? data : blogPosts)).catch(() => setPosts(blogPosts));
+    adminApi.list('blog').then(data => setPosts(data)).catch(() => setPosts([]));
   }, []);
 
   const handleSave = async (post: BlogPost) => {

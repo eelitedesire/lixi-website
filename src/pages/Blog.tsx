@@ -12,12 +12,12 @@ const Blog = () => {
   const { i18n } = useTranslation();
   const currentLang = i18n.language.split('-')[0];
   const { lang = 'en' } = useParams<{ lang: string }>();
-  const [posts, setPosts] = useState(blogPosts);
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     api.getBlogPosts(currentLang).then(data => {
-      if (data.length) setPosts(data);
-    }).catch(() => setPosts(blogPosts));
+      setPosts(data);
+    }).catch(() => setPosts([]));
   }, [currentLang]);
 
   return (

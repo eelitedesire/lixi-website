@@ -4,9 +4,6 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Check, Calendar, Zap, Shield, TrendingDown, Battery, Sun, Building2, BarChart3, Cpu, Globe, Factory, Layers, Monitor } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { IMAGES } from '@/data/images';
-import { projects } from '@/data/projects';
-import { products } from '@/data/products';
-import { partners as staticPartners } from '@/data/partners';
 import { adminApi, api } from '@/services/api';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useRef, useEffect, useState } from 'react';
@@ -24,9 +21,11 @@ const Home = () => {
   const particleFieldRef = useRef<ParticleField | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
-  const [partners, setPartners] = useState(staticPartners);
+  const [partners, setPartners] = useState<any[]>([]);
   const [whatWeDo, setWhatWeDo] = useState<any[]>([]);
   const [videoData, setVideoData] = useState<any>(null);
+  const [dynamicProjects, setDynamicProjects] = useState<any[]>([]);
+  const [dynamicProducts, setDynamicProducts] = useState<any[]>([]);
   const [monitoringPlatform, setMonitoringPlatform] = useState<any>({
     title: 'Smart Energy Monitoring Platform',
     subtitle: 'Intelligent Battery Management',
@@ -117,7 +116,6 @@ const Home = () => {
     feature4Title: 'Eco-Friendly',
     feature4Body: 'Non-toxic, fully recyclable materials',
   });
-  const [shoppingProducts] = useState(products.filter(p => p.slug !== 'mega-400v'));
   const [siteSettings, setSiteSettings] = useState<any>({
     productsTitle: 'Energy Storage Systems',
     productsSubtitle: 'View All Products',
@@ -192,8 +190,8 @@ const Home = () => {
 
   useEffect(() => {
     api.getPartners(lang).then(data => {
-      if (data.length > 0) setPartners(data);
-    }).catch(() => {});
+      setPartners(data);
+    }).catch(() => setPartners([]));
     
     api.getHero(lang).then(data => {
       if (data.length > 0) setHero(data[0]);
@@ -222,6 +220,14 @@ const Home = () => {
     adminApi.list('sitesettings').then(data => {
       if (data.length > 0) setSiteSettings(data[0]);
     }).catch(() => {});
+
+    api.getProjects(lang).then(data => {
+      setDynamicProjects(data);
+    }).catch(() => setDynamicProjects([]));
+
+    api.getProducts(lang).then(data => {
+      setDynamicProducts(data);
+    }).catch(() => setDynamicProducts([]));
   }, [lang]);
 
   useEffect(() => {
@@ -487,7 +493,7 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.slice(0, 6).map((project, i) => (
+            {dynamicProjects.slice(0, 6).map((project, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -693,7 +699,7 @@ const Home = () => {
 
           {/* Other Battery Systems */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {shoppingProducts.slice(0, 2).map((product, i) => (
+            {dynamicProducts.filter(p => p.slug !== 'mega-400v').slice(0, 2).map((product, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -736,7 +742,7 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {shoppingProducts.slice(0, 3).map((product, i) => (
+            {dynamicProducts.filter(p => p.slug !== 'mega-400v').slice(0, 3).map((product, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}

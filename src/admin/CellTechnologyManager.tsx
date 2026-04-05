@@ -96,7 +96,7 @@ const CellTechnologyManager = () => {
       const base64 = event.target?.result as string;
       const filename = `celltech-${Date.now()}-${file.name}`;
       
-      const response = await fetch('http://localhost:3000/api/upload', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3003'}/api/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: base64, filename }),

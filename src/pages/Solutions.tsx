@@ -13,12 +13,12 @@ const Solutions = () => {
   const { i18n } = useTranslation();
   const currentLang = i18n.language.split('-')[0];
   const { lang = 'en' } = useParams<{ lang: string }>();
-  const [solutionList, setSolutionList] = useState(solutions);
+  const [solutionList, setSolutionList] = useState<any[]>([]);
 
   useEffect(() => {
     api.getSolutions(currentLang).then(data => {
-      if (data.length) setSolutionList(data);
-    }).catch(() => setSolutionList(solutions));
+      setSolutionList(data);
+    }).catch(() => setSolutionList([]));
   }, [currentLang]);
 
   return (

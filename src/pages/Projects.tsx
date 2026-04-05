@@ -15,15 +15,15 @@ const Projects = () => {
   const currentLanguage = i18n.language.split('-')[0];
   const { lang = 'en' } = useParams<{ lang: string }>();
   const [filter, setFilter] = useState<string>('All');
-  const [projectList, setProjectList] = useState(projects);
+  const [projectList, setProjectList] = useState<any[]>([]);
   const [imageIndexes, setImageIndexes] = useState<Record<string, number>>({});
   const categories = ['All', 'Residential', 'Commercial', 'Industrial'];
   const filtered = filter === 'All' ? projectList : projectList.filter(p => p.category === filter);
 
   useEffect(() => {
     api.getProjects(currentLanguage).then(data => {
-      if (data.length) setProjectList(data);
-    }).catch(() => setProjectList(projects));
+      setProjectList(data);
+    }).catch(() => setProjectList([]));
   }, [currentLanguage]);
 
   const getProjectImages = (project: any) => {
