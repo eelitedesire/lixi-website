@@ -8,6 +8,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useCartStore } from '@/store/cartStore';
 import { useCategories } from '@/hooks/useCategories';
+import { getImageUrl } from '@/utils/imageUrl';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -78,7 +79,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to={`/${lang}`} className="flex items-center space-x-3">
-            <img src={settings.logoUrl} alt={settings.siteName} className="w-10 h-10 object-contain" />
+            <img src={getImageUrl(settings.logoUrl)} alt={settings.siteName} className="w-10 h-10 object-contain" />
             <span className="font-display text-2xl bg-gradient-to-r from-solar-orange via-solar-yellow to-solar-yellow bg-clip-text text-transparent">{settings.siteName}</span>
           </Link>
 

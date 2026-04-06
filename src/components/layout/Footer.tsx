@@ -3,6 +3,7 @@ import { Linkedin, Twitter, Facebook, Instagram, Youtube, ArrowRight } from 'luc
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '@/services/api';
+import { getImageUrl } from '@/utils/imageUrl';
 
 const Footer = () => {
   const { t } = useTranslation('common');
@@ -42,7 +43,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="lg:col-span-4">
             <Link to={`/${lang}`} className="flex items-center space-x-3 mb-6">
-              <img src={footer.logoUrl} alt={footer.siteName} className="w-12 h-12 object-contain" />
+              <img src={getImageUrl(footer.logoUrl)} alt={footer.siteName} className="w-12 h-12 object-contain" />
               <span className="font-display text-3xl bg-gradient-to-r from-solar-orange via-solar-yellow to-solar-yellow bg-clip-text text-transparent">{footer.siteName}</span>
             </Link>
             <p className="text-brand-white/60 mb-8 leading-relaxed">
