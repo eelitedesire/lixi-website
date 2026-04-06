@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { products, Product } from '../data/products';
+import { Product } from '../data/products';
 import ProductEditor from './ProductEditor';
 import { Plus } from 'lucide-react';
 import { adminApi } from '../services/api';

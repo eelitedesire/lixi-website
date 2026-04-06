@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { projects } from '@/data/projects';
 import { api } from '@/services/api';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';

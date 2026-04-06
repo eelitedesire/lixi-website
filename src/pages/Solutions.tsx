@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { solutions } from '@/data/solutions';
 import { api } from '@/services/api';
 import { IMAGES } from '@/data/images';
 import { ArrowRight } from 'lucide-react';

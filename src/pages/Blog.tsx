@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { blogPosts } from '@/data/blog';
 import { api } from '@/services/api';
 import { IMAGES } from '@/data/images';
 import { Clock, Calendar } from 'lucide-react';

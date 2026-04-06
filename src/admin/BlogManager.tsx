@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { blogPosts, BlogPost } from '../data/blog';
+import { BlogPost } from '../data/blog';
 import BlogEditor from './BlogEditor';
 import { Plus } from 'lucide-react';
 import { adminApi } from '../services/api';
